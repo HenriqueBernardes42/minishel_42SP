@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 06:30:13 by katchogl          #+#    #+#             */
-/*   Updated: 2022/12/23 19:31:16 by katchogl         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:19:00 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*If only the first 4 characters of the variable name are compared 
+the result of the the matching environment variable could be undefined*/
 static void	ft_catchpath_str(t_data *data, char *env, char **path_str)
 {
 	int		i;
@@ -21,7 +23,7 @@ static void	ft_catchpath_str(t_data *data, char *env, char **path_str)
 	ft_assert_not_null (data, path_str);
 	tab_env = ft_split (env, '=');
 	if (tab_env != NULL
-		&& ft_strncmp ("PATH", tab_env[0], 4) == 0)
+		&& ft_strncmp ("PATH", tab_env[0], 5) == 0)
 		*path_str = ft_strdup (tab_env[1]);
 	i = -1;
 	while (tab_env[++i] != NULL)
