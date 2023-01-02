@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 18:19:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/02 19:15:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ int main(int argc, char **envp)
 	while (true)
 	{
 		data->input = readline ("\033[32;1mminishell >\033[0m");
-		if (ft_parse (data))
-			ft_exec (data);
-		ft_free (data, false);
+		if (data->input != NULL && ft_strncmp (data->input, "", 2) != 0)
+		{
+			if (ft_parse (data))
+				ft_exec (data);
+			ft_free (data, false);
+		}
 	}
 	ft_free (data, true);
 	return (EXIT_SUCCESS);

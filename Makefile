@@ -6,7 +6,7 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	assert ft_exec ft_parse init path throw main
+SRC				=	assert ft_exec ft_parse init main path free
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -37,6 +37,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
+re: fclean all
+
 uclean: fclean
 	rm -rf libft
 	@if [[ -d $(LIBREADLINE) ]] ; \
@@ -44,6 +46,4 @@ uclean: fclean
 		brew uninstall readline ; \
 	fi ; \
 
-re: fclean all
-
-.PHONY: all clean fclean uclean re
+.PHONY: all clean fclean re uclean
