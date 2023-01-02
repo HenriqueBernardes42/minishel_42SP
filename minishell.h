@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 20:09:00 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/02 21:21:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ enum e_type {
 typedef enum e_errno	t_errno;
 typedef struct	s_cmd
 {
+	char			*name;
+	char			*pathname;
+	char			**args;
+	int				argsc;
+	char			**infiles;
+	char			**outfiles;
 	struct s_cmd	*next;
 }	t_cmd;
 typedef struct s_exec
@@ -66,5 +72,9 @@ void	ft_throw(t_data *data, enum e_errno err, char *info);
 void	ft_setpath(t_data *data);
 char	*ft_cmdpath(t_data *data, char *name);
 t_data 	*ft_initdata();
+t_exec	*ft_initexec(t_data *data);
+t_cmd	*ft_initcmd(t_data *data);
+t_exec	**ft_initexecs(t_data *data);
+t_cmd	**ft_initcmds(t_data *data);
 void	ft_exec(t_data *data);
 #endif

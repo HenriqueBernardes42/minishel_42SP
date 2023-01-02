@@ -6,22 +6,34 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:42:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 20:27:05 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/02 21:46:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	ft_handle
+
 bool	ft_parse(t_data *data)
 {
 	const char	**tab;
-	int			i;
+	int			t;
+	int			c;
 
 	ft_assert_not_null (data, data);
 	tab = (const char **) ft_split (data->input, ' ');
-	i =-1;
-	while (tab[++i] != NULL)
-		printf ("elem: [%s]\n", tab[i]);
+	t = -1;
+	data->execs = ft_initexecs (data);
+	data->execs[0] = ft_initexec (data); // just a single execution atm
+	while (tab[++t] != NULL)
+	{
+		if (data->execs[0]->cmds == NULL)
+			data->execs[0]->cmds = ft_initcmds (data);
+		if (data->execs[0]->cmds[0] == NULL)
+			data->execs[0]->cmds[0] = ft_initcmd (data);
+		ft_handle ()
+		free (tab[t]);
+	}
 	free (tab);
 	return (true);
 }
@@ -47,3 +59,6 @@ bool	ft_parse(t_data *data)
 
 // all indirections are done first no matter where they are one after the other
 // all outdirecyions are done last no matter where they are one after the other sweeping outfiles
+
+// cat < Makefile echo echo -> did indirection, checks valid command, is cat, runs cat all others ekems 
+// ,cat < Makefile <h echo echo invalid infile -> stop cmd

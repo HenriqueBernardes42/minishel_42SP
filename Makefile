@@ -39,7 +39,7 @@ fclean: clean
 
 re: fclean all
 
-uclean: fclean
+reset: fclean
 	rm file*
 	rm -rf libft
 	@if [[ -d $(LIBREADLINE) ]] ; \
@@ -50,4 +50,4 @@ uclean: fclean
 m:
 	./minishell
 
-.PHONY: all clean fclean re uclean m
+.PHONY: all clean fclean re reset m
