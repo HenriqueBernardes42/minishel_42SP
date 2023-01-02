@@ -40,10 +40,14 @@ fclean: clean
 re: fclean all
 
 uclean: fclean
+	rm file*
 	rm -rf libft
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
 	fi ; \
 
-.PHONY: all clean fclean re uclean
+m:
+	./minishell
+
+.PHONY: all clean fclean re uclean m

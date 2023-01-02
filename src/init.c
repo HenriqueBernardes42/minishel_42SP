@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 19:45:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 18:19:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/02 20:06:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_data 	*ft_initdata(void)
 	data->envp = NULL;
 	data->path = NULL;
 	data->input = NULL;
-	data->args = NULL;
-	data->argc = -1;
+	data->execs = NULL;
+	data->execsc = -1;
 	return (data);
 }
