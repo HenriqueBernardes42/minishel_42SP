@@ -6,11 +6,9 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC_FILES		=	assert ft_exec ft_parse init path throw main
+SRC				=	assert ft_exec ft_parse init path throw main
 
-SRC				=	$(patsubst %.c, src/%.o, $(SRC_FILES:=.c))
-
-OBJ				= 	$(SRC:.c=.o)
+OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
 LIBFT			=	libft/libft.a
 
