@@ -6,13 +6,12 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/03 14:37:54 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/03 20:19:26 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define PATH "PATH"
 # include <stdio.h>
 # include <string.h>
 # include <errno.h>
@@ -43,13 +42,19 @@ typedef struct s_data
 {
 	char	**envp;
 	char	**path;
-	char	**input;
 	char	*line;
+	char	**tab;
+	char	***cmds;
 }	t_data;
+void	ft_expand(t_data *data);
+void	ft_redirect_in(t_data *data);
+void	ft_execute(t_data *data);
+void	ft_redirect_out(t_data *data);
 void	ft_assert_not_null(t_data *data, void *ptr);
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char	*ft_cmdpath(t_data *data, char *name);
 t_redir	ft_getredir(char *str);
 void	ft_freeinput(t_data *data);
 void	ft_freedata(t_data *data);
+t_data 	*ft_initdata(char **envp);
 #endif

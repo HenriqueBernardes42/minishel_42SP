@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:18:37 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/03 14:51:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/03 20:01:16 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,21 @@ void	ft_freeinput(t_data *data)
 		free (data->line);
 		data->line = NULL;
 	}
-	if (data->input != NULL)
+	if (data->tab != NULL)
 	{
 		i = -1;
-		while (data->input[++i] != NULL)
-			free (data->input[i]);
-		free (data->input);
-		data->input = NULL;
+		while (data->tab[++i] != NULL)
+			free (data->tab[i]);
+		free (data->tab);
+		data->tab = NULL;
+	}
+	if (data->cmds != NULL)
+	{
+		i = -1;
+		while (data->cmds[++i] != NULL)
+			free (data->cmds[i]);
+		free (data->cmds);
+		data->cmds = NULL;
 	}
 }
 
