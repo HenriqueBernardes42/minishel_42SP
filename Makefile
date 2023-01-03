@@ -1,12 +1,12 @@
 CC				=	cc
 
-CFLAGS			=	-I. -Wall -Werror -Wextra
+CFLAGS			=	-I. -Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	assert ft_exec ft_parse init main path free
+SRC				=	main tools utils free
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -40,7 +40,6 @@ fclean: clean
 re: fclean all
 
 reset: fclean
-	rm file*
 	rm -rf libft
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \

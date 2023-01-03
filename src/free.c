@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   throw.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/23 07:02:09 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 18:20:13 by katchogl         ###   ########.fr       */
+/*   Created: 2023/01/03 14:18:37 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/03 14:51:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(t_data *data, bool all)
+void	ft_freeinput(t_data *data)
 {
-	ft_assert_not_null (data, data);
-	if (all)
+	int	i;
+	
+	if (data->line != NULL)
 	{
-		// free path
+		free (data->line);
+		data->line = NULL;
 	}
-	if (all)
-		free (data);
+	if (data->input != NULL)
+	{
+		i = -1;
+		while (data->input[++i] != NULL)
+			free (data->input[i]);
+		free (data->input);
+		data->input = NULL;
+	}
 }
 
-void	ft_throw(t_data *data, enum e_errno err, char *info)
+void	ft_freedata(t_data *data)
 {
-	printf ("\033[0;31mErr: ");
-	if (err == ERR_NULL_CHECK_FAIL)
-		printf ("null pointer");
-	else if (err == ERR_ENOENT)
-	{
-		if (info != NULL)
-			printf ("%s ", info);
-		printf ("%s", strerror (ENOENT));
-	}
-	else
-		printf ("an error occurred");
-	printf ("\n\033[0m");
-	ft_free (data, true);
-	exit (EXIT_FAILURE);
+	if (data == NULL)
+		return ;
 }

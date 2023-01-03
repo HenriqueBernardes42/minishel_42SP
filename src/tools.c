@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bools.c                                            :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/02 21:31:29 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/02 21:39:51 by katchogl         ###   ########.fr       */
+/*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/03 14:31:14 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_ispipe(char *str)
+void	ft_redirect_in(t_data *data)
 {
-	return (ft_strncmp (str, "|", 2) == 0);
+	ft_assert_not_null (data, data);
 }
 
-bool	ft_isinredir(char *str)
+void	ft_redirect_out(t_data *data)
 {
-	return (ft_strncmp (str, "<", 2) == 0);
+	ft_assert_not_null (data, data);
 }
 
-bool	ft_isoutredir_trc(char *str)
+void	ft_expand(t_data *data)
 {
-	return (ft_strncmp (str, ">", 2) == 0);
-}
-
-bool	ft_isoutredir_app(char *str)
-{
-	return (ft_strncmp (str, ">>", 3) == 0);
+	ft_assert_not_null (data, data);
 }
