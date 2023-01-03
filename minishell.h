@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/03 20:19:26 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/03 22:13:57 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,39 @@ typedef enum e_errno {
 	ERR_NULL_CHECK_FAIL,
 	ERR_MALLOC_FAIL,
 	ERR_PIPE_FAIL,
+	ERR_FORK_FAIL,
 	ERR_ENOENT,
 	ERR_UNEXPECTED_TOKEN,
+	ERR_INVALID_CMDSC,
 	ERR_C
 } t_errno;
-typedef enum e_redir {
-	REDIR_NOT_FOUND,
-	REDIR_IN_FILE,
-	REDIR_IN_HEREDOC,
-	REDIR_OUT_TRUNC,
-	REDIR_OUT_APPEND
-} t_redir;
+typedef	int t_fd;
+typedef	int t_pid;
+typedef	struct s_cmd
+{
+	char	*name;
+	char	*pathname;
+	char	**args;
+	char	**infiles;
+	char	**heredoc_lims;
+	char	**outfiles_trc;
+	char	**outfiles_app;
+} t_cmd;
 typedef struct s_data
 {
 	char	**envp;
 	char	**path;
 	char	*line;
 	char	**tab;
-	char	***cmds;
+	t_cmd	*cmds;
+	int		cmdsc;
 }	t_data;
-void	ft_expand(t_data *data);
-void	ft_redirect_in(t_data *data);
-void	ft_execute(t_data *data);
-void	ft_redirect_out(t_data *data);
-void	ft_assert_not_null(t_data *data, void *ptr);
+void	ft_execute(t_data *data); // tools
+t_cmd	*ft_initcmds(t_data *data, int cmdsc); // init
+t_data 	*ft_initdata(char **envp);
+void	ft_assert_not_null(t_data *data, void *ptr); // utils
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char	*ft_cmdpath(t_data *data, char *name);
-t_redir	ft_getredir(char *str);
-void	ft_freeinput(t_data *data);
-void	ft_freedata(t_data *data);
-t_data 	*ft_initdata(char **envp);
+void	ft_destroy_execution(t_data *data); // destroy
+void	ft_destroy_data(t_data *data);
 #endif

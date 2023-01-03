@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/03 20:20:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/03 22:18:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	ft_isvalid(t_data *data)
 	i = -1;
 	while (data->tab[++i] != NULL)
 	{
-		if ((i == 0 && ft_strncmp (data->tab[i], "|", 2) == 0)
+		if ((i == 0 && ft_strncmp (data->tab[i], "|", 2) == 0) // more excepts
 			|| (ft_strncmp (data->tab[i], "|", 2) == 0
 				&& ft_strncmp (data->tab[i + 1], "|", 2) == 0))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
@@ -30,35 +30,39 @@ static bool	ft_isvalid(t_data *data)
 	return (true);
 }
 
+static void	ft_catch_cmd_data(t_data *data) // indexes func args
+{
+	ft_assert_not_null (data, data); // complete ...
+}
+
 static void ft_parse(t_data *data)
 {
-	int	pipesc;
 	int	i;
 	int	j;
-	int	c;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
 	i = -1;
-	pipesc = 0;
+	data->cmdsc = 1;
 	while (data->tab[++i] != NULL)
 		if (ft_strncmp (data->tab[i], "|", 2) == 0)
-			pipesc++;
-	data->cmds = (char ***) malloc ((pipesc + 2) * sizeof (char **));
-	data->cmds[pipesc + 1] = NULL;
-	i = -1;
-	j = -1;
-	while (++j < pipesc + 1)
+			data->cmdsc++;
+	data->cmds = ft_initcmds (data, data->cmdsc);
+	i = 0;
+	j = 0;
+	while (data->tab[i] != NULL && j < data->cmdsc)
 	{
-		c = 0;
-		while (data->tab[++i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
-			c++;
-		data->cmds[j] = (char **) malloc ((c + 1) * sizeof (char *));
-		i -= c + 1;
-		c = -1;
-		while (data->tab[++i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
-			data->cmds[j][++c] = data->tab[i];
+		while (ft_strncmp (data->tab[i], "|", 2) != 0 && data->tab[i++] != NULL)
+			ft_catch_cmd_data (data);
+		if (ft_strncmp (data->tab[i], "|", 2) != 0)
+			i++;
+		j++;
 	}
+}
+
+static void	ft_expand(t_data *data) // complete
+{
+	ft_assert_not_null (data, data);
 }
 
 int main(int argc, char **envp)
@@ -81,9 +85,9 @@ int main(int argc, char **envp)
 				ft_execute (data);
 			}
 		}
-		ft_freeinput (data);
+		ft_destroy_execution (data);
 	}
-	ft_freedata (data);
+	ft_destroy_data (data);
 	system ("leaks minishell");
-	return (EXIT_SUCCESS);
+	exit (EXIT_SUCCESS);
 }

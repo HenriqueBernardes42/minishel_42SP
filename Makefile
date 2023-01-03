@@ -6,7 +6,7 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main tools utils free
+SRC				=	main tools utils destroy init
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
