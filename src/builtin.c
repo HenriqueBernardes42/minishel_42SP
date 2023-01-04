@@ -14,10 +14,23 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../libft/libft.h"
+#include <unistd.h>
 
+char *get_env_var(char **envp, char *var)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(var);
+	i = -1;
+	while (envp[++i] != NULL)
+		if (!ft_strncmp(var, envp[i], len) && envp[i][len] == '=')
+			return (envp[i]);
+	return (NULL);
+}
 
 /*Does not expand environment variables to their values!*/
-void echo(char **args)
+void	echo(char **args)
 {
 	int	i;
 
@@ -35,12 +48,12 @@ void echo(char **args)
 		printf("\n");
 }
 
-// void cd(char **envp, char *path)
-// {
-	
-// }
+void	cd(const char *path)
+{
+	chdir(path);
+}
 
-void pwd(char **envp)
+void	pwd(char **envp)
 {
 	while (*envp != NULL && ft_strncmp ("PWD=", *envp, 4))
 		envp++;
@@ -48,12 +61,37 @@ void pwd(char **envp)
 		printf("%s\n", *envp + 4);
 }
 
-void unset(char **envp)
+void	export(char **envp)
 {
 	
 }
 
-void env(char **envp)
+char	**unset(char **envp, char **args)
+{
+	int		size;
+	int		del;
+	char	**out;
+
+	size = 0;
+	del = 0;
+	while (args[size] != NULL)
+		if (get_env_var(envp, args[size]) != NULL)
+			del++;
+	size = 0;
+	while (envp[size] != NULL)
+		size++;
+	out = (char **)malloc((size - del + 1) * sizeof(char *));
+	if (!out)
+		return (NULL);
+	out[size-- - del] == NULL;
+	// while (size-- > 0)
+	// {
+	// 	if ()
+	// }
+	printf("%i\n", size);
+}
+
+void	env(char **envp)
 {
 	while (*envp != NULL)
 		printf("%s\n", *envp++);
@@ -68,6 +106,7 @@ void env(char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
+	char buf[200];
 	if (argc < 1)
 		return (1);
 	argv++;
@@ -79,4 +118,15 @@ int main(int argc, char **argv, char **envp)
 		pwd(envp);
 	else if (*argv != NULL && !ft_strncmp ("3", *argv, 2))
 		echo(argv + 1);
+	else if (*argv != NULL && !ft_strncmp ("4", *argv, 2))
+		unset(envp, argv + 1);
+	else if (*argv != NULL && !ft_strncmp ("ft", *argv, 3))
+	{
+		getcwd(buf, 200);
+		printf("%i %s %i \n%s\n", ttyslot(), ttyname(0), isatty(0), buf);
+		chdir("../");
+		getcwd(buf, 200);
+		printf("%s\n", buf);
+	}
+	
 }
