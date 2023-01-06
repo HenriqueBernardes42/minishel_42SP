@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 20:54:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:57:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,3 +112,7 @@ int main(int argc, char **envp)
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
 }
+
+// pipes and redirections polishing, norm, leaks
+// expansions
+// ./minishell hello world | echo hello | cat -> siegv

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 20:44:59 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:50:32 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	ft_assert_not_dir(t_data *data, char *pathname)
 
 	ft_assert_not_null (data, pathname);
 	fd = open (pathname, O_DIRECTORY);
-	if (fd == -1)
+	if (fd != -1)
+	{
+		close (fd);
 		ft_throw (data, ERR_EISDIR, pathname, true);
-	close (fd);
+	}
 }
 
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
@@ -66,7 +68,6 @@ void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 		{
 			if (access (args->path, F_OK) != 0)
 				args->err = ENOENT;
-			printf ("hello there \n");
 			ft_throw (data, args->err, pathname, true);
 		}
 	}

@@ -39,10 +39,11 @@ fclean: clean
 
 re: fclean all
 
-reset: fclean
+destroy: fclean
 	rm -rf libft
 	rm -rf minishell.dsYM
 	rm -f minishell.log
+	rm -rf .vscode
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
@@ -55,4 +56,4 @@ m-leaks:
 	valgrind --leak-check=full --show-leak-kinds=all \
 	--log-file=minishell.log ./minishell
 
-.PHONY: all clean fclean re reset m m-leaks
+.PHONY: all clean fclean re destroy m m-leaks

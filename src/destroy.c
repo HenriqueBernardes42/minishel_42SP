@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 20:16:41 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 22:35:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_destroy_execution (t_data *data)
 		free (data->pipes);
 		data->pipes = NULL;
 	}
-	data->cmdsc = -1;
+	data->cmdsc = 0;
 }
 
 void	ft_destroy_data(t_data *data)
