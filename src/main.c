@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 09:23:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:46:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ft_isvalid(t_data *data)
+static bool	ft_isvalid(t_data *data) // TODO: add more syntax errors
 {
 	int	i;
 
@@ -30,27 +30,19 @@ static bool	ft_isvalid(t_data *data)
 	return (true);
 }
 
-static void	ft_catch_cmd_data(t_data *data, int *i, int j)
+static void	ft_fill(t_data *data, int *i, int j)
 {
-	char	***tab;
+	t_redir	redir;
 	
 	ft_assert_not_null (data, data);
-	if (ft_strncmp (data->tab[*i], "<", 2) == 0
-		|| ft_strncmp (data->tab[*i], ">", 2) == 0
-		|| ft_strncmp (data->tab[*i], ">>", 3) == 0
-		|| ft_strncmp (data->tab[*i], "<<", 3) == 0)
+	redir = ft_getredir (data->tab[*i]);
+	if (redir != REDIR_UNDEF)
 	{
-		if (ft_strncmp (data->tab[*i], "<", 2) != 0)
-			tab = &data->cmds[j].infiles;
-		else if (ft_strncmp (data->tab[*i], ">", 2) != 0)
-			tab = &data->cmds[j].outfiles_trc;
-		else if (ft_strncmp (data->tab[*i], "<<",3) != 0)
-			tab = &data->cmds[j].heredoc_lims;
-		else
-			tab = &data->cmds[j].outfiles_app;
+		ft_addint (data, &data->cmds[j].redirs, data->cmds[j].redirsc, redir);
+		data->cmds[j].redirsc++;
 		(*i)++;
 		if (data->tab[*i] != NULL)
-			ft_push (data, tab, data->tab[*i]);
+			ft_push (data, &data->cmds[j].args_redir, data->tab[*i]);
 	}
 	else if (data->cmds[j].name == NULL)
 	{
@@ -80,7 +72,7 @@ static void ft_parse(t_data *data)
 	{
 		while (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
 		{
-			ft_catch_cmd_data (data, &i, j);
+			ft_fill (data, &i, j);
 			i++;
 		}
 		if (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) == 0)
@@ -89,7 +81,7 @@ static void ft_parse(t_data *data)
 	}
 }
 
-static void	ft_expand(t_data *data)
+static void	ft_expand(t_data *data) // TODO
 {
 	ft_assert_not_null (data, data);
 }
@@ -115,7 +107,7 @@ int main(int argc, char **envp)
 			}
 		}
 		ft_destroy_execution (data);
-		break ;
+		break ; // rm
 	}
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
