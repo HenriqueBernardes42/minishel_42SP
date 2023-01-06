@@ -41,6 +41,8 @@ re: fclean all
 
 reset: fclean
 	rm -rf libft
+	rm -rf minishell.dsYM
+	rm -f minishell.log
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
@@ -49,4 +51,8 @@ reset: fclean
 m:
 	./minishell
 
-.PHONY: all clean fclean re reset m
+m-leaks:
+	valgrind --leak-check=full --show-leak-kinds=all \
+	--log-file=minishell.log ./minishell
+
+.PHONY: all clean fclean re reset m m-leaks
