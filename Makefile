@@ -1,49 +1,58 @@
 CC				=	cc
 
-CFLAGS			=	-I. \
-					-Wall -Werror -Wextra
+CFLAGS			=	-I. -Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC_DIR			=	src
+SRC				=	main tools utils destroy init
 
-SRC				=	$(SRC_DIR)/assert.c \
-					$(SRC_DIR)/ft_parse.c \
-					$(SRC_DIR)/path.c \
-					$(SRC_DIR)/throw.c \
-					main.c
+OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
-OBJ				= 	$(SRC:.c=.o)
+LIBFT			=	libft/libft.a
 
+42LOGIN			=	katchogl
 
-LIBFT_DIR		= 	libft
-
-RDL_DIR			=	/Users/katchogl/homebrew/Cellar/readline/8.2.1/lib
-
-LIBS			=	$(LIBFT_DIR)/libft.a -L$(RDL_DIR) -lreadline
+LIBREADLINE		= 	/Users/$(42LOGIN)/homebrew/Cellar/readline/8.2.1/lib
 
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
-$(LIBS):
-	make -C $(LIBFT_DIR)
+$(LIBFT):
+	git clone https://github.com/AtchogloDev/libft.git
+	make -C libft
 
-$(NAME): $(LIBS) $(OBJ)
-	$(CC) $(LIBS) $(OBJ) -o $(NAME)
-
-readline:
+$(LIBREADLINE):
 	brew install readline
-	
+
+$(NAME): $(LIBFT) $(LIBREADLINE) $(OBJ)
+	$(CC) $(CFLAGS) $(LIBFT) -L$(LIBREADLINE) -lreadline $(OBJ) -o $(NAME)
+
 clean:
-	rm -f *.o */*.o
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re readline
+reset: fclean
+	rm -rf libft
+	rm -rf minishell.dsYM
+	rm -f minishell.log
+	@if [[ -d $(LIBREADLINE) ]] ; \
+	then \
+		brew uninstall readline ; \
+	fi ; \
+
+m:
+	./minishell
+
+m-leaks:
+	valgrind --leak-check=full --show-leak-kinds=all \
+	--log-file=minishell.log ./minishell
+
+.PHONY: all clean fclean re reset m m-leaks

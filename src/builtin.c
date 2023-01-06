@@ -15,8 +15,9 @@
 #include <stdbool.h>
 #include "../libft/libft.h"
 #include <unistd.h>
+#include <sys/stat.h>
 
-char *get_env_var(char **envp, char *var)
+static char **get_env_var(char **envp, char *var)
 {
 	int	i;
 	int	len;
@@ -25,7 +26,7 @@ char *get_env_var(char **envp, char *var)
 	i = -1;
 	while (envp[++i] != NULL)
 		if (!ft_strncmp(var, envp[i], len) && envp[i][len] == '=')
-			return (envp[i]);
+			return (envp + i);
 	return (NULL);
 }
 
@@ -48,9 +49,29 @@ void	echo(char **args)
 		printf("\n");
 }
 
-void	cd(const char *path)
+int	directory_exists(const char *path)
 {
-	chdir(path);
+    struct stat	stats;
+
+    stat(path, &stats);
+    if (S_ISDIR(stats.st_mode))
+        return (1);
+    return (0);
+}
+
+void	cd(char **envp, char *path)
+{
+	char	*pwd;
+	char	**env_loc;
+
+	env_loc = get_env_var(envp, "PWD");
+	if (ft_strchr(*env_loc, '.') == NULL)
+	{
+		if (directory_exists(path))
+			*env_loc = ft_strjoin("PWD=", path);
+		else
+			printf("cd: no such file or directory: %s\n", path);
+	}
 }
 
 void	pwd(char **envp)
@@ -68,27 +89,38 @@ void	export(char **envp)
 
 char	**unset(char **envp, char **args)
 {
-	int		size;
-	int		del;
-	char	**out;
+	char **out;
+	int	del;
+	int i;
+	int i2;
 
-	size = 0;
 	del = 0;
-	while (args[size] != NULL)
-		if (get_env_var(envp, args[size]) != NULL)
+	i = 0;
+	while (args[i] != NULL)
+		if (get_env_var(envp, args[i++]) != NULL)
 			del++;
-	size = 0;
-	while (envp[size] != NULL)
-		size++;
-	out = (char **)malloc((size - del + 1) * sizeof(char *));
-	if (!out)
-		return (NULL);
-	out[size-- - del] == NULL;
-	// while (size-- > 0)
-	// {
-	// 	if ()
-	// }
-	printf("%i\n", size);
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	out = (char **)malloc(i - del + 1);
+	if (out != NULL)
+	{
+		out[i - del] = NULL;
+		while (--i >= 0)
+		{
+			i2 = -1;
+			while (args[++i2] != NULL)
+			{
+				if (!ft_strncmp(args[i2], envp[i], ft_strlen(args[i2])) && envp[i][ft_strlen(args[i2])] == '=')
+				{
+					i--;
+					del--;
+				}
+			}
+			out[i - del] = envp[i];
+		}
+	}
+	return (out);
 }
 
 void	env(char **envp)
@@ -104,6 +136,24 @@ void	env(char **envp)
 // 	exit (EXIT_SUCCESS);
 // }
 
+// char	*get_prompt(char **envp)
+// {
+// 	char	*out;
+// 	int		size;
+
+// 	size = ft_strlen(get_env_var(envp, "USER", 1));
+// 	size += ft_strlen(get_env_var(envp, "NAME", 1));
+// 	size += ft_strlen(get_env_var(envp, "PWD", 1)) + 4;
+// 	out = (char *)malloc(size);
+// 	ft_strlcat(out, get_env_var(envp, "USER", 1), size);
+// 	ft_strlcat(out, "@", size);
+// 	ft_strlcat(out, get_env_var(envp, "NAME", 1), size);
+// 	ft_strlcat(out, ":", size);
+// 	ft_strlcat(out, get_env_var(envp, "PWD", 1), size);
+// 	ft_strlcat(out, "$ ", size);
+// 	return (out);
+// }
+
 int main(int argc, char **argv, char **envp)
 {
 	char buf[200];
@@ -116,10 +166,22 @@ int main(int argc, char **argv, char **envp)
 	//pwd test
 	else if (*argv != NULL && !ft_strncmp ("2", *argv, 2))
 		pwd(envp);
+	//echo test
 	else if (*argv != NULL && !ft_strncmp ("3", *argv, 2))
 		echo(argv + 1);
+	//unset test
 	else if (*argv != NULL && !ft_strncmp ("4", *argv, 2))
-		unset(envp, argv + 1);
+	{
+		env(envp);
+		env(unset(envp, argv + 1));
+	}
+	//cd test
+	else if (*argv != NULL && !ft_strncmp ("5", *argv, 2))
+	{
+		printf("%s\n", *get_env_var(envp, "PWD"));
+		cd(envp, argv[1]);
+		printf("%s\n", *get_env_var(envp, "PWD"));
+	}
 	else if (*argv != NULL && !ft_strncmp ("ft", *argv, 3))
 	{
 		getcwd(buf, 200);

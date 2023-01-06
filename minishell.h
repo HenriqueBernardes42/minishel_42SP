@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/03 22:13:57 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:22:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc); // init
 t_data 	*ft_initdata(char **envp);
 void	ft_assert_not_null(t_data *data, void *ptr); // utils
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
-char	*ft_cmdpath(t_data *data, char *name);
+char	*ft_pathname(t_data *data, char *name);
+void	ft_push(t_data *data, char ***tab, char *str);
 void	ft_destroy_execution(t_data *data); // destroy
 void	ft_destroy_data(t_data *data);
+void	ft_destroy_tab(char **tab);
 #endif
