@@ -6,11 +6,17 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 13:48:04 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:44:59 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_assert_not_equal(t_data *data, int self, int value, t_errno err)
+{
+	if (self == value)
+		ft_throw (data, err, NULL, true);
+}
 
 void	ft_assert_not_null(t_data *data, void *ptr)
 {
@@ -24,54 +30,49 @@ void	ft_assert_not_dir(t_data *data, char *pathname)
 
 	ft_assert_not_null (data, pathname);
 	fd = open (pathname, O_DIRECTORY);
-	if (fd != -1)
-	{
+	if (fd == -1)
 		ft_throw (data, ERR_EISDIR, pathname, true);
-		close (fd);
-	}
+	close (fd);
 }
 
-static char	*ft_merge(char *path1, char *path2) // TODO: change
-{
-	char	*path;
-	char	*temp;
-
-	if (path1 == NULL)
-		return (path2);
-	else if (path2 == NULL)
-		return (path1);
-	if (ft_strlen (path2) == 0)
-	{
-		free (path2);
-		return (path1);
-	}
-	path = ft_strjoin (path1, "/");
-	free (path1);
-	temp = ft_strjoin (path, path2);
-	free (path2);
-	return (temp);
-}
-
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int perm)
+void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 {
 	int		i;
 	t_args	*args;
 
 	ft_assert_not_null (data, pathname);
-	i = -1;
 	args = ft_initargs (data, pathname);
+	i = -1;
 	while (++i < args->count)
 	{
-		args->path = ft_merge (args->path, args->tab[i]);
-		if ((perm == R_OK || (perm == W_OK && i < args->count - 1))
-			&& (access (args->path, F_OK) != 0 || access (args->path, perm) != 0))
+		if (args->path == NULL)
+		{
+			if (pathname[0] != '/')
+				args->path = ft_strdup (args->tab[i]);
+			else
+				args->path = ft_strjoin ("/", args->tab[i]);
+		}
+		else
+		{
+			args->temp = ft_strjoin (args->path, "/");
+			free (args->path);
+			args->path = args->temp;
+			args->temp = ft_strjoin (args->path,args->tab[i]);
+			free (args->path);
+			args->path = args->temp;
+		}
+		if ((permss == R_OK || (permss == W_OK && i < args->count - 1))
+			&& (access (args->path, F_OK) != 0 || access (args->path, permss) != 0))
 		{
 			if (access (args->path, F_OK) != 0)
 				args->err = ENOENT;
+			printf ("hello there \n");
 			ft_throw (data, args->err, pathname, true);
 		}
 	}
-	free (args->path);
-	free (args->tab);
+	if (args->path != NULL)
+		free (args->path);
+	if (args->tab != NULL)
+		ft_destroy_tab (args->tab);
 	free (args);
 }

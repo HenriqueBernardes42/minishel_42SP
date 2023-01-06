@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 13:25:59 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:32:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,18 @@ t_args	*ft_initargs(t_data *data, char *pathname)
 	args = (t_args *) malloc (sizeof (t_args));
 	ft_assert_not_null (data, args);
 	args->count = 0;
+	args->path = NULL;
 	if (pathname != NULL)
 	{
 		args->tab = ft_split (pathname, '/');
-		if (pathname[0] == '/')
-			args->path = ft_strdup ("/");
 		i = -1;
 		while (args->tab[++i] != NULL)
 			args->count++;
 	}
 	else
-	{
 		args->tab = NULL;
-		args->path = NULL;
-	}
 	args->err = EACCES;
+	args->temp = NULL;
 	return (args);
 }
 
@@ -53,7 +50,7 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].name = NULL;
 		cmds[i].pathname = NULL;
 		cmds[i].args = NULL;
-		cmds[i].redir_args = NULL;
+		cmds[i].args_redir = NULL;
 		cmds[i].redirs = NULL;
 		cmds[i].redirsc = 0;
 	}

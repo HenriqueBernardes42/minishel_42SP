@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 13:46:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:54:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ft_isvalid(t_data *data) // TODO: add more syntax errors
+static bool	ft_isvalid(t_data *data)
 {
 	int	i;
 
@@ -48,6 +48,7 @@ static void	ft_fill(t_data *data, int *i, int j)
 	{
 		data->cmds[j].name = ft_strdup (data->tab[*i]);
 		data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
+		ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
 	}
 	else
 		ft_push (data, &data->cmds[j].args, data->tab[*i]);
@@ -81,7 +82,7 @@ static void ft_parse(t_data *data)
 	}
 }
 
-static void	ft_expand(t_data *data) // TODO
+static void	ft_expand(t_data *data)
 {
 	ft_assert_not_null (data, data);
 }
@@ -107,7 +108,6 @@ int main(int argc, char **envp)
 			}
 		}
 		ft_destroy_execution (data);
-		break ; // rm
 	}
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);

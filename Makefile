@@ -6,7 +6,7 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main init destroy utils ft_execute assert
+SRC				=	main init destroy utils ft_execute assert fcntrl
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
