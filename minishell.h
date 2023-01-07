@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 19:55:11 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:58:55 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum e_redir
 	REDIR_OUTFILE_TRC,
 	REDIR_OUTFILE_APP,
 }	t_redir;
-
 typedef enum e_errno {
 	ERR_DEFAULT = 1,
 	ERR_NULL_PTR,
@@ -51,25 +50,6 @@ typedef enum e_errno {
 }	t_errno;
 typedef int	t_fd;
 typedef int	t_pid;
-typedef struct s_cmd
-{
-	char	*name;
-	char	*pathname;
-	char	**args;
-	char	**args_redir;
-	int		*redirs;
-	int		redirsc;
-}	t_cmd;
-typedef struct s_data
-{
-	char	**envp;
-	char	**path;
-	char	*line;
-	char	**tab;
-	t_cmd	*cmds;
-	int		cmdsc;
-	t_fd	*pipes;
-}	t_data;
 typedef struct s_args
 {
 	char	**tab;
@@ -89,6 +69,25 @@ typedef struct s_args2
 	t_fd	*infd;
 	t_fd	*outfd;
 }	t_args2;
+typedef struct s_cmd
+{
+	char	*name;
+	char	*pathname;
+	char	**args;
+	char	**args_redir;
+	int		*redirs;
+	int		redirsc;
+}	t_cmd;
+typedef struct s_data
+{
+	char	**envp;
+	char	**path;
+	char	*line;
+	char	**tab;
+	t_cmd	*cmds;
+	int		cmdsc;
+	t_fd	*pipes;
+}	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
 t_data	*ft_initdata(char **envp);

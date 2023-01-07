@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   ft_heredocs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:41:10 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 20:20:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:39:50 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ static t_fd	ft_heredoc(t_data *data, char *heredoc_lim)
 
 static void	ft_handlecmd_heredocs(t_data *data, int i)
 {
+	int		j;
+	char	*fd;
+
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds[i].redirs);
 	ft_assert_not_null (data, data->cmds[i].args_redir);
@@ -93,8 +96,6 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 void	ft_heredocs(t_data *data)
 {
 	int		i;
-	int		j;
-	char	*fd;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);

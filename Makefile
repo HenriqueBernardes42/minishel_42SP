@@ -7,7 +7,7 @@ CDEPS			=	minishell.h
 NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
-					ft_redirect heredoc error
+					ft_redirect ft_heredocs error
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -33,23 +33,22 @@ $(NAME): $(LIBFT) $(LIBREADLINE) $(OBJ)
 	$(CC) $(CFLAGS) $(LIBFT) -L$(LIBREADLINE) -lreadline $(OBJ) -o $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
 purge: fclean
-	rm -rf libft
-	rm -rf minishell.dsYM
-	rm -f minishell.log
-	rm -rf .vscode
+	@rm -rf libft
+	@rm -rf minishell.dsYM
+	@rm -f minishell.log
+	@rm -rf .vscode
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
-	fi ; \
-
+	fi ;
 m:
 	./minishell
 

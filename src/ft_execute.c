@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 18:02:07 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:43:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_child(t_data *data, int i)
 	{
 		ft_pipe (data, i, &infd, STREAM_INPUT);
 		ft_redirect (data, i, &infd, &outfd);
-		ft_pipe (data, i, &infd, STREAM_OUTPUT);
+		ft_pipe (data, i, &outfd, STREAM_OUTPUT);
 		ft_close (data, infd, outfd);
 		if (data->cmds[i].pathname != NULL)
 		{
