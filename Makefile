@@ -6,8 +6,8 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main init destroy utils ft_execute assert fs \
-					ft_redirect ft_heredoc
+SRC				=	main init destroy utils ft_execute assert \
+					ft_redirect ft_heredoc error
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -40,7 +40,7 @@ fclean: clean
 
 re: fclean all
 
-destroy: fclean
+purge: fclean
 	rm -rf libft
 	rm -rf minishell.dsYM
 	rm -f minishell.log
@@ -50,7 +50,7 @@ destroy: fclean
 		brew uninstall readline ; \
 	fi ; \
 
-test:
+m:
 	./minishell
 
 test-leaks:

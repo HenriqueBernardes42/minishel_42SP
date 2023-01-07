@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 16:53:36 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:02:07 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_pipe(t_data *data, int i, t_fd *iofd, t_stream s)
 {
 	t_fd	fd;
 
-	if (data->pipes == NULL || data->cmdsc <= 1 
+	if (data->pipes == NULL || data->cmdsc <= 1
 		|| (s == STREAM_INPUT && i < 1)
 		|| (s == STREAM_OUTPUT && i == data->cmdsc -1))
 		return ;

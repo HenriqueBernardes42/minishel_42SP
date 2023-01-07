@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 17:23:29 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:02:18 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_args
 	char	*temp;
 	int		err;
 }	t_args;
-typedef struct	s_args2
+typedef struct s_args2
 {
 	int		i;
 	t_redir	redir;

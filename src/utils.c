@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 16:42:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:01:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,50 +62,40 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	*tab = ntab;
 }
 
-static void	ft_error(t_errno err)
+char	*ft_pathname(t_data *data, char *name)
 {
-	if (err == ERR_DEFAULT)
-		printf ("something went wrong");
-	else if (err == ERR_NULL_PTR)
-		printf ("null pointer");
-	else if (err == ERR_FAIL)
-		printf ("fail");
-	else if (err == ERR_UNEXPECTED_TOKEN)
-		printf ("unexpected token near");
-	else if (err == ERR_INVALID_CMDSC)
-		printf ("invalid count of commands");
-	else if (err == ERR_CMD_NOT_FOUND)
-		printf ("command not found");
-	else if (err == ERR_ENOENT)
-		printf ("%s", strerror (ENOENT));
-	else if (err == ERR_EACCES)
-		printf ("%s", strerror (EACCES));
-	else if (err == ERR_EISDIR)
-		printf ("%s", strerror (EISDIR));
-	else if (err != 0)
-		printf ("an unexpected error occurred");
+	int		i;
+	char	*dir;
+	char	*pathname;
+
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, name);
+	if (access (name, X_OK) != -1)
+		return (ft_strdup (name));
+	i = -1;
+	if (data->path == NULL)
+		return (NULL);
+	while (data->path[++i] != NULL)
+	{
+		dir = ft_strjoin (data->path[i], "/");
+		pathname = ft_strjoin (dir, name);
+		free (dir);
+		if (access (pathname, X_OK) != -1)
+			return (pathname);
+		free (pathname);
+	}
+	return (NULL);
 }
 
-bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
+t_redir	ft_getredir(char *str)
 {
-	printf ("minishell: ");
-	if (info != NULL && (err == ERR_CMD_NOT_FOUND
-			|| err == ERR_EACCES || err == ERR_ENOENT))
-		printf ("%s: ", info);
-	else if (info != NULL && err == ERR_FAIL)
-		printf ("%s ", info);
-	ft_error (err);
-	if (info != NULL && err == ERR_UNEXPECTED_TOKEN)
-		printf (" `%s'", info);
-	if (info != NULL && err != ERR_UNEXPECTED_TOKEN
-		&& err != ERR_ENOENT && err != ERR_CMD_NOT_FOUND
-		&& err != ERR_EACCES && err != ERR_FAIL)
-		printf (": `%s'", info);
-	printf ("\n");
-	if (exitp)
-	{
-		ft_destroy_data (data);
-		exit (EXIT_FAILURE);
-	}
-	return (false);
+	if (ft_strncmp (str, "<", 2) == 0)
+		return (REDIR_INFILE);
+	else if (ft_strncmp (str, ">", 2) == 0)
+		return (REDIR_OUTFILE_TRC);
+	else if (ft_strncmp (str, "<<", 3) == 0)
+		return (REDIR_HEREDOC);
+	else if (ft_strncmp (str, ">>", 3) == 0)
+		return (REDIR_OUTFILE_APP);
+	return (REDIR_UNDEF);
 }

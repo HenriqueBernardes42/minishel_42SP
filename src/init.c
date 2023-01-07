@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 17:23:20 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:03:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
 {
 	t_args2	*args2;
 
-	ft_assert_not_null (data, data->cmds);	
+	ft_assert_not_null (data, data->cmds);
 	if (i >= data->cmdsc)
 		ft_throw (data, ERR_INVALID_CMDSC, NULL, true);
 	args2 = (t_args2 *) malloc (sizeof (t_args2));
