@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:41:10 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 17:41:31 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:13:43 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_read(int fd, char *heredoc_lim)
 
 	while (1)
 	{
-		ft_putstr_fd ("here_doc> ", STDOUT_FILENO);
+		ft_putstr_fd ("> ", STDOUT_FILENO);
 		count = read (STDIN_FILENO, buff, BUFFER_SIZE - 1);
 		if (count <= 0)
 			break ;
