@@ -7,7 +7,7 @@ CDEPS			=	minishell.h
 NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
-					ft_redirect ft_heredoc error
+					ft_redirect heredoc error
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 

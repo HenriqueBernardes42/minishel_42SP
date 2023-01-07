@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 18:03:14 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:14:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_setnfd(t_data *data, t_args2 *args2)
 		args2->nfd = open (data->cmds[args2->i].args_redir[args2->j],
 				O_RDONLY);
 	else if (args2->redir == REDIR_HEREDOC)
-		args2->nfd = ft_heredoc (data, data->cmds[args2->i]
+		args2->nfd = ft_atoi (data->cmds[args2->i]
 				.args_redir[args2->j]);
 	else if (args2->redir == REDIR_OUTFILE_TRC)
 		args2->nfd = open (data->cmds[args2->i].args_redir[args2->j],

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 18:00:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:07:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	main(int argc, char **envp)
 			{
 				ft_expand (data);
 				ft_parse (data);
+				ft_heredocs (data);
 				ft_execute (data);
 			}
 		}
