@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 22:35:09 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 16:22:36 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_destroy_tab(char **tab)
 static void	ft_destroy_cmds(t_data *data)
 {
 	int	i;
-	
+
 	if (data == NULL || data->cmds == NULL)
 		return ;
 	i = -1;
@@ -47,7 +47,7 @@ static void	ft_destroy_cmds(t_data *data)
 	free (data->cmds);
 }
 
-void	ft_destroy_execution (t_data *data)
+void	ft_destroy_execution(t_data *data)
 {
 	if (data->line != NULL)
 	{

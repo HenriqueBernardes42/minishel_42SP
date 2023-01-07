@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 20:43:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 16:42:39 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	char	**ntab;
 	int		size_tab;
 	int		i;
-	
+
 	if (str == NULL)
 		return ;
 	size_tab = 0;
@@ -62,29 +62,44 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	*tab = ntab;
 }
 
+static void	ft_error(t_errno err)
+{
+	if (err == ERR_DEFAULT)
+		printf ("something went wrong");
+	else if (err == ERR_NULL_PTR)
+		printf ("null pointer");
+	else if (err == ERR_FAIL)
+		printf ("fail");
+	else if (err == ERR_UNEXPECTED_TOKEN)
+		printf ("unexpected token near");
+	else if (err == ERR_INVALID_CMDSC)
+		printf ("invalid count of commands");
+	else if (err == ERR_CMD_NOT_FOUND)
+		printf ("command not found");
+	else if (err == ERR_ENOENT)
+		printf ("%s", strerror (ENOENT));
+	else if (err == ERR_EACCES)
+		printf ("%s", strerror (EACCES));
+	else if (err == ERR_EISDIR)
+		printf ("%s", strerror (EISDIR));
+	else if (err != 0)
+		printf ("an unexpected error occurred");
+}
+
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
-	char	**errors;
-
-	errors = (char *[ERR_C]){"an error occurred", "null pointer",
-		"failed to allocate heap memory", "pipe fail", "fork fail",
-		strerror (ENOENT), "syntax error near unexpected token",
-		"invalid commands' count", "dup2 fail", "command not found",
-		"execve fail", "invalid stream", strerror (EISDIR),
-		"failed to write file"};
 	printf ("minishell: ");
-	if (info != NULL && err == ERR_ENOENT)
-		printf ("%s ", info);
-	if (info != NULL && err == ERR_CMD_NOT_FOUND)
+	if (info != NULL && (err == ERR_CMD_NOT_FOUND
+			|| err == ERR_EACCES || err == ERR_ENOENT))
 		printf ("%s: ", info);
-	if (err >= ERR_UNDEF && err < ERR_C)
-		printf ("%s", errors[err]);
-	else
-		printf ("an unexpected error occurred");
+	else if (info != NULL && err == ERR_FAIL)
+		printf ("%s ", info);
+	ft_error (err);
 	if (info != NULL && err == ERR_UNEXPECTED_TOKEN)
 		printf (" `%s'", info);
 	if (info != NULL && err != ERR_UNEXPECTED_TOKEN
-		&& err != ERR_ENOENT && err != ERR_CMD_NOT_FOUND)
+		&& err != ERR_ENOENT && err != ERR_CMD_NOT_FOUND
+		&& err != ERR_EACCES && err != ERR_FAIL)
 		printf (": `%s'", info);
 	printf ("\n");
 	if (exitp)

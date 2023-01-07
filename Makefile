@@ -6,7 +6,8 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main init destroy utils ft_execute assert fcntrl
+SRC				=	main init destroy utils ft_execute assert fs \
+					ft_redirect ft_heredoc
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -49,10 +50,10 @@ destroy: fclean
 		brew uninstall readline ; \
 	fi ; \
 
-m:
+test:
 	./minishell
 
-m-leaks:
+test-leaks:
 	valgrind --leak-check=full --show-leak-kinds=all \
 	--log-file=minishell.log ./minishell
 

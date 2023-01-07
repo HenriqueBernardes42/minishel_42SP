@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 23:57:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/07 15:57:37 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static bool	ft_isvalid(t_data *data)
 			|| (ft_strncmp (data->tab[i], "|", 2) == 0
 				&& ft_strncmp (data->tab[i + 1], "|", 2) == 0))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-				data->tab[i], false));
+					data->tab[i], false));
 	}
 	return (true);
 }
 
-static void	ft_fill(t_data *data, int *i, int j)
+static void	ft_catch(t_data *data, int *i, int j)
 {
 	t_redir	redir;
-	
+
 	ft_assert_not_null (data, data);
 	redir = ft_getredir (data->tab[*i]);
 	if (redir != REDIR_UNDEF)
@@ -54,7 +54,7 @@ static void	ft_fill(t_data *data, int *i, int j)
 		ft_push (data, &data->cmds[j].args, data->tab[*i]);
 }
 
-static void ft_parse(t_data *data)
+static void	ft_parse(t_data *data)
 {
 	int	i;
 	int	j;
@@ -73,7 +73,7 @@ static void ft_parse(t_data *data)
 	{
 		while (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
 		{
-			ft_fill (data, &i, j);
+			ft_catch (data, &i, j);
 			i++;
 		}
 		if (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) == 0)
@@ -87,14 +87,14 @@ static void	ft_expand(t_data *data)
 	ft_assert_not_null (data, data);
 }
 
-int main(int argc, char **envp)
+int	main(int argc, char **envp)
 {
 	t_data	*data;
-	
+
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
-	while (true) 
+	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
@@ -108,11 +108,8 @@ int main(int argc, char **envp)
 			}
 		}
 		ft_destroy_execution (data);
+		break ;
 	}
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
 }
-
-// pipes and redirections polishing, norm, leaks
-// expansions
-// ./minishell hello world | echo hello | cat -> siegv
