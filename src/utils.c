@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 11:32:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 12:01:51 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pull(t_data *data, char ***tab, char *str)
+void	ft_remove(t_data *data, char ***tab, char *str)
 {
 	char	**ntab;
 	int		size_tab;
@@ -39,7 +39,6 @@ void	ft_pull(t_data *data, char ***tab, char *str)
 	ft_destroy_tab(*tab);
 	*tab = ntab;
 }
-
 
 void	ft_addint(t_data *data, int **arr, int len, int n)
 {

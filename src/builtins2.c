@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 11:47:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 12:02:19 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char **get_env_var(char **envp, char *var)
 void	unset(t_data *data, char **args)
 {
 	while (*args != NULL)
-		ft_pull(data, &data->envp, *get_env_var(data->envp, *args++));
+		ft_remove(data, &data->envp, *get_env_var(data->envp, *args++));
 }
 
 void	export(t_data *data, char **args)

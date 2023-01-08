@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 11:42:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 12:05:26 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ void	ft_addint(t_data *data, int **arr, int len, int i);
 void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
 bool	ft_isreserved(char *str);
+void	ft_remove(t_data *data, char ***tab, char *str);
 #endif

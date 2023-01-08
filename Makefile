@@ -1,6 +1,7 @@
 CC				=	cc
 
-CFLAGS			=	-I. -Wall -Werror -Wextra -g
+CFLAGS			=	-I. -I/Users/$(USER)/homebrew/opt/readline/include \
+					-Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
 
@@ -8,7 +9,7 @@ NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
 					ft_redirect ft_heredocs error builtins \
-					bultins2 signal
+					builtins2 signal utils2
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -16,7 +17,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-LIBREADLINE		= 	/Users/$(USER)/homebrew/Cellar/readline/8.2.1/lib
+LIBREADLINE		= 	/Users/$(USER)/homebrew/opt/readline/lib
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
