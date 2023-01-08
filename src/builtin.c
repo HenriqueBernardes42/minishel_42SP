@@ -17,7 +17,7 @@
 #include <sys/stat.h>
 #include "../libft/libft.h"
 #include <string.h>
-#include <limits.h>
+#include <sys/param.h>
 
 typedef enum e_errno {
 	ERR_UNDEF,
@@ -194,8 +194,7 @@ void	ft_push(t_data *data, char ***tab, char *str)
 		ntab[i] = ft_strdup ((*tab)[i]);
 	ntab[i] = ft_strdup (str);
 	ntab[i + 1] = NULL;
-	if (*tab == NULL)
-		ft_destroy_tab (*tab);
+	ft_destroy_tab (*tab);
 	*tab = ntab;
 }
 
@@ -223,10 +222,11 @@ void	ft_pull(t_data *data, char ***tab, char *str)
 			i--;
 		ntab[size_tab] = ft_strdup ((*tab)[i]);
 	}
+	ft_destroy_tab(*tab);
 	*tab = ntab;
 }
 
-static char **get_env_var(char **envp, char *var)
+char **get_env_var(char **envp, char *var)
 {
 	int	i;
 	int	len;
@@ -268,10 +268,14 @@ void	cd(t_data *data, char *path)
 		printf("bash: cd: %s: No such file or directory\n", path);
 	else
 	{
-		cwd = (char *)malloc(PATH_MAX);
+		cwd = (char *)malloc(MAXPATHLEN + 1);
 		if (cwd == NULL)
 			ft_throw (data, ERR_NULL_CHECK_FAIL, "cd cwd", true);
-		getcwd(cwd, PATH_MAX);
+		else if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
+		{
+			free(cwd);
+			ft_throw (data, ERR_NULL_CHECK_FAIL, "cd getcwd", true);
+		}
 		//free(*env_loc);
 		*env_loc = ft_strjoin("PWD=", cwd);
 		free(cwd);
@@ -280,7 +284,18 @@ void	cd(t_data *data, char *path)
 
 void	pwd(t_data *data)
 {
-	printf("%s\n", *get_env_var(data->envp, "PWD") + 4);
+	char	*cwd;
+
+	cwd = (char *)malloc(MAXPATHLEN + 1);
+	if (cwd == NULL)
+		ft_throw (data, ERR_NULL_CHECK_FAIL, "pwd cwd", true);
+	else if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
+	{
+		free(cwd);
+		ft_throw (data, ERR_NULL_CHECK_FAIL, "pwd getcwd", true);
+	}
+	printf("%s\n", cwd);		
+	free(cwd);
 }
 
 void	export(t_data *data, char **args)
