@@ -1,29 +1,32 @@
 CC				=	cc
 
-CFLAGS			=	-I. -Wall -Werror -Wextra -g
+CFLAGS			=	-I. -I/Users/$(USER)/homebrew/opt/readline/include \
+					-Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main tools utils destroy init
+SRC				=	main init destroy utils ft_execute assert \
+					ft_redirect ft_heredocs error builtins \
+					builtins2 signal utils2
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
-LIBFT			=	libft/libft.a
+LIBFT_REPO		=	libft
 
-42LOGIN			=	katchogl
+LIBFT			=	$(LIBFT_REPO)/libft.a
 
-LIBREADLINE		= 	/Users/$(42LOGIN)/homebrew/Cellar/readline/8.2.1/lib
+LIBREADLINE		= 	/Users/$(USER)/homebrew/opt/readline/lib
 
-%.o: %.c $(DEPS)
+%.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 $(LIBFT):
-	git clone https://github.com/AtchogloDev/libft.git
-	make -C libft
+	git clone https://github.com/AtchogloDev/$(LIBFT_REPO).git
+	make -C $(LIBFT_REPO)
 
 $(LIBREADLINE):
 	brew install readline
@@ -32,27 +35,31 @@ $(NAME): $(LIBFT) $(LIBREADLINE) $(OBJ)
 	$(CC) $(CFLAGS) $(LIBFT) -L$(LIBREADLINE) -lreadline $(OBJ) -o $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
-reset: fclean
-	rm -rf libft
-	rm -rf minishell.dsYM
-	rm -f minishell.log
+purge: fclean
+	@rm -rf $(LIBFT_REPO)
+	@rm -rf $(NAME).dsYM
+	@rm -f $(NAME).log
+	@rm -rf .vscode
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
-	fi ; \
+	fi ;
 
-m:
-	./minishell
+m: $(NAME)
+	@./$(NAME)
 
-m-leaks:
+test-leaks: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+
+log-leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all \
-	--log-file=minishell.log ./minishell
+	--log-file=$(NAME).log ./$(NAME)
 
-.PHONY: all clean fclean re reset m m-leaks
+.PHONY: all clean fclean re purge m test-leaks log-leaks

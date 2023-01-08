@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/06 09:10:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:07:32 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_destroy_tab(char **tab)
 static void	ft_destroy_cmds(t_data *data)
 {
 	int	i;
-	
+
 	if (data == NULL || data->cmds == NULL)
 		return ;
 	i = -1;
@@ -39,36 +39,32 @@ static void	ft_destroy_cmds(t_data *data)
 			free (data->cmds[i].pathname);
 		if (data->cmds[i].args != NULL)
 			ft_destroy_tab (data->cmds[i].args);
-		if (data->cmds[i].infiles != NULL)
-			ft_destroy_tab (data->cmds[i].infiles);
-		if (data->cmds[i].heredoc_lims != NULL)
-			ft_destroy_tab (data->cmds[i].heredoc_lims);
-		if (data->cmds[i].outfiles_trc != NULL)
-			ft_destroy_tab (data->cmds[i].outfiles_trc);
-		if (data->cmds[i].outfiles_app != NULL)
-			ft_destroy_tab (data->cmds[i].outfiles_app);
+		if (data->cmds[i].args_redir != NULL)
+			ft_destroy_tab (data->cmds[i].args_redir);
+		if (data->cmds[i].redirs != NULL)
+			free (data->cmds[i].redirs);
 	}
 	free (data->cmds);
 }
 
-void	ft_destroy_execution (t_data *data)
+void	ft_destroy_execution(t_data *data)
 {
 	if (data->line != NULL)
-	{
 		free (data->line);
-		data->line = NULL;
-	}
 	if (data->tab != NULL)
-	{
 		ft_destroy_tab (data->tab);
-		data->tab = NULL;
-	}
 	if (data->cmds != NULL)
-	{
 		ft_destroy_cmds (data);
-		data->cmds = NULL;
-	}
-	data->cmdsc = -1;
+	if (data->pipes != NULL)
+		free (data->pipes);
+	if (data->pids != NULL)
+		free (data->pids);
+	data->line = NULL;
+	data->tab = NULL;
+	data->cmds = NULL;
+	data->pipes = NULL;
+	data->cmdsc = 0;
+	data->pids = NULL;
 }
 
 void	ft_destroy_data(t_data *data)
