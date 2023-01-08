@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 08:47:45 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 09:11:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@ static bool	ft_isvalid(t_data *data)
 			if (ft_isreserved (data->tab[i + 1]))
 				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 						data->tab[i], false));
-			else if (ft_strncmp (data->tab[i], "|", 2) != 0
-					&& ft_strncmp (data->tab[i], ";", 2) != 0
-					&& ft_strncmp (data->tab[i], "<<", 3) != 0
-					&& ft_strchr (data->tab[i + 1], '*') != NULL)
-				return (ft_throw (data, ERR_AMBIGUOUS_REDIRECT,
-						data->tab[i + 1], false));
 		}
 	}
 	return (true);
