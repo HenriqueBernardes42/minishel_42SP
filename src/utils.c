@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 05:34:38 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 06:11:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_push(t_data *data, char ***tab, char *str)
 		ntab[i] = ft_strdup ((*tab)[i]);
 	ntab[i] = ft_strdup (str);
 	ntab[i + 1] = NULL;
-	if (*tab == NULL)
+	if (*tab != NULL)
 		ft_destroy_tab (*tab);
 	*tab = ntab;
 }

@@ -11,20 +11,22 @@ SRC				=	main init destroy utils ft_execute assert \
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
-LIBFT			=	libft/libft.a
+LIBFT_REPO		=	libft
+
+LIBFT			=	$(LIBFT_REPO)/libft.a
 
 42LOGIN			=	katchogl
 
 LIBREADLINE		= 	/Users/$(42LOGIN)/homebrew/Cellar/readline/8.2.1/lib
 
-%.o: %.c $(DEPS)
+%.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 $(LIBFT):
-	git clone https://github.com/AtchogloDev/libft.git
-	make -C libft
+	git clone https://github.com/AtchogloDev/$(LIBFT_REPO).git
+	make -C $(LIBFT_REPO)
 
 $(LIBREADLINE):
 	brew install readline
@@ -41,9 +43,9 @@ fclean: clean
 re: fclean all
 
 purge: fclean
-	@rm -rf libft
-	@rm -rf minishell.dsYM
-	@rm -f minishell.log
+	@rm -rf $(LIBFT_REPO)
+	@rm -rf $(NAME).dsYM
+	@rm -f $(NAME).log
 	@rm -rf .vscode
 	@if [[ -d $(LIBREADLINE) ]] ; \
 	then \
