@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 07:18:36 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:21:01 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,20 @@ static void	ft_child(t_data *data, int i)
 			ft_throw (data, ERR_FAIL, "execve", true);
 		}
 		ft_throw (data, ERR_CMD_NOT_FOUND, data->cmds[i].name, true);
+	}
+}
+
+static void	ft_wait(t_data *data)
+{
+	int	wstatus;
+	int	i;
+
+	i = -1;
+	while (++i < data->cmdsc)
+	{
+		wait (&wstatus);
+		ft_putnbr_fd (wstatus, 2);
+		ft_putstr_fd (" ", 2);
 	}
 }
 
