@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:17:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:30:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ static void	ft_catch(t_data *data, int *i, int j)
 	else if (data->cmds[j].name == NULL)
 	{
 		data->cmds[j].name = ft_strdup (data->tab[*i]);
-		if ()
-		
 		data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
 		ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
 	}
 	else
+	{
 		ft_push (data, &data->cmds[j].args, data->tab[*i]);
+		data->cmds[j].argsc++;
+	}
 }
 
 static void	ft_parse(t_data *data)

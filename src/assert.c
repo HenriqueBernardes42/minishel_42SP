@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 11:02:49 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:08:05 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 	}
 }
 
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
+void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss) // check if executable
 {
 	int		i;
 	t_args	*args;

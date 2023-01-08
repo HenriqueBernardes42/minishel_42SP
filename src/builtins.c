@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /*Does not expand environment variables to their values!*/
-void	echo(char **args)
+void	ft_echo(char **args)
 {
 	int	i;
 
@@ -29,9 +29,10 @@ void	echo(char **args)
 	}
 	if (*args == NULL || ft_strncmp ("-n", *args, 3) != 0)
 		printf("\n");
+	exit (EXIT_SUCCESS);
 }
 
-void	pwd(t_data *data)
+void	ft_pwd(t_data *data) // ok
 {
 	char	*cwd;
 
@@ -45,6 +46,7 @@ void	pwd(t_data *data)
 	}
 	printf("%s\n", cwd);
 	free(cwd);
+	exit (EXIT_SUCCESS);
 }
 
 void ft_exit(t_data *data)
@@ -53,11 +55,12 @@ void ft_exit(t_data *data)
 	exit (EXIT_SUCCESS);
 }
 
-void	env(t_data *data)
+void	ft_env(t_data *data)
 {
 	int	i;
 
 	i = -1;
 	while (data->envp[++i] != NULL)
 		printf("%s\n", data->envp[i]);
+	exit (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:05:26 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:35:37 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <string.h>
 # include <errno.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
@@ -75,6 +76,7 @@ typedef struct s_cmd
 	char	*name;
 	char	*pathname;
 	char	**args;
+	int		argsc;
 	char	**args_redir;
 	int		*redirs;
 	int		redirsc;
@@ -110,4 +112,13 @@ void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
 bool	ft_isreserved(char *str);
 void	ft_remove(t_data *data, char ***tab, char *str);
+bool	ft_isbuiltin(char *str);
+void	ft_builtin(t_data *data, int i, char *builtin);
+void	ft_echo(char **args);
+void	ft_cd(t_data *data, char *path);
+void	ft_pwd(t_data *data);
+void	ft_unset(t_data *data, char **args);
+void 	ft_exit(t_data *data);
+void	ft_env(t_data *data);
+void	ft_export(t_data *data, char **args);
 #endif
