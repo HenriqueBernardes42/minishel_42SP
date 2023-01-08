@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 02:41:33 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 02:45:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	ft_assert_valid_files(t_data *data, int i)
 	j = -1;
 	while (++j < data->cmds[i].redirsc)
 	{
-		if (data->cmds[i].redirs[j] == REDIR_INFILE 
+		if (data->cmds[i].redirs[j] == REDIR_INFILE
 			|| data->cmds[i].redirs[j] == REDIR_OUTFILE_TRC
 			|| data->cmds[i].redirs[j] == REDIR_OUTFILE_APP)
 		{

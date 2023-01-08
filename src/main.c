@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 20:40:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 04:24:50 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	ft_parse(t_data *data)
 
 static void	ft_expand(t_data *data)
 {
-	ft_assert_not_null (data, data);
+	ft_assert_not_dir (data, data);
 }
 
 int	main(int argc, char **envp)
