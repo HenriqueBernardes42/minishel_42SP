@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 07:21:01 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:12:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,14 @@ static void	ft_close(t_data *data, int infd, int outfd)
 			close (data->pipes[i]);
 }
 
-static void	ft_child(t_data *data, int i)
+static void	ft_child(t_data *data, int i, t_fd infd, t_fd outfd)
 {
-	t_fd	infd;
-	t_fd	outfd;
-	t_pid	pid;
-
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
-	infd = STDIN_FILENO;
-	outfd = STDOUT_FILENO;
-	pid = fork ();
-	if (pid == -1)
+	data->pids[i] = fork ();
+	if (data->pids[i] == -1)
 		ft_throw (data, ERR_FAIL, "fork", true);
-	if (pid == 0)
+	if (data->pids[i] == 0)
 	{
 		ft_pipe (data, i, &infd, STREAM_INPUT);
 		ft_redirect (data, i, &infd, &outfd);
@@ -73,27 +67,10 @@ static void	ft_child(t_data *data, int i)
 	}
 }
 
-static void	ft_wait(t_data *data)
-{
-	int	wstatus;
-	int	i;
-
-	i = -1;
-	while (++i < data->cmdsc)
-	{
-		wait (&wstatus);
-		ft_putnbr_fd (wstatus, 2);
-		ft_putstr_fd (" ", 2);
-	}
-}
-
-void	ft_execute(t_data *data)
+static void	ft_prepare(t_data *data)
 {
 	int	i;
-
-	ft_assert_not_null (data, data);
-	if (data->cmds == NULL)
-		ft_throw (data, ERR_NULL_PTR, "ft_execute data->cmds", true);
+	
 	i = -1;
 	if (data->cmdsc > 1)
 	{
@@ -104,11 +81,26 @@ void	ft_execute(t_data *data)
 			if (pipe (data->pipes + (2 * i)) == -1)
 				ft_throw (data, ERR_FAIL, "pipe", true);
 	}
+	data->pids = (pid_t *) malloc (data->cmdsc * sizeof (pid_t));
+	ft_assert_not_null (data, data->pids);
+}
+
+void	ft_execute(t_data *data)
+{
+	int	wstatus;
+	int	i;
+
+	ft_assert_not_null (data, data);
+	if (data->cmds == NULL)
+		ft_throw (data, ERR_NULL_PTR, "ft_execute data->cmds", true);
+	ft_prepare (data);
 	i = -1;
 	while (++i < data->cmdsc)
-		ft_child (data, i);
+		ft_child (data, i, STDIN_FILENO, STDOUT_FILENO);
 	i = -1;
 	while (++i < (data->cmdsc - 1) * 2)
 		close (data->pipes[i]);
-	ft_wait (data);
+	i = -1;
+	while (++i < data->cmdsc)
+		waitpid (data->pids[i], &wstatus, WUNTRACED);
 }

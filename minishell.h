@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 07:17:31 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:16:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ typedef enum e_errno {
 	ERR_FAIL,
 	ERR_ENOENT,
 	ERR_EACCES,
-	ERR_EISDIR
+	ERR_EISDIR,
+	ERR_AMBIGUOUS_REDIRECT
 }	t_errno;
 typedef int	t_fd;
-typedef int	t_pid;
+typedef int	t_wstatus;
 typedef struct s_args
 {
 	char	**tab;
@@ -85,13 +86,14 @@ typedef struct s_cmd
 }	t_cmd;
 typedef struct s_data
 {
-	char	**envp;
-	char	**path;
-	char	*line;
-	char	**tab;
-	t_cmd	*cmds;
-	int		cmdsc;
-	t_fd	*pipes;
+	char		**envp;
+	char		**path;
+	char		*line;
+	char		**tab;
+	t_cmd		*cmds;
+	int			cmdsc;
+	t_fd		*pipes;
+	pid_t		*pids;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);

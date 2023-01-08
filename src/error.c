@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 04:29:30 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:28:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	ft_error(t_errno err)
 		printf ("%s", strerror (EACCES));
 	else if (err == ERR_EISDIR)
 		printf ("%s", strerror (EISDIR));
+	else if (err == ERR_AMBIGUOUS_REDIRECT)
+		printf ("ambiguous redirect");
 	else if (err != 0)
 		printf ("an unexpected error occurred");
 }
@@ -39,17 +41,17 @@ static void	ft_error(t_errno err)
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
 	printf ("minishell: ");
-	if (info != NULL && (err == ERR_CMD_NOT_FOUND
-			|| err == ERR_EACCES || err == ERR_ENOENT))
+	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES 
+		|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
 		printf ("%s: ", info);
 	else if (info != NULL && err == ERR_FAIL)
 		printf ("%s ", info);
 	ft_error (err);
 	if (info != NULL && err == ERR_UNEXPECTED_TOKEN)
 		printf (" `%s'", info);
-	if (info != NULL && err != ERR_UNEXPECTED_TOKEN
-		&& err != ERR_ENOENT && err != ERR_CMD_NOT_FOUND
-		&& err != ERR_EACCES && err != ERR_FAIL)
+	if (info != NULL && err != ERR_UNEXPECTED_TOKEN && err != ERR_ENOENT
+		&& err != ERR_CMD_NOT_FOUND && err != ERR_EACCES && err != ERR_FAIL 
+		&& err != ERR_AMBIGUOUS_REDIRECT)
 		printf (": `%s'", info);
 	printf ("\n");
 	if (exitp)

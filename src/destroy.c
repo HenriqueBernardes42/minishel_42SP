@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 16:22:36 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:07:32 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,21 @@ static void	ft_destroy_cmds(t_data *data)
 void	ft_destroy_execution(t_data *data)
 {
 	if (data->line != NULL)
-	{
 		free (data->line);
-		data->line = NULL;
-	}
 	if (data->tab != NULL)
-	{
 		ft_destroy_tab (data->tab);
-		data->tab = NULL;
-	}
 	if (data->cmds != NULL)
-	{
 		ft_destroy_cmds (data);
-		data->cmds = NULL;
-	}
 	if (data->pipes != NULL)
-	{
 		free (data->pipes);
-		data->pipes = NULL;
-	}
+	if (data->pids != NULL)
+		free (data->pids);
+	data->line = NULL;
+	data->tab = NULL;
+	data->cmds = NULL;
+	data->pipes = NULL;
 	data->cmdsc = 0;
+	data->pids = NULL;
 }
 
 void	ft_destroy_data(t_data *data)
