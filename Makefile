@@ -49,14 +49,15 @@ purge: fclean
 	then \
 		brew uninstall readline ; \
 	fi ;
-m:
-	@./minishell
 
-test-leaks:
-	valgrind --leak-check=full --show-leak-kinds=all ./minishell
+m: $(NAME)
+	@./$(NAME)
 
-log-leaks:
+test-leaks: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+
+log-leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all \
-	--log-file=minishell.log ./minishell
+	--log-file=$(NAME).log ./$(NAME)
 
-.PHONY: all clean fclean re destroy m m-leaks
+.PHONY: all clean fclean re purge m test-leaks log-leaks
