@@ -50,9 +50,12 @@ purge: fclean
 		brew uninstall readline ; \
 	fi ;
 m:
-	./minishell
+	@./minishell
 
 test-leaks:
+	valgrind --leak-check=full --show-leak-kinds=all ./minishell
+
+log-leaks:
 	valgrind --leak-check=full --show-leak-kinds=all \
 	--log-file=minishell.log ./minishell
 

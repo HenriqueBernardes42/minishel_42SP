@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 17:59:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 04:29:30 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_error(t_errno err)
 	else if (err == ERR_FAIL)
 		printf ("fail");
 	else if (err == ERR_UNEXPECTED_TOKEN)
-		printf ("unexpected token near");
+		printf ("syntax error near unexpected token");
 	else if (err == ERR_INVALID_CMDSC)
 		printf ("invalid count of commands");
 	else if (err == ERR_CMD_NOT_FOUND)

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 04:24:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 05:37:08 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 static bool	ft_isvalid(t_data *data)
 {
-	int	i;
+	int		i;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
+	if (ft_strncmp (data->tab[0], "|", 2) == 0
+		|| ft_strncmp (data->tab[0], ";", 2) == 0)
+		return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+				data->tab[0], false));
 	i = -1;
 	while (data->tab[++i] != NULL)
 	{
-		if ((i == 0 && ft_strncmp (data->tab[i], "|", 2) == 0)
-			|| (ft_strncmp (data->tab[i], "|", 2) == 0
-				&& ft_strncmp (data->tab[i + 1], "|", 2) == 0))
+		if (ft_isreservedkeyw (data->tab[i])
+			&& ft_isreservedkeyw (data->tab[i + 1]))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
 	}
@@ -84,14 +87,14 @@ static void	ft_parse(t_data *data)
 
 static void	ft_expand(t_data *data)
 {
-	ft_assert_not_dir (data, data);
+	ft_assert_not_null (data, data);
 }
 
-int	main(int argc, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	if (argc != 1)
+	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
 	while (true)

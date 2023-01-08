@@ -6,11 +6,20 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 04:06:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 05:34:38 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_isreservedkeyw(char *str)
+{
+	if (ft_strncmp (str, "|", 2) == 0 || ft_strncmp (str, ";", 2) == 0
+		|| ft_strncmp (str, ">", 2) == 0 || ft_strncmp (str, ">>", 3) == 0
+		|| ft_strncmp (str, "<", 2) == 0 || ft_strncmp (str, "<<", 3) == 0)
+		return (true);
+	return (false);
+}
 
 void	ft_addint(t_data *data, int **arr, int len, int n)
 {
@@ -62,6 +71,19 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	*tab = ntab;
 }
 
+t_redir	ft_getredir(char *str)
+{
+	if (ft_strncmp (str, "<", 2) == 0)
+		return (REDIR_INFILE);
+	else if (ft_strncmp (str, ">", 2) == 0)
+		return (REDIR_OUTFILE_TRC);
+	else if (ft_strncmp (str, "<<", 3) == 0)
+		return (REDIR_HEREDOC);
+	else if (ft_strncmp (str, ">>", 3) == 0)
+		return (REDIR_OUTFILE_APP);
+	return (REDIR_UNDEF);
+}
+
 char	*ft_pathname(t_data *data, char *name)
 {
 	int		i;
@@ -85,17 +107,4 @@ char	*ft_pathname(t_data *data, char *name)
 		free (pathname);
 	}
 	return (NULL);
-}
-
-t_redir	ft_getredir(char *str)
-{
-	if (ft_strncmp (str, "<", 2) == 0)
-		return (REDIR_INFILE);
-	else if (ft_strncmp (str, ">", 2) == 0)
-		return (REDIR_OUTFILE_TRC);
-	else if (ft_strncmp (str, "<<", 3) == 0)
-		return (REDIR_HEREDOC);
-	else if (ft_strncmp (str, ">>", 3) == 0)
-		return (REDIR_OUTFILE_APP);
-	return (REDIR_UNDEF);
 }
