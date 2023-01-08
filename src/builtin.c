@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 #include "../libft/libft.h"
 #include <string.h>
+#include <limits.h>
 
 typedef enum e_errno {
 	ERR_UNDEF,
@@ -257,28 +258,23 @@ void	echo(char **args)
 		printf("\n");
 }
 
-int	directory_exists(const char *path)
+void	cd(t_data *data, char *path)
 {
-    struct stat	stats;
-
-    stat(path, &stats);
-    if (S_ISDIR(stats.st_mode))
-        return (1);
-    return (0);
-}
-
-void	cd(char **envp, char *path)
-{
-	char	*pwd;
 	char	**env_loc;
+	char	*cwd;
 
-	env_loc = get_env_var(envp, "PWD");
-	if (ft_strchr(*env_loc, '.') == NULL)
+	env_loc = get_env_var(data->envp, "PWD");
+	if (chdir(path))
+		printf("bash: cd: %s: No such file or directory\n", path);
+	else
 	{
-		if (directory_exists(path))
-			*env_loc = ft_strjoin("PWD=", path);
-		else
-			printf("cd: no such file or directory: %s\n", path);
+		cwd = (char *)malloc(PATH_MAX);
+		if (cwd == NULL)
+			ft_throw (data, ERR_NULL_CHECK_FAIL, "cd cwd", true);
+		getcwd(cwd, PATH_MAX);
+		//free(*env_loc);
+		*env_loc = ft_strjoin("PWD=", cwd);
+		free(cwd);
 	}
 }
 
@@ -329,10 +325,7 @@ void	export(t_data *data, char **args)
 void	unset(t_data *data, char **args)
 {
 	while (*args != NULL)
-	{
 		ft_pull(data, &data->envp, *get_env_var(data->envp, *args++));
-		//Also need to be pulled from from 'export env' list
-	}
 }
 
 void	env(t_data *data)
@@ -355,7 +348,6 @@ void ft_exit(t_data *data)
 // {
 // 	char	*out;
 // 	int		size;
-
 // 	size = ft_strlen(get_env_var(envp, "USER", 1));
 // 	size += ft_strlen(get_env_var(envp, "NAME", 1));
 // 	size += ft_strlen(get_env_var(envp, "PWD", 1)) + 4;
@@ -398,7 +390,7 @@ int main(int argc, char **argv, char **envp)
 	else if (*argv != NULL && !ft_strncmp ("5", *argv, 2))
 	{
 		printf("%s\n", *get_env_var(envp, "PWD"));
-		cd(envp, argv[1]);
+		cd(data, argv[1]);
 		printf("%s\n", *get_env_var(envp, "PWD"));
 	}
 	//export test
@@ -408,13 +400,5 @@ int main(int argc, char **argv, char **envp)
 		export(data, argv + 1);
 		env(data);
 	}
-	else if (*argv != NULL && !ft_strncmp ("ft", *argv, 3))
-	{
-		getcwd(buf, 200);
-		printf("%i %s %i \n%s\n", ttyslot(), ttyname(0), isatty(0), buf);
-		chdir("../");
-		getcwd(buf, 200);
-		printf("%s\n", buf);
-	}
-	
+	ft_destroy_data(data);
 }
