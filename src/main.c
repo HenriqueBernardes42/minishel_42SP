@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 05:37:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:17:23 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static bool	ft_isvalid(t_data *data)
 	i = -1;
 	while (data->tab[++i] != NULL)
 	{
-		if (ft_isreservedkeyw (data->tab[i])
-			&& ft_isreservedkeyw (data->tab[i + 1]))
+		if (ft_isreserved (data->tab[i])
+			&& ft_isreserved (data->tab[i + 1]))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
 	}

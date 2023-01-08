@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 04:59:16 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:18:36 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,5 @@ void	ft_execute(t_data *data)
 	i = -1;
 	while (++i < (data->cmdsc - 1) * 2)
 		close (data->pipes[i]);
-	i = -1;
-	while (++i < data->cmdsc)
-		wait (NULL);
+	ft_wait (data);
 }

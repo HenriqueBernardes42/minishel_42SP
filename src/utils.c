@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 06:11:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 06:26:43 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isreservedkeyw(char *str)
+bool	ft_isreserved(char *str)
 {
 	if (ft_strncmp (str, "|", 2) == 0 || ft_strncmp (str, ";", 2) == 0
 		|| ft_strncmp (str, ">", 2) == 0 || ft_strncmp (str, ">>", 3) == 0
