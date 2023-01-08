@@ -6,11 +6,21 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 09:11:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 11:32:11 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// echo hello world |
+// look for bash syntax
+// bool	ft_isreserved(char *str)
+// {
+// 	if (ft_strncmp (str, "|", 2) == 0 || ft_strncmp (str, ";", 2) == 0
+// 		|| ft_strncmp (str, ">", 2) == 0 || ft_strncmp (str, ">>", 3) == 0
+// 		|| ft_strncmp (str, "<", 2) == 0 || ft_strncmp (str, "<<", 3) == 0)
+// 		return (true);
+// 	return (false);
 
 static bool	ft_isvalid(t_data *data)
 {
@@ -51,6 +61,7 @@ static void	ft_catch(t_data *data, int *i, int j)
 	else if (data->cmds[j].name == NULL)
 	{
 		data->cmds[j].name = ft_strdup (data->tab[*i]);
+		
 		data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
 		ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
 	}

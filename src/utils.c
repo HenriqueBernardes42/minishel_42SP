@@ -6,20 +6,40 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 08:22:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 11:32:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isreserved(char *str)
+void	ft_pull(t_data *data, char ***tab, char *str)
 {
-	if (ft_strncmp (str, "|", 2) == 0 || ft_strncmp (str, ";", 2) == 0
-		|| ft_strncmp (str, ">", 2) == 0 || ft_strncmp (str, ">>", 3) == 0
-		|| ft_strncmp (str, "<", 2) == 0 || ft_strncmp (str, "<<", 3) == 0)
-		return (true);
-	return (false);
+	char	**ntab;
+	int		size_tab;
+	int		i;
+
+	if (str == NULL)
+		return ;
+	size_tab = 0;
+	i = -1;
+	if (*tab != NULL)
+		while ((*tab)[++i] != NULL)
+			if (ft_strncmp(str, (*tab)[i], ft_strlen(str) + 1))
+				size_tab++;
+	ntab = (char **)malloc((size_tab + 1) * sizeof (char *));
+	if (ntab == NULL)
+		ft_throw(data, ERR_FAIL, "malloc", true);
+	ntab[size_tab] = NULL;
+	while (--size_tab >= 0)
+	{
+		if (!ft_strncmp(str, (*tab)[--i], ft_strlen(str) + 1))
+			i--;
+		ntab[size_tab] = ft_strdup ((*tab)[i]);
+	}
+	ft_destroy_tab(*tab);
+	*tab = ntab;
 }
+
 
 void	ft_addint(t_data *data, int **arr, int len, int n)
 {

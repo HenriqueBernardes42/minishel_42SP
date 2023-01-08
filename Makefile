@@ -7,7 +7,8 @@ CDEPS			=	minishell.h
 NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
-					ft_redirect ft_heredocs error
+					ft_redirect ft_heredocs error builtins \
+					bultins2 signal
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -15,9 +16,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-42LOGIN			=	katchogl
-
-LIBREADLINE		= 	/Users/$(42LOGIN)/homebrew/Cellar/readline/8.2.1/lib
+LIBREADLINE		= 	/Users/$(USER)/homebrew/Cellar/readline/8.2.1/lib
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@

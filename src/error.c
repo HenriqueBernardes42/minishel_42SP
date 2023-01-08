@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 08:28:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 11:05:08 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_error(t_errno err)
 	else if (err != 0)
 		printf ("an unexpected error occurred");
 }
-
+ 
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
 	printf ("minishell: ");

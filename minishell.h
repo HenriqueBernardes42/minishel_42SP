@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 08:16:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 11:42:27 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,9 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/param.h>
 # define BUFFER_SIZE 42
 
-typedef enum e_quottn_marks
-{
-	QUOTTN_MARKS_UNDEF = -1,
-	QUOTTN_MARKS_SINGLE,
-	QUOTTN_MARKS_DOUBLE,
-}	t_quottn_marks;
 typedef enum e_stream
 {
 	STREAM_INPUT,
