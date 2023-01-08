@@ -1,6 +1,6 @@
 CC				=	cc
 
-CFLAGS			=	-I. -I/Users/$(USER)/homebrew/opt/readline/include \
+CFLAGS			=	-I. -I/Users/$(USER)/.brew/opt/readline/include \
 					-Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
@@ -17,7 +17,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-LIBREADLINE		= 	/Users/$(USER)/homebrew/opt/readline/lib
+LIBREADLINE		= 	/Users/$(USER)/.brew/opt/readline/lib
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@

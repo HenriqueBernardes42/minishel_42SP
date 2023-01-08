@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:05:26 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:07:50 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
+# include <stdlib.h>
 # define BUFFER_SIZE 42
 
 typedef enum e_stream
@@ -110,4 +111,6 @@ void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
 bool	ft_isreserved(char *str);
 void	ft_remove(t_data *data, char ***tab, char *str);
+
+void	init_signal_handler(void);
 #endif

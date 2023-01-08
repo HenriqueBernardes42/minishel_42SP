@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:22:23 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 12:56:45 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isbuiltin(char *str)
-{
-	if (ft_strncmp (str, "echo"))
-}

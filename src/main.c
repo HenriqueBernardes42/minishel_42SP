@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:17:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:11:30 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static void	ft_catch(t_data *data, int *i, int j)
 	else if (data->cmds[j].name == NULL)
 	{
 		data->cmds[j].name = ft_strdup (data->tab[*i]);
-		if ()
-		
 		data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
 		ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
 	}
@@ -111,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
+	init_signal_handler();
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
@@ -124,6 +123,7 @@ int	main(int argc, char **argv, char **envp)
 				ft_heredocs (data);
 				ft_execute (data);
 			}
+			add_history(data->line);
 		}
 		ft_destroy_execution (data);
 	}
