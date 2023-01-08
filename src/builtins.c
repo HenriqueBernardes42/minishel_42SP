@@ -48,7 +48,7 @@ void	ft_pwd(t_data *data) // ok
 	exit (EXIT_SUCCESS);
 }
 
-void ft_exit(t_data *data) // does not work
+void ft_exit(t_data *data) // try in parent
 {
 	ft_destroy_data(data);
 	exit (EXIT_SUCCESS);
