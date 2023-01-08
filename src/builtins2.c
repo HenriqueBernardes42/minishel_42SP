@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 13:58:49 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:26:36 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static char **get_env_var(char **envp, char *var)
 	return (envp + i);
 }
 
-void	ft_unset(t_data *data, char **args)
+void	ft_unset(t_data *data, char **args) // freeing ptr not allocated
 {
 	while (*args != NULL)
 		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
 	exit (EXIT_SUCCESS);
 }
 
-void	ft_export(t_data *data, char **args)
+void	ft_export(t_data *data, char **args) // freeing ptr not allocated
 {
 	char	**var;
 	char	*env_var;
@@ -71,7 +71,7 @@ void	ft_export(t_data *data, char **args)
 	exit (EXIT_SUCCESS);
 }
 
-void	ft_cd(t_data *data, char *path)
+void	ft_cd(t_data *data, char *path) // not working 
 {
 	char	**env_loc;
 	char	*cwd;

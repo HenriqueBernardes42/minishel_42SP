@@ -12,12 +12,11 @@
 
 #include "minishell.h"
 
-/*Does not expand environment variables to their values!*/
-void	ft_echo(char **args)
+void	ft_echo(char **args) // ok
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) || \
 		!ft_strncmp ("-", *args, 2)))
 		i++;
@@ -49,13 +48,13 @@ void	ft_pwd(t_data *data) // ok
 	exit (EXIT_SUCCESS);
 }
 
-void ft_exit(t_data *data)
+void ft_exit(t_data *data) // does not work
 {
 	ft_destroy_data(data);
 	exit (EXIT_SUCCESS);
 }
 
-void	ft_env(t_data *data)
+void	ft_env(t_data *data) // ok
 {
 	int	i;
 
