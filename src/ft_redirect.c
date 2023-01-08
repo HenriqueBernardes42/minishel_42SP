@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 20:14:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 02:41:33 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,29 @@ static void	ft_prepare(t_data *data, t_args2 *args2)
 	ft_assert_not_null (data, args2);
 	args2->nfd = -1;
 	args2->iofd = args2->infd;
-	args2->permss = R_OK;
 	if (args2->redir != REDIR_INFILE && args2->redir != REDIR_HEREDOC)
-	{
 		args2->iofd = args2->outfd;
-		args2->permss = W_OK;
-	}
-	if (args2->redir == REDIR_INFILE || args2->redir == REDIR_OUTFILE_TRC
-		|| args2->redir == REDIR_OUTFILE_TRC)
+}
+
+static void	ft_assert_valid_files(t_data *data, int i)
+{
+	int	permss;
+	int	j;
+
+	j = -1;
+	while (++j < data->cmds[i].redirsc)
 	{
-		ft_assert_not_dir (data, data->cmds[args2->i].args_redir[args2->j]);
-		ft_assert_valid_permissions (data,
-			data->cmds[args2->i].args_redir[args2->j], args2->permss);
+		if (data->cmds[i].redirs[j] == REDIR_INFILE 
+			|| data->cmds[i].redirs[j] == REDIR_OUTFILE_TRC
+			|| data->cmds[i].redirs[j] == REDIR_OUTFILE_APP)
+		{
+			permss = R_OK;
+			if (data->cmds[i].redirs[j] != REDIR_INFILE)
+				permss = W_OK;
+			ft_assert_not_dir (data, data->cmds[i].args_redir[j]);
+			ft_assert_valid_permissions (data,
+				data->cmds[i].args_redir[j], permss);
+		}
 	}
 }
 
@@ -59,6 +70,7 @@ void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd)
 		return ;
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds[i].redirs);
+	ft_assert_valid_files (data, i);
 	args2 = ft_initargs2 (data, i, infd, outfd);
 	while (--args2->j >= 0)
 	{

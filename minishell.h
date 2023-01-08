@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 20:58:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 02:39:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_args2
 	t_fd	*iofd;
 	t_fd	nfd;
 	int		j;
-	int		permss;
 	t_fd	*infd;
 	t_fd	*outfd;
 }	t_args2;
