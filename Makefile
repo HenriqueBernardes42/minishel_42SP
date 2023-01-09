@@ -1,6 +1,6 @@
 CC				=	cc
 
-CFLAGS			=	-I. -I/Users/$(USER)/homebrew/opt/readline/include \
+CFLAGS			=	-I. -I$(READLINE)/include \
 					-Wall -Werror -Wextra -g
 
 CDEPS			=	minishell.h
@@ -17,7 +17,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-LIBREADLINE		= 	/Users/$(USER)/homebrew/opt/readline/lib
+READLINE		=	/Users/$(USER)/homebrew/opt/readline
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -28,11 +28,11 @@ $(LIBFT):
 	git clone https://github.com/AtchogloDev/$(LIBFT_REPO).git
 	make -C $(LIBFT_REPO)
 
-$(LIBREADLINE):
+$(READLINE)/lib:
 	brew install readline
 
-$(NAME): $(LIBFT) $(LIBREADLINE) $(OBJ)
-	$(CC) $(CFLAGS) $(LIBFT) -L$(LIBREADLINE) -lreadline $(OBJ) -o $(NAME)
+$(NAME): $(LIBFT) $(READLINE)/lib $(OBJ)
+	$(CC) $(CFLAGS) $(LIBFT) -L$(READLINE)/lib -lreadline $(OBJ) -o $(NAME)
 
 clean:
 	@rm -f $(OBJ)
@@ -47,7 +47,7 @@ purge: fclean
 	@rm -rf $(NAME).dsYM
 	@rm -f $(NAME).log
 	@rm -rf .vscode
-	@if [[ -d $(LIBREADLINE) ]] ; \
+	@if [[ -d $(READLINE) ]] ; \
 	then \
 		brew uninstall readline ; \
 	fi ;
