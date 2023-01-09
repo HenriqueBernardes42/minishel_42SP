@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 10:30:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:15:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,22 @@ static bool	ft_isvalid(t_data *data)
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
-	if (ft_strncmp (data->tab[0], "|", 2) == 0
-		|| ft_strncmp (data->tab[0], ";", 2) == 0)
+	if (ft_istype (data->tab[0], T_PIPE)
+		|| ft_istype (data->tab[0], T_CMD_SEP))
 		return (ft_throw (data, ERR_UNEXPECTED_TOKEN, data->tab[0], false));
 	i = -1;
 	while (data->tab[++i] != NULL)
 	{
-		if (ft_isreserved (data->tab[i]))
-		{
-			if (ft_isreserved (data->tab[i + 1]))
-				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-						data->tab[i], false));
-		}
+		if ((ft_istype (data->tab[i], T_SPECIAL)
+			&& ft_istype (data->tab[i + 1], T_SPECIAL))
+			|| (ft_istype (data->tab[i], T_CMD_SEP) &&
+			data->tab[i + 1] != NULL))
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i + 1], false));
+		else if ((ft_istype (data->tab[i], T_REDIR) || ft_istype 
+			(data->tab[i], T_PIPE)) && data->tab[i + 1] == NULL)
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					"(null)", false));
 	}
 	return (true);
 }
@@ -90,7 +94,8 @@ static void	ft_parse(t_data *data)
 	{
 		while (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
 		{
-			ft_catch (data, &i, j);
+			if (!ft_istype (data->tab[i], T_CMD_SEP))
+				ft_catch (data, &i, j);
 			i++;
 		}
 		if (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) == 0)
@@ -130,3 +135,9 @@ int	main(int argc, char **argv, char **envp)
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
 }
+
+
+// test pipes & redirections
+// test syntax errors
+// test history
+// do bonus

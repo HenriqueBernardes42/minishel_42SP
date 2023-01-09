@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 13:35:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:11:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ typedef enum e_redir
 	REDIR_OUTFILE_TRC,
 	REDIR_OUTFILE_APP,
 }	t_redir;
+typedef enum e_type
+{
+	T_REDIR = 4,
+	T_CMD_SEP,
+	T_PIPE,
+	T_SPECIAL
+}	t_type;
 typedef enum e_errno {
 	ERR_DEFAULT = 1,
 	ERR_NULL_PTR,
@@ -110,7 +117,6 @@ void	ft_destroy_tab(char **tab);
 void	ft_addint(t_data *data, int **arr, int len, int i);
 void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
-bool	ft_isreserved(char *str);
 void	ft_remove(t_data *data, char ***tab, char *str);
 bool	ft_isbuiltin(char *str);
 void	ft_builtin(t_data *data, int i, char *builtin);
@@ -121,4 +127,5 @@ void	ft_unset(t_data *data, char **args);
 void 	ft_exit(t_data *data);
 void	ft_env(t_data *data);
 void	ft_export(t_data *data, char **args);
+bool	ft_istype(char *str, t_type type);
 #endif
