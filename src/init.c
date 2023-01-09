@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 13:30:01 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:53:54 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,22 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 t_data	*ft_initdata(char **envp)
 {
 	t_data	*data;
+	int		i;
 
 	data = (t_data *) malloc (sizeof (t_data));
 	ft_assert_not_null (data, data);
-	data->envp = envp;
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	data->envp = (char **)malloc((i + 1) * sizeof(char *));
+	ft_assert_not_null (data, data->envp);
+	data->envp[i] = NULL;
+	while (--i >= 0)
+	{
+		data->envp[i] = ft_strdup(envp[i]);
+		if (data->envp[i] == NULL)
+			ft_throw (data, ERR_NULL_PTR, "init envp copy", true);
+	}
 	data->path = ft_split (getenv ("PATH"), ':');
 	data->line = NULL;
 	data->tab = NULL;

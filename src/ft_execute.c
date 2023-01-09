@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 14:11:44 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:15:44 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,29 @@ static void	ft_child(t_data *data, int i, t_fd infd, t_fd outfd)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
-	data->pids[i] = fork ();
-	if (data->pids[i] == -1)
-		ft_throw (data, ERR_FAIL, "fork", true);
-	if (data->pids[i] == 0)
+	if (ft_isbuiltin (data->cmds[i].name) == 2)
+		ft_builtin (data, i, data->cmds[i].name);
+	else
 	{
-		ft_pipe (data, i, &infd, STREAM_INPUT);
-		ft_redirect (data, i, &infd, &outfd);
-		ft_pipe (data, i, &outfd, STREAM_OUTPUT);
-		ft_close (data, infd, outfd);
-		if (ft_isbuiltin (data->cmds[i].name))
-			ft_builtin (data, i, data->cmds[i].name);
-		else if (data->cmds[i].pathname != NULL)
+		data->pids[i] = fork();
+		if (data->pids[i] == -1)
+			ft_throw(data, ERR_FAIL, "fork", true);
+		if (data->pids[i] == 0)
 		{
-			execve (data->cmds[i].pathname,
-				data->cmds[i].args, data->envp);
-			ft_throw (data, ERR_FAIL, "execve", true);
+			ft_pipe(data, i, &infd, STREAM_INPUT);
+			ft_redirect(data, i, &infd, &outfd);
+			ft_pipe(data, i, &outfd, STREAM_OUTPUT);
+			ft_close(data, infd, outfd);
+			if (ft_isbuiltin (data->cmds[i].name) == 1)
+				ft_builtin (data, i, data->cmds[i].name);
+			else if (data->cmds[i].pathname != NULL)
+			{
+				execve(data->cmds[i].pathname,
+					   data->cmds[i].args, data->envp);
+				ft_throw(data, ERR_FAIL, "execve", true);
+			}
+			ft_throw(data, ERR_CMD_NOT_FOUND, data->cmds[i].name, true);
 		}
-		ft_throw (data, ERR_CMD_NOT_FOUND, data->cmds[i].name, true);
 	}
 }
 

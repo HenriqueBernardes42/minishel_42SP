@@ -17,8 +17,8 @@ void	ft_echo(char **args) // ok
 	int	i;
 
 	i = 1;
-	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) || \
-		!ft_strncmp ("-", *args, 2)))
+	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) 
+		|| !ft_strncmp ("-", *args, 2)))
 		i++;
 	while (args[i] != NULL)
 	{
@@ -71,7 +71,7 @@ static int valid_number(char *str)
 void ft_exit(t_data *data, char **args)
 {
 	printf("exit\n");
-	if (*args == NULL)
+	if (args == NULL)
 	{
 		ft_destroy_data(data);
 		exit (EXIT_SUCCESS);
@@ -88,8 +88,9 @@ void ft_exit(t_data *data, char **args)
 			printf("bash: exit: too many arguments\n");
 		else
 		{
+			printf("custom '%s' '%i'\n", *args, ft_atoi(*args));
 			ft_destroy_data(data);
-			exit((unsigned char)ft_atoi(*args));
+			exit(ft_atoi(*args));
 		}
 	}
 }

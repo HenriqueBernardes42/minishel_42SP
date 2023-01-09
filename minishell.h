@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 16:18:56 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:59:35 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	pid_t		*pids;
+	int			foreground_pipe;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -120,7 +121,7 @@ void	ft_addint(t_data *data, int **arr, int len, int i);
 void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
 void	ft_remove(t_data *data, char ***tab, char *str);
-bool	ft_isbuiltin(char *str);
+int		ft_isbuiltin(char *str);
 void	ft_builtin(t_data *data, int i, char *builtin);
 void	ft_echo(char **args);
 void	ft_cd(t_data *data, char *path);

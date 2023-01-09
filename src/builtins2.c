@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 14:49:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:26:06 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ static char **get_env_var(char **envp, char *var)
 
 void	ft_unset(t_data *data, char **args) // parent process, ptr freed not alloc
 {
-	while (*args != NULL)
+	while (args != NULL && *args != NULL)
 		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
-	exit (EXIT_SUCCESS);
 }
 
 void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
@@ -61,37 +60,34 @@ void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
 				ft_push(data, &data->envp, *args);
 			ft_destroy_tab(var);
 		}
-		else
-		{
-			//if (*get_env_var(data->envp, var[0]) != NULL)
-				//Add env variable to 'export env' list
-		}
 		args++;
 	}
-	exit (EXIT_SUCCESS);
 }
 
 void	ft_cd(t_data *data, char *path) // try in parent
 {
-	char	**env_loc;
 	char	*cwd;
+	char	*temp;
 
-	env_loc = get_env_var(data->envp, "PWD");
-	if (chdir(path))
-		printf("bash: cd: %s: No such file or directory\n", path);
-	else
+	if (path == NULL)
 	{
-		cwd = (char *)malloc(MAXPATHLEN + 1);
-		if (cwd == NULL)
-			ft_throw (data, ERR_FAIL, "cd cwd malloc", true);
-		else if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
-		{
-			free(cwd);
+		path = *get_env_var(data->envp, "HOME");
+		if (path != NULL)
+			path += 5;
+		else
+			printf("bash: cd: HOME not set\n");
+	}
+	if (path != NULL && chdir(path))
+		printf("bash: cd: %s: No such file or directory\n", path);
+	else if (path != NULL)
+	{
+		cwd = NULL;
+		if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 			ft_throw (data, ERR_FAIL, "cd getcwd null check", true);
-		}
-		//free(*env_loc);
-		*env_loc = ft_strjoin("PWD=", cwd);
+		temp = ft_strjoin("PWD=", cwd);
+		ft_remove(data, &data->envp, *get_env_var(data->envp, "PWD"));
+		ft_push(data, &data->envp, temp);
+		free(temp);
 		free(cwd);
 	}
-	exit (EXIT_SUCCESS);
 }
