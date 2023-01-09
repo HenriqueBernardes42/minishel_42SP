@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/08 13:06:48 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:53:44 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-#include <unistd.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 void signal_handler(int sig)
 {
@@ -28,7 +22,7 @@ void signal_handler(int sig)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		write(1, "SIGQUIT recieved\n", 18);
+		write(1, "\033[32;1mminishell$ \033[0m", 23);
 }
 
 void	init_signal_handler(void)

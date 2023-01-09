@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:02:19 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:49:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static char **get_env_var(char **envp, char *var)
 	return (envp + i);
 }
 
-void	unset(t_data *data, char **args)
+void	ft_unset(t_data *data, char **args) // parent process, ptr freed not alloc
 {
 	while (*args != NULL)
-		ft_remove(data, &data->envp, *get_env_var(data->envp, *args++));
+		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
+	exit (EXIT_SUCCESS);
 }
 
-void	export(t_data *data, char **args)
+void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
 {
 	char	**var;
 	char	*env_var;
@@ -67,9 +68,10 @@ void	export(t_data *data, char **args)
 		}
 		args++;
 	}
+	exit (EXIT_SUCCESS);
 }
 
-void	cd(t_data *data, char *path)
+void	ft_cd(t_data *data, char *path) // try in parent
 {
 	char	**env_loc;
 	char	*cwd;
@@ -91,4 +93,5 @@ void	cd(t_data *data, char *path)
 		*env_loc = ft_strjoin("PWD=", cwd);
 		free(cwd);
 	}
+	exit (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 13:07:50 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:18:56 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define MINISHELL_H
 # include <stdio.h>
 # include <string.h>
+# include <signal.h>
 # include <errno.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
@@ -23,7 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
-# include <stdlib.h>
+# include <sys/wait.h>
 # define BUFFER_SIZE 42
 
 typedef enum e_stream
@@ -39,6 +41,13 @@ typedef enum e_redir
 	REDIR_OUTFILE_TRC,
 	REDIR_OUTFILE_APP,
 }	t_redir;
+typedef enum e_type
+{
+	T_REDIR = 4,
+	T_CMD_SEP,
+	T_PIPE,
+	T_SPECIAL
+}	t_type;
 typedef enum e_errno {
 	ERR_DEFAULT = 1,
 	ERR_NULL_PTR,
@@ -76,6 +85,7 @@ typedef struct s_cmd
 	char	*name;
 	char	*pathname;
 	char	**args;
+	int		argsc;
 	char	**args_redir;
 	int		*redirs;
 	int		redirsc;
@@ -109,8 +119,17 @@ void	ft_destroy_tab(char **tab);
 void	ft_addint(t_data *data, int **arr, int len, int i);
 void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_heredocs(t_data *data);
-bool	ft_isreserved(char *str);
 void	ft_remove(t_data *data, char ***tab, char *str);
+bool	ft_isbuiltin(char *str);
+void	ft_builtin(t_data *data, int i, char *builtin);
+void	ft_echo(char **args);
+void	ft_cd(t_data *data, char *path);
+void	ft_pwd(t_data *data);
+void	ft_unset(t_data *data, char **args);
+void 	ft_exit(t_data *data, char **args);
+void	ft_env(t_data *data);
+void	ft_export(t_data *data, char **args);
+bool	ft_istype(char *str, t_type type);
 
 void	init_signal_handler(void);
 #endif

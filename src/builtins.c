@@ -12,12 +12,11 @@
 
 #include "minishell.h"
 
-/*Does not expand environment variables to their values!*/
-void	echo(char **args)
+void	ft_echo(char **args) // ok
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) || \
 		!ft_strncmp ("-", *args, 2)))
 		i++;
@@ -29,9 +28,10 @@ void	echo(char **args)
 	}
 	if (*args == NULL || ft_strncmp ("-n", *args, 3) != 0)
 		printf("\n");
+	exit (EXIT_SUCCESS);
 }
 
-void	pwd(t_data *data)
+void	ft_pwd(t_data *data) // ok
 {
 	char	*cwd;
 
@@ -45,19 +45,61 @@ void	pwd(t_data *data)
 	}
 	printf("%s\n", cwd);
 	free(cwd);
-}
-
-void ft_exit(t_data *data)
-{
-	ft_destroy_data(data);
 	exit (EXIT_SUCCESS);
 }
 
-void	env(t_data *data)
+static int valid_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0' && (str[i] == 32 || (str[i] < 14 && str[i] > 8)))
+		i++;
+	if (str[i] == '\0')
+		return (false);
+	if (str[i] == '-')
+		i++;
+	while (str[i] != '\0' && str[i] <= '9' && str[i] >= '0')
+		i++;
+	while (str[i] != '\0' && (str[i] == 32 || (str[i] < 13 && str[i] > 8)))
+		i++;
+	if (str[i] != '\0')
+		return (false);
+	return (true);
+}
+
+void ft_exit(t_data *data, char **args)
+{
+	printf("exit\n");
+	if (*args == NULL)
+	{
+		ft_destroy_data(data);
+		exit (EXIT_SUCCESS);
+	}
+	else
+	{
+		if (!valid_number(*args))
+		{
+			printf("bash: exit: %s: numeric argument required\n", *args);
+			ft_destroy_data(data);
+			exit(2);
+		}
+		else if (*(args + 1) != NULL)
+			printf("bash: exit: too many arguments\n");
+		else
+		{
+			ft_destroy_data(data);
+			exit((unsigned char)ft_atoi(*args));
+		}
+	}
+}
+
+void	ft_env(t_data *data) // ok
 {
 	int	i;
 
 	i = -1;
 	while (data->envp[++i] != NULL)
 		printf("%s\n", data->envp[i]);
+	exit (EXIT_SUCCESS);
 }

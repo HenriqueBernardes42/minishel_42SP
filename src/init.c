@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 08:07:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/08 13:30:01 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].name = NULL;
 		cmds[i].pathname = NULL;
 		cmds[i].args = NULL;
+		cmds[i].argsc = 0;
 		cmds[i].args_redir = NULL;
 		cmds[i].redirs = NULL;
 		cmds[i].redirsc = 0;
