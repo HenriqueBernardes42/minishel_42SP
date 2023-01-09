@@ -35,10 +35,8 @@ void	ft_pwd(t_data *data) // ok
 {
 	char	*cwd;
 
-	cwd = (char *)malloc(MAXPATHLEN + 1);
-	if (cwd == NULL)
-		ft_throw (data, ERR_FAIL, "pwd cwd", true);
-	else if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
+	cwd = NULL;
+	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 	{
 		free(cwd);
 		ft_throw (data, ERR_FAIL, "pwd getcwd", true);
@@ -70,6 +68,8 @@ static int valid_number(char *str)
 
 void ft_exit(t_data *data, char **args)
 {
+	int i;
+
 	printf("exit\n");
 	if (args == NULL)
 	{
@@ -88,9 +88,9 @@ void ft_exit(t_data *data, char **args)
 			printf("bash: exit: too many arguments\n");
 		else
 		{
-			printf("custom '%s' '%i'\n", *args, ft_atoi(*args));
+			i = ft_atoi(*args);
 			ft_destroy_data(data);
-			exit(ft_atoi(*args));
+			exit(i);
 		}
 	}
 }
