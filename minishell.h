@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 12:11:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:37:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ typedef enum e_errno {
 	ERR_EISDIR,
 	ERR_AMBIGUOUS_REDIRECT
 }	t_errno;
+typedef enum e_operator
+{
+	OP_AND,
+	OP_OR,
+	OP_AND_PAR,
+	OP_OR_PAR
+}	t_operator;
 typedef int	t_fd;
 typedef int	t_wstatus;
 typedef struct s_args
