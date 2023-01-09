@@ -6,12 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 18:37:40 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 22:38:43 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define BUFFER_SIZE 42
 # include <stdio.h>
 # include <string.h>
 # include <errno.h>
@@ -24,7 +25,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
-# define BUFFER_SIZE 42
 
 typedef enum e_stream
 {
@@ -41,9 +41,10 @@ typedef enum e_redir
 }	t_redir;
 typedef enum e_type
 {
-	T_REDIR = 4,
-	T_CMD_SEP,
+	T_REDIR = 999,
+	T_OP,
 	T_PIPE,
+	T_CMD_SEP,
 	T_SPECIAL
 }	t_type;
 typedef enum e_errno {
@@ -58,13 +59,6 @@ typedef enum e_errno {
 	ERR_EISDIR,
 	ERR_AMBIGUOUS_REDIRECT
 }	t_errno;
-typedef enum e_operator
-{
-	OP_AND,
-	OP_OR,
-	OP_AND_PAR,
-	OP_OR_PAR
-}	t_operator;
 typedef int	t_fd;
 typedef int	t_wstatus;
 typedef struct s_args
@@ -105,6 +99,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	pid_t		*pids;
+	int			*ops;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -134,5 +129,6 @@ void	ft_unset(t_data *data, char **args);
 void 	ft_exit(t_data *data);
 void	ft_env(t_data *data);
 void	ft_export(t_data *data, char **args);
-bool	ft_istype(char *str, t_type type);
+char	**ft_minishell_split(t_data *data, char *str);
+bool	ft_istype(char *str, t_type type, bool strict);
 #endif

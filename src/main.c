@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 13:17:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 23:27:14 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ static bool	ft_isvalid(t_data *data)
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
-	if (ft_istype (data->tab[0], T_PIPE)
-		|| ft_istype (data->tab[0], T_CMD_SEP))
+	if (ft_istype (data->tab[0], T_PIPE, true)
+		|| ft_istype (data->tab[0], T_CMD_SEP, true))
 		return (ft_throw (data, ERR_UNEXPECTED_TOKEN, data->tab[0], false));
 	i = -1;
 	while (data->tab[++i] != NULL)
 	{
-		if ((ft_istype (data->tab[i], T_SPECIAL)
-			&& ft_istype (data->tab[i + 1], T_SPECIAL))
-			|| (ft_istype (data->tab[i], T_CMD_SEP) &&
+		if ((ft_istype (data->tab[i], T_SPECIAL, true)
+			&& ft_istype (data->tab[i + 1], T_SPECIAL, true))
+			|| (ft_istype (data->tab[i], T_CMD_SEP, true) &&
 			data->tab[i + 1] != NULL))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i + 1], false));
-		else if ((ft_istype (data->tab[i], T_REDIR) || ft_istype 
-			(data->tab[i], T_PIPE)) && data->tab[i + 1] == NULL)
+		else if ((ft_istype (data->tab[i], T_REDIR, true) || ft_istype 
+			(data->tab[i], T_PIPE, true)) && data->tab[i + 1] == NULL)
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					"(null)", false));
 	}
@@ -62,9 +62,12 @@ static void	ft_catch(t_data *data, int *i, int j)
 	else if (data->cmds[j].name == NULL)
 	{
 		data->cmds[j].name = ft_strdup (data->tab[*i]);
-		data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
-		ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
-		data->cmds[j].argsc++;
+		if (!ft_isbuiltin (data->cmds[j].name))
+		{
+			data->cmds[j].pathname = ft_pathname (data, data->cmds[j].name);
+			ft_push (data, &data->cmds[j].args, data->cmds[j].pathname);
+			data->cmds[j].argsc++;
+		}
 	}
 	else
 	{
@@ -94,7 +97,7 @@ static void	ft_parse(t_data *data)
 	{
 		while (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
 		{
-			if (!ft_istype (data->tab[i], T_CMD_SEP))
+			if (!ft_istype (data->tab[i], T_SPECIAL, true))
 				ft_catch (data, &i, j);
 			i++;
 		}
@@ -104,11 +107,6 @@ static void	ft_parse(t_data *data)
 	}
 }
 
-static void	ft_expand(t_data *data)
-{
-	ft_assert_not_null (data, data);
-}
- 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
@@ -121,15 +119,14 @@ int	main(int argc, char **argv, char **envp)
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
-			data->tab = ft_split (data->line, ' ');
-			ft_expand (data);
+			add_history (data->line);
+			data->tab = ft_minishell_split (data, data->line);
 			if (ft_isvalid (data))
 			{
 				ft_parse (data);
 				ft_heredocs (data);
 				ft_execute (data);
 			}
-			add_history (data->line);
 		}
 		ft_destroy_execution (data);
 	}
