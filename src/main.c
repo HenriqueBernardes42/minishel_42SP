@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 16:24:20 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/09 20:05:39 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static void	ft_expand(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
+	char	c;
 
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
