@@ -6,12 +6,15 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 14:46:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 10:23:54 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief Check whether the array of input strings is valid or not.
+/// @param data The minishell's data;
+/// @return the result.
 static bool	ft_isvalid(t_data *data)
 {
 	int		i;
@@ -34,6 +37,10 @@ static bool	ft_isvalid(t_data *data)
 	return (true);
 }
 
+/// @brief Catch or set the members of the current command's struct.
+/// @param data The minishell's data;
+/// @param i The pointer to the index of the current input string in data->tab;
+/// @param j The index of the current command.
 static void	ft_catch(t_data *data, int *i, int j)
 {
 	t_redir	redir;
@@ -62,6 +69,8 @@ static void	ft_catch(t_data *data, int *i, int j)
 	}
 }
 
+/// @brief Parse the array of input to an array of struct s_cmds.
+/// @param data The minishell's data.
 static void	ft_parse(t_data *data)
 {
 	int	i;
