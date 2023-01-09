@@ -6,18 +6,24 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 13:08:05 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:28:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief Assert that a pointer is not null.
+/// @param data The minishell's data;
+/// @param ptr The pointer.
 void	ft_assert_not_null(t_data *data, void *ptr)
 {
 	if (ptr == NULL)
 		ft_throw (data, ERR_NULL_PTR, NULL, true);
 }
 
+/// @brief Assert that a file is not a directory.
+/// @param data The minishell's data;
+/// @param pathname The pathname.
 void	ft_assert_not_dir(t_data *data, char *pathname)
 {
 	int	fd;
@@ -31,6 +37,12 @@ void	ft_assert_not_dir(t_data *data, char *pathname)
 	}
 }
 
+/// @brief Join the pathnane by far with the additional one.
+/// @param args The struct of argumentsof type
+/// s_args2 dedicated to the function;
+/// @param pathname The additional pathname;
+/// @param i The index of the filename in the split of
+/// the additonal pathname.
 static void	ft_mkpath(t_args *args, char *pathname, int i)
 {
 	if (args->path == NULL)
@@ -51,6 +63,11 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 	}
 }
 
+/// @brief Assert that the user has the correct permissions
+/// to access a file and also that the file exists.
+/// @param data The minishell's data;
+/// @param pathname The pathname;
+/// @param permss The permission to check: either R_OK or W_OK from unistd.h.
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss) // check if executable
 {
 	int		i;
