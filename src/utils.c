@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 11:44:49 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 12:04:30 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	*ft_pathname(t_data *data, char *name)
 		pathname = ft_strjoin (dir, name);
 		free (dir);
 		if (access (pathname, X_OK) != -1)
-			return (pathname);
+			return (ft_destroy_tab(path), pathname);
 		free (pathname);
 	}
 	ft_destroy_tab(path);
