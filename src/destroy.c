@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 10:10:23 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:47:54 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,5 @@ void	ft_destroy_data(t_data *data)
 		return ;
 	ft_destroy_execution (data);
 	ft_destroy_tab(data->envp);
-	ft_destroy_tab (data->path);
 	free (data);
 }

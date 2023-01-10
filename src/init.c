@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 17:53:54 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:47:35 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_data	*ft_initdata(char **envp)
 		if (data->envp[i] == NULL)
 			ft_throw (data, ERR_NULL_PTR, "init envp copy", true);
 	}
-	data->path = ft_split (getenv ("PATH"), ':');
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;
