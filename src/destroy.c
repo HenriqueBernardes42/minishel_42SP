@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 10:45:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:23:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,16 @@ void	ft_destroy_execution(t_data *data)
 		free (data->pipes);
 	if (data->pids != NULL)
 		free (data->pids);
+	if (data->insts != NULL)
+		free (data->insts);
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;
 	data->pipes = NULL;
 	data->cmdsc = 0;
 	data->pids = NULL;
+	data->insts = NULL;
+	data->insts_len = 0;
 }
 
 /// @brief Destroy the minishell's data, 

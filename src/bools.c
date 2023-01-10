@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 11:39:17 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 16:12:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:46:20 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,20 @@ int	ft_istype(char *str, t_type type, bool strict)
 	else if (ft_strncmp (str, ";", 1 + strict) == 0
 		&& (type == T_SPECIAL || type == T_CMD_SEP || type == T_CMD_CAT))
 		return (1);
-	else if (ft_strncmp (str, "&&", 2 + strict) == 0
-		&& (type == T_SPECIAL || type == T_OP || type == T_OP_AND || type == T_CMD_CAT))
-		return (2);
 	else if (ft_strncmp (str, "||", 2 + strict) == 0
 		&& (type == T_SPECIAL || type == T_OP || type == T_OP_OR || type == T_CMD_CAT))
 		return (2);
+	else if (ft_strncmp (str, "|", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PIPE || type == T_CMD_CAT))
+		return (1);
+	else if (ft_strncmp (str, "&&", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_OP || type == T_OP_AND || type == T_CMD_CAT))
+		return (2);
 	else if (ft_strncmp (str, "(", 1 + strict) == 0
-		&& (type == T_SPECIAL || type == T_PARENTH_OPEN))
+		&& (type == T_SPECIAL || type == T_PARENTH_OPEN || type == T_PARENTH))
 		return (1);
 	else if (ft_strncmp (str, ")", 1 + strict) == 0
-		&& (type == T_SPECIAL || type == T_PARENTH_CLOSE))
+		&& (type == T_SPECIAL || type == T_PARENTH_CLOSE || type == T_PARENTH))
 		return (1);
 	return (0);
 }
