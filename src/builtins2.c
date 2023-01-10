@@ -6,12 +6,19 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 19:49:07 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 10:06:56 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** 
+ * Searches an array for a variable
+ * @param[in] envp The array to be searched
+ * @param[in] var The name of the variable that will be searched for
+ * @return Pointer to the variable if found otherwise pointer to 
+ * the end of the array
+ */
 static char **get_env_var(char **envp, char *var)
 {
 	int	i;
@@ -25,10 +32,30 @@ static char **get_env_var(char **envp, char *var)
 	return (envp + i);
 }
 
+/** 
+ * Removes variables from array
+ * @param[in] data Minishell data
+ * @param[in] args The variables that will be removed
+ */
 void	ft_unset(t_data *data, char **args) // parent process, ptr freed not alloc
 {
 	while (args != NULL && *args != NULL)
 		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
+}
+
+static bool valid_argument(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (!i && ft_isdigit(str[i]))
+			return (false);
+		else if (!(ft_isalnum(str[i]) || str[i] == '_'))
+			return (false);
+	}
+	return (true);
 }
 
 void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
@@ -38,7 +65,7 @@ void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
 	int		i;
 
 	i = -1;
-	if (*args == NULL)
+	if (args == NULL)
 	{
 		while (data->envp[++i] != NULL)
 		{
@@ -46,17 +73,20 @@ void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 			ft_destroy_tab(var);
 		}
+		return ;
 	}
 	while (*args != NULL)
 	{
 		if (ft_strchr(*args, '=') != NULL)
 		{
 			var = ft_split(*args, '=');
+			if (!valid_argument(var[0]))
+				printf("bash: export: '%s': not a valid identifier\n", *args);
 			env_var = *get_env_var(data->envp, var[0]);
 			free(env_var);
-			if (env_var != NULL)
+			if (valid_argument(var[0]) && env_var != NULL)
 				env_var = ft_strdup(*args);
-			else
+			else if (valid_argument(var[0]))
 				ft_push(data, &data->envp, *args);
 			ft_destroy_tab(var);
 		}
