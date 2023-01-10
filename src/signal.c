@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/10 09:33:51 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 10:25:40 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void signal_handler(int sig)
 	{
 		write(0, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 12:01:51 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:44:49 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,22 +108,26 @@ char	*ft_pathname(t_data *data, char *name)
 	int		i;
 	char	*dir;
 	char	*pathname;
+	char	**path;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, name);
 	if (access (name, X_OK) != -1)
 		return (ft_strdup (name));
 	i = -1;
-	if (data->path == NULL)
+	if (*get_env_var(data->envp, "PATH") != NULL)
+		path = ft_split(*get_env_var(data->envp, "PATH") + 5, ':');
+	else
 		return (NULL);
-	while (data->path[++i] != NULL)
+	while (path[++i] != NULL)
 	{
-		dir = ft_strjoin (data->path[i], "/");
+		dir = ft_strjoin (path[i], "/");
 		pathname = ft_strjoin (dir, name);
 		free (dir);
 		if (access (pathname, X_OK) != -1)
 			return (pathname);
 		free (pathname);
 	}
+	ft_destroy_tab(path);
 	return (NULL);
 }

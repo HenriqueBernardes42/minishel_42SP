@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 10:06:56 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:45:19 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @return Pointer to the variable if found otherwise pointer to 
  * the end of the array
  */
-static char **get_env_var(char **envp, char *var)
+char **get_env_var(char **envp, char *var)
 {
 	int	i;
 	int	len;
@@ -43,10 +43,12 @@ void	ft_unset(t_data *data, char **args) // parent process, ptr freed not alloc
 		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
 }
 
-static bool valid_argument(char *str)
+bool valid_env_name(char *str)
 {
 	int i;
 
+	if (ft_strlen(str) < 1)
+		return (false);
 	i = -1;
 	while (str[++i] != '\0')
 	{
@@ -80,13 +82,13 @@ void	ft_export(t_data *data, char **args) // parent process, ptr freed not alloc
 		if (ft_strchr(*args, '=') != NULL)
 		{
 			var = ft_split(*args, '=');
-			if (!valid_argument(var[0]))
+			if (!valid_env_name(var[0]))
 				printf("bash: export: '%s': not a valid identifier\n", *args);
 			env_var = *get_env_var(data->envp, var[0]);
 			free(env_var);
-			if (valid_argument(var[0]) && env_var != NULL)
+			if (valid_env_name(var[0]) && env_var != NULL)
 				env_var = ft_strdup(*args);
-			else if (valid_argument(var[0]))
+			else if (valid_env_name(var[0]))
 				ft_push(data, &data->envp, *args);
 			ft_destroy_tab(var);
 		}

@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 09:19:32 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:24:15 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ static void	ft_parse(t_data *data)
 
 static void	ft_expand(t_data *data)
 {
-	ft_assert_not_null (data, data);
-	
+	ft_assert_not_null (data, data);	
 }
 
 int	main(int argc, char **argv, char **envp)

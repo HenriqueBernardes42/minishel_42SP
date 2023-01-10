@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 17:59:35 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:44:27 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,5 @@ void	ft_export(t_data *data, char **args);
 bool	ft_istype(char *str, t_type type);
 
 void	init_signal_handler(void);
+char **get_env_var(char **envp, char *var);
 #endif
