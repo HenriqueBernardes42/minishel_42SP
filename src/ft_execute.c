@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 17:34:12 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 22:08:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	ft_prepare(t_data *data)
 		data->pipes = (t_fd *) malloc ((data->cmdsc - 1) * 2 * sizeof (t_fd));
 		ft_assert_not_null (data, data->pipes);
 		i = -1;
-		while (++i < data->cmdsc)
+		while (++i < data->cmdsc - 1)
 			if (pipe (data->pipes + (2 * i)) == -1)
 				ft_throw (data, ERR_FAIL, "pipe", true);
 	}

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 21:44:25 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 22:05:29 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ static void	ft_parse(t_data *data)
 		if (ft_istype (data->tab[i], T_PIPE, true)
 			|| ft_istype (data->tab[i], T_OP, true))
 			data->cmdsc++;
-	
 	data->cmds = ft_initcmds (data, data->cmdsc);
 	i = 0;
 	j = 0;
