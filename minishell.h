@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 22:38:43 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 15:51:27 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ typedef enum e_type
 	T_OP,
 	T_PIPE,
 	T_CMD_SEP,
+	T_PARENTH_OPEN,
+	T_PARENTH_CLOSE,
+	T_OP_AND,
+	T_OP_OR,
+	T_CMD_CAT,
 	T_SPECIAL
 }	t_type;
 typedef enum e_errno {
@@ -130,5 +135,5 @@ void 	ft_exit(t_data *data);
 void	ft_env(t_data *data);
 void	ft_export(t_data *data, char **args);
 char	**ft_minishell_split(t_data *data, char *str);
-bool	ft_istype(char *str, t_type type, bool strict);
+int		ft_istype(char *str, t_type type, bool strict);
 #endif

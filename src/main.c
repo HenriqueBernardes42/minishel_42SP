@@ -6,37 +6,66 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 23:27:14 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:25:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief Check whether the array of input strings is valid or not.
-/// @param data The minishell's data;
-/// @return the result.
-static bool	ft_isvalid(t_data *data)
+static bool	ft_isvalid (t_data *data)
 {
-	int		i;
-
+	int	i;
+	bool open;
+	
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
-	if (ft_istype (data->tab[0], T_PIPE, true)
-		|| ft_istype (data->tab[0], T_CMD_SEP, true))
-		return (ft_throw (data, ERR_UNEXPECTED_TOKEN, data->tab[0], false));
 	i = -1;
+	open = false;
 	while (data->tab[++i] != NULL)
 	{
-		if ((ft_istype (data->tab[i], T_SPECIAL, true)
-			&& ft_istype (data->tab[i + 1], T_SPECIAL, true))
-			|| (ft_istype (data->tab[i], T_CMD_SEP, true) &&
-			data->tab[i + 1] != NULL))
-			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-					data->tab[i + 1], false));
-		else if ((ft_istype (data->tab[i], T_REDIR, true) || ft_istype 
-			(data->tab[i], T_PIPE, true)) && data->tab[i + 1] == NULL)
-			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+		if (ft_istype (data->tab[i], T_REDIR, true))
+		{
+			if (data->tab[i + 1] == NULL)
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					"(null)", false));
+			else if (ft_istype (data->tab[i + 1], T_SPECIAL, true))
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i + 1], false));
+		}
+		else if (ft_istype (data->tab[i], T_PARENTH_OPEN, true))
+		{
+			if (open)
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i], false));
+			else if (i != 0 && !ft_istype (data->tab[i - 1], T_CMD_CAT, true))
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i], false));
+			else
+				open = true;
+		}
+		else if(ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
+		{
+			if (!open)
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i], false));
+			else if (ft_istype (data->tab[i - 1], T_SPECIAL, true))
+				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+					data->tab[i], false));
+			else
+				open = false;
+		}
+		else if (ft_istype (data->tab[i], T_CMD_SEP, true)
+			&& open)
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+				data->tab[i], false));
+		else if (ft_istype (data->tab[i], T_CMD_CAT, true) 
+			&& (i == 0 || ft_istype (data->tab[i - 1], T_CMD_CAT, true)))
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+				data->tab[i], false));
+		else if (ft_istype (data->tab[i], T_CMD_SEP, true)
+			&& data->tab[i + 1] != NULL)
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+				data->tab[i + 1], false));
 	}
 	return (true);
 }
@@ -97,7 +126,7 @@ static void	ft_parse(t_data *data)
 	{
 		while (data->tab[i] != NULL && ft_strncmp (data->tab[i], "|", 2) != 0)
 		{
-			if (!ft_istype (data->tab[i], T_SPECIAL, true))
+			if (!ft_istype (data->tab[i], T_CMD_SEP, true))
 				ft_catch (data, &i, j);
 			i++;
 		}
@@ -125,7 +154,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				ft_parse (data);
 				ft_heredocs (data);
-				ft_execute (data);
+				ft_execute (data);	
 			}
 		}
 		ft_destroy_execution (data);
