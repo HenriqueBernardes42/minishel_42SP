@@ -16,7 +16,8 @@ void	ft_echo(char **args) // ok
 {
 	int	i;
 
-	i = 1;
+	args++;
+	i = 0;
 	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) 
 		|| !ft_strncmp ("-", *args, 2)))
 		i++;
@@ -35,7 +36,9 @@ void	ft_pwd(t_data *data) // ok
 {
 	char	*cwd;
 
-	cwd = NULL;
+	cwd = (char *)malloc(MAXPATHLEN + 1);
+	if (cwd == NULL)
+		ft_throw (data, ERR_FAIL, "pwd cwd", true);
 	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 	{
 		free(cwd);
