@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 11:44:27 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:51:40 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char		**envp;
-	char		**path;
 	char		*line;
 	char		**tab;
 	t_cmd		*cmds;
