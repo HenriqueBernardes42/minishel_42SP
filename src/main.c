@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 14:42:40 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:54:45 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
+		//printf("data->line content: '%s'\n", data->line);
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
 			data->tab = ft_split (data->line, ' ');
@@ -132,6 +133,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 			add_history (data->line);
 		}
+		else if (data->line == NULL)
+			ft_exit(data, NULL);
 		ft_destroy_execution (data);
 	}
 	ft_destroy_data (data);
