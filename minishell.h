@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 11:51:40 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:16:57 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	ft_heredocs(t_data *data);
 void	ft_remove(t_data *data, char ***tab, char *str);
 int		ft_isbuiltin(char *str);
 void	ft_builtin(t_data *data, int i, char *builtin);
-void	ft_echo(char **args);
+void	ft_echo(t_data *data, char **args);
 void	ft_cd(t_data *data, char *path);
 void	ft_pwd(t_data *data);
 void	ft_unset(t_data *data, char **args);
@@ -133,4 +133,5 @@ bool	ft_istype(char *str, t_type type);
 
 void	init_signal_handler(void);
 char **get_env_var(char **envp, char *var);
+bool valid_env_name(char *str);
 #endif

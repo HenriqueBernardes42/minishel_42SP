@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 19:50:08 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:41:05 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isbuiltin(char *str)
 		|| ft_strncmp (str, "pwd", 4) == 0
 		|| ft_strncmp (str, "env", 4) == 0)
 		return (1);
-	else if (ft_strncmp (str, "exit", 5) == 0 
+	else if (ft_strncmp (str, "exit", 5) == 0
 		|| ft_strncmp (str, "export", 8) == 0
 		|| ft_strncmp (str, "unset", 7) == 0
 		|| ft_strncmp (str, "cd", 3) == 0)
@@ -31,7 +31,7 @@ int	ft_isbuiltin(char *str)
 void	ft_builtin(t_data *data, int i, char *builtin)
 {
 	if (ft_strncmp (builtin, "echo", 5) == 0)
-		ft_echo (data->cmds[i].args);
+		ft_echo (data, data->cmds[i].args);
 	else if (ft_strncmp (builtin, "cd", 3) == 0)
 	{
 		if (data->cmds[i].argsc > 1)

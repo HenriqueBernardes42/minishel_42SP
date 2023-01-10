@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 11:24:15 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:42:40 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static bool	ft_isvalid(t_data *data)
 	while (data->tab[++i] != NULL)
 	{
 		if ((ft_istype (data->tab[i], T_SPECIAL)
-			&& ft_istype (data->tab[i + 1], T_SPECIAL))
-			|| (ft_istype (data->tab[i], T_CMD_SEP) &&
-			data->tab[i + 1] != NULL))
+				&& ft_istype (data->tab[i + 1], T_SPECIAL))
+			|| (ft_istype (data->tab[i], T_CMD_SEP)
+				&& data->tab[i + 1] != NULL))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i + 1], false));
-		else if ((ft_istype (data->tab[i], T_REDIR) || ft_istype 
-			(data->tab[i], T_PIPE)) && data->tab[i + 1] == NULL)
+		else if ((ft_istype (data->tab[i], T_REDIR) || ft_istype
+				(data->tab[i], T_PIPE)) && data->tab[i + 1] == NULL)
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					"(null)", false));
 	}
@@ -106,7 +106,7 @@ static void	ft_parse(t_data *data)
 
 static void	ft_expand(t_data *data)
 {
-	ft_assert_not_null (data, data);	
+	ft_assert_not_null (data, data);
 }
 
 int	main(int argc, char **argv, char **envp)

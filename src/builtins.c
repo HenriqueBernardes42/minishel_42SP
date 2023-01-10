@@ -12,14 +12,15 @@
 
 #include "minishell.h"
 
-void	ft_echo(char **args) // ok
+void	ft_echo(t_data *data, char **args)
 {
 	int	i;
 
-	args++;
+	if (*get_env_var(data->envp, "PATH") != NULL)
+		args++;
 	i = 0;
-	if (*args != NULL && (!ft_strncmp ("-n", *args, 3) 
-		|| !ft_strncmp ("-", *args, 2)))
+	if (*args != NULL && (!ft_strncmp ("-n", *args, 3)
+			|| !ft_strncmp ("-", *args, 2)))
 		i++;
 	while (args[i] != NULL)
 	{
@@ -32,7 +33,7 @@ void	ft_echo(char **args) // ok
 	exit (EXIT_SUCCESS);
 }
 
-void	ft_pwd(t_data *data) // ok
+void	ft_pwd(t_data *data)
 {
 	char	*cwd;
 
@@ -49,7 +50,7 @@ void	ft_pwd(t_data *data) // ok
 	exit (EXIT_SUCCESS);
 }
 
-static int valid_number(char *str)
+static int	valid_number(char *str)
 {
 	int	i;
 
@@ -69,9 +70,9 @@ static int valid_number(char *str)
 	return (true);
 }
 
-void ft_exit(t_data *data, char **args)
+void	ft_exit(t_data *data, char **args)
 {
-	int i;
+	int	i;
 
 	printf("exit\n");
 	if (args == NULL)
@@ -98,7 +99,7 @@ void ft_exit(t_data *data, char **args)
 	}
 }
 
-void	ft_env(t_data *data) // ok
+void	ft_env(t_data *data)
 {
 	int	i;
 
