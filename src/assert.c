@@ -6,11 +6,34 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 11:28:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:52:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_assert_finished(t_data *data)
+{
+	char	*linepl;
+	char	*merged;
+	
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, data->tab);
+	while (ft_istype (data->tab[ft_tablen (data->tab) - 1], T_OP, true)
+		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true))
+	{
+		linepl = readline ("> ");
+		merged = ft_strjoin (data->line, linepl);
+		free (data->line);
+		free (linepl);
+		ft_destroy_tab (data->tab);
+		data->line = merged;
+		data->tab = ft_minishell_split (data, data->line);
+		if (!ft_isvalid (data))
+			return (false);
+	}
+	return (true);
+}
 
 /// @brief Assert that a pointer is not null.
 /// @param data The minishell's data;

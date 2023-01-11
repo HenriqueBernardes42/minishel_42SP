@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 11:39:41 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:40:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,22 @@ void	ft_builtin(t_data *data, int i, char *builtin)
 		ft_env(data);
 	else if (ft_strncmp (builtin, "exit", 5) == 0)
 		ft_exit (data);
+}
+
+char	*ft_getinput(t_data *data)
+{
+	ft_assert_not_null (data, data);
+	return (NULL);
+}
+
+size_t	ft_tablen(char **tab)
+{
+	size_t	len;
+
+	if (tab == NULL)
+		return (0);
+	len = 0;
+	while (tab[len] != NULL)
+		len++;
+	return (len);
 }

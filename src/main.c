@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 12:57:13 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:51:03 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ft_isvalid (t_data *data)
+bool	ft_isvalid (t_data *data)
 {
 	int	i;
 	int opened;
@@ -45,7 +45,7 @@ static bool	ft_isvalid (t_data *data)
 		}
 		else if(ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
 		{
-			if (opened <= 0)
+			if (opened <= 0 || ft_istype (data->tab[i - 1], T_PIPE, true))
 				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
 			else
@@ -176,13 +176,16 @@ int	main(int argc, char **argv, char **envp)
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
-			add_history (data->line);
 			data->tab = ft_minishell_split (data, data->line);
-			if (ft_isvalid (data))
+			if (ft_assert_finished (data))
 			{
-				ft_parse (data);
-				ft_heredocs (data);
-				ft_execute (data);	
+				add_history (data->line);
+				if (ft_isvalid (data))
+				{
+					ft_parse (data);
+					ft_heredocs (data);
+					ft_execute (data);	
+				}
 			}
 		}
 		ft_destroy_execution (data);
@@ -190,3 +193,8 @@ int	main(int argc, char **argv, char **envp)
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
 }
+
+// more input
+// probelm with (ls)
+// awk
+// wildcards perhaps tomorrow

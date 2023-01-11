@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 12:26:07 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:00:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ static bool ft_loop(t_data *data, int lvl, int *i)
 					data->pipes = NULL;
 				}
 			}
+			else
+				(*i)++;
 		}
 	}
 	return (true);
