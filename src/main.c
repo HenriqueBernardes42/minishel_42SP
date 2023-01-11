@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 12:29:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 12:57:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ static bool	ft_isvalid (t_data *data)
 			&& data->tab[i + 1] != NULL)
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 				data->tab[i + 1], false));
+		else if (ft_strncmp (data->tab[i], "\\", 2) == 0)
+			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+				data->tab[i], false));
 	}
 	if (opened > 0)
 		return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
@@ -146,6 +149,8 @@ static void	ft_parse(t_data *data)
 					inst = I_OR;
 				j++;
 			}
+			else if (ft_istype (data->tab[i], T_REDIR, true))
+				ft_catch (data, &i, j);
 		}
 		else
 		{
