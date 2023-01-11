@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 11:03:15 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 12:06:27 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ typedef struct s_cmd
 	int		redirsc;
 	int		lvl;
 	int		inst;
-	pid_t	pid;
 }	t_cmd;
 typedef struct s_data
 {
@@ -115,6 +114,7 @@ typedef struct s_data
 	t_cmd		*cmds;
 	int			cmdsc;
 	t_fd		*pipes;
+	int			cmdsc_pps;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -146,4 +146,5 @@ void	ft_env(t_data *data);
 void	ft_export(t_data *data, char **args);
 char	**ft_minishell_split(t_data *data, char *str);
 int		ft_istype(char *str, t_type type, bool strict);
+int		*ft_initpipes(t_data *data, int cmdsc);
 #endif

@@ -6,11 +6,28 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 11:03:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:49:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		*ft_initpipes(t_data *data, int cmdsc)
+{	
+	int	*pipes;
+	int	i;
+	
+	if (cmdsc < 2)
+		return (NULL);
+	pipes = (int *) malloc ((cmdsc - 1) * 2 * sizeof (int));
+	if (pipes == NULL)
+		ft_throw (data, ERR_FAIL, "malloc", true);
+	i = -1;
+	while (++i < cmdsc - 1)
+		if (pipe (pipes + i * 2) != 0)
+			ft_throw (data, ERR_FAIL, "fail", true);
+	return (pipes);
+}
 
 t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
 {
@@ -72,7 +89,6 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].redirsc = 0;
 		cmds[i].lvl = -1;
 		cmds[i].inst = I_UNDEF;
-		cmds[i].pid = -1;
 	}
 	return (cmds);
 }
