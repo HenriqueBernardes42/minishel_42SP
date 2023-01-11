@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/09 17:15:44 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:43:43 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,9 @@ void	ft_execute(t_data *data)
 		close (data->pipes[i]);
 	i = -1;
 	while (++i < data->cmdsc)
+	{
 		waitpid (data->pids[i], &wstatus, WUNTRACED);
+		free(data->foreground_pipe);
+		data->foreground_pipe = ft_itoa(wstatus);
+	}
 }

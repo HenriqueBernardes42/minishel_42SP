@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 10:21:45 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/11 12:02:56 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	i = 0;
 	while (ft_isalnum(tab[0][index + i]) || tab[0][index + i] == '_')
 		i++;
-	var = ft_substr(tab[0], index, i);
+	var = ft_substr(*tab, index, i);
 	if (*get_env_var(data->envp, var) != NULL)
 	{
 		str = *get_env_var(data->envp, var) + ft_strlen(var) + 1;
@@ -121,10 +121,12 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 		var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
 		ft_strlcpy(var, *tab, index);
 		ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
-		ft_strlcat(var, tab[0] + index + i, ft_strlen(*tab) - ft_strlen(str));
+		ft_strlcat(var, *tab + index + i, ft_strlen(*tab) - ft_strlen(str));
 		free(*tab);
 		*tab = var;
-	}	
+	}
+	else
+		free(var);
 }
 
 static void	ft_expand(t_data *data)
@@ -135,15 +137,15 @@ static void	ft_expand(t_data *data)
 
 	ft_assert_not_null (data, data);
 	i = -1;
+	ign = 0;
 	while (data->tab[++i] != NULL)
 	{
 		i2 = -1;
-		ign = 0;
 		while (data->tab[i][++i2] != '\0')
 		{
 			if (data->tab[i][i2] == '\'')
-				ign = !ign;
-			if (data->tab[i][i2] == '$' && !ign)
+				ign = !ign;	
+			else if (data->tab[i][i2] == '$' && !ign)
 				ft_insert_var(data, data->tab + i, i2 + 1);
 		}
 	}
@@ -161,7 +163,6 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
-		//printf("data->line content: '%s'\n", data->line);
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
 			data->tab = ft_split (data->line, ' ');
@@ -169,7 +170,7 @@ int	main(int argc, char **argv, char **envp)
 			//Debug
 			int i = -1;
 			while (data->tab[++i] != NULL)
-				printf("'%s'\n", data->tab[i]);
+				printf("'%s' ", data->tab[i]);
 			printf("'%p'\n", data->tab[i]);
 			if (ft_isvalid (data))
 			{

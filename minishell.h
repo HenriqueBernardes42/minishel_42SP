@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 14:16:57 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:31:06 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	pid_t		*pids;
-	int			foreground_pipe;
+	char		*foreground_pipe;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
