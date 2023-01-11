@@ -9,7 +9,7 @@ NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
 					ft_redirect ft_heredocs error builtins \
-					builtins2 signal bools utils2 \
+					builtins2 signal utils2 \
 					ft_minishell_split
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 19:53:31 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 21:45:20 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef enum e_type
 	T_OP_AND,
 	T_OP_OR,
 	T_CMD_CAT,
+	T_AWK_OPEN,
+	T_AWK_CLOSE,
 	T_SPECIAL
 }	t_type;
 typedef enum e_inst

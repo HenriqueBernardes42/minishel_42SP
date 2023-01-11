@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 19:59:44 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 21:01:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,16 +177,12 @@ int	main(int argc, char **argv, char **envp)
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
 			data->tab = ft_minishell_split (data, data->line);
-			if (ft_assert_finished (data))
+			if (ft_isvalid (data) && ft_assert_finished (data))
 			{
 				add_history (data->line);
-				if (ft_isvalid (data))
-				{
-					add_history (data->line);
-					ft_parse (data);
-					ft_heredocs (data);
-					ft_execute (data);	
-				}
+				ft_parse (data);
+				ft_heredocs (data);
+				ft_execute (data);	
 			}
 		}
 		ft_destroy_execution (data);
