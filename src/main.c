@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 18:51:03 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:55:33 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int	main(int argc, char **argv, char **envp)
 				add_history (data->line);
 				if (ft_isvalid (data))
 				{
+					add_history (data->line);
 					ft_parse (data);
 					ft_heredocs (data);
 					ft_execute (data);	

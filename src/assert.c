@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 18:52:41 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:59:20 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_assert_finished(t_data *data)
 {
 	char	*linepl;
-	char	*merged;
+	char	*temp;
 	
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
@@ -23,11 +23,12 @@ bool	ft_assert_finished(t_data *data)
 		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true))
 	{
 		linepl = readline ("> ");
-		merged = ft_strjoin (data->line, linepl);
+		temp = ft_strjoin (data->line, " ");
 		free (data->line);
+		data->line = ft_strjoin (temp, linepl);
+		free (temp);
 		free (linepl);
 		ft_destroy_tab (data->tab);
-		data->line = merged;
 		data->tab = ft_minishell_split (data, data->line);
 		if (!ft_isvalid (data))
 			return (false);
