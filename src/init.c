@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 11:47:35 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:56:13 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ t_data	*ft_initdata(char **envp)
 	data->cmdsc = -1;
 	data->pipes = NULL;
 	data->pids = NULL;
+	data->foreground_pipe = 0;
 	return (data);
 }

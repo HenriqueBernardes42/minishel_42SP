@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 14:54:45 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:21:45 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,50 @@ static void	ft_parse(t_data *data)
 	}
 }
 
+static void	ft_insert_var(t_data *data, char **tab, int index)
+{
+	char	*str;
+	char	*var;
+	int		i;
+	
+	i = 0;
+	while (ft_isalnum(tab[0][index + i]) || tab[0][index + i] == '_')
+		i++;
+	var = ft_substr(tab[0], index, i);
+	if (*get_env_var(data->envp, var) != NULL)
+	{
+		str = *get_env_var(data->envp, var) + ft_strlen(var) + 1;
+		free(var);
+		var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
+		ft_strlcpy(var, *tab, index);
+		ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
+		ft_strlcat(var, tab[0] + index + i, ft_strlen(*tab) - ft_strlen(str));
+		free(*tab);
+		*tab = var;
+	}	
+}
+
 static void	ft_expand(t_data *data)
 {
+	int	ign;
+	int	i;
+	int	i2;
+
 	ft_assert_not_null (data, data);
+	i = -1;
+	while (data->tab[++i] != NULL)
+	{
+		i2 = -1;
+		ign = 0;
+		while (data->tab[i][++i2] != '\0')
+		{
+			if (data->tab[i][i2] == '\'')
+				ign = !ign;
+			if (data->tab[i][i2] == '$' && !ign)
+				ft_insert_var(data, data->tab + i, i2 + 1);
+		}
+	}
+		
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -125,6 +166,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			data->tab = ft_split (data->line, ' ');
 			ft_expand (data);
+			//Debug
+			int i = -1;
+			while (data->tab[++i] != NULL)
+				printf("'%s'\n", data->tab[i]);
+			printf("'%p'\n", data->tab[i]);
 			if (ft_isvalid (data))
 			{
 				ft_parse (data);
