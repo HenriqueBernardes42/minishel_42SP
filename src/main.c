@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 19:15:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:59:44 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,5 @@ int	main(int argc, char **argv, char **envp)
 	ft_destroy_data (data);
 	return (EXIT_SUCCESS);
 }
-
-// problem with (ls)
 // awk
 // wildcards perhaps tomorrow

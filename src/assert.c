@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 19:15:12 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:55:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,11 @@ void	ft_assert_not_null(t_data *data, void *ptr)
 /// @param pathname The pathname.
 void	ft_assert_not_dir(t_data *data, char *pathname)
 {
-	int	fd;
+	struct stat file_stat;
 
-	ft_assert_not_null (data, pathname);
-	fd = open (pathname, O_DIRECTORY);
-	if (fd != -1)
-	{
-		close (fd);
-		ft_throw (data, ERR_EISDIR, pathname, true);
-	}
+	stat (pathname, &file_stat);
+	if (S_ISDIR (file_stat.st_mode))
+		ft_throw (data, ERR_EISDIR, NULL, true);
 }
 
 /// @brief Join the pathnane by far with the additional one.
@@ -109,14 +105,12 @@ void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 	while (++i < args->count)
 	{
 		ft_mkpath (args, pathname, i);
-		if ((permss == R_OK || (permss == W_OK && i < args->count - 1))
-			&& (access (args->path, F_OK) != 0
-				|| access (args->path, permss) != 0))
-		{
-			if (access (args->path, F_OK) != 0)
-				args->err = ERR_ENOENT;
-			ft_throw (data, args->err, pathname, true);
-		}
+		if (access (args->path, F_OK) != 0
+			&& (permss == R_OK || (permss == W_OK && i < args->count - 1)))
+				ft_throw (data, ERR_ENOENT, pathname, true);
+		else if (access (args->path, permss) != 0 && (permss == R_OK
+			|| (permss == W_OK && access (args->path, F_OK) == 0)))
+			ft_throw (data, ERR_EACCES, pathname, true);
 	}
 	if (args->path != NULL)
 		free (args->path);
