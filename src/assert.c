@@ -6,18 +6,24 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 18:59:20 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:15:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief Assert that the input is terminated, ie, a pipe
+/// or a logical operator is not at the end of the read line.
+/// @param data The minishell's data.
+/// @return True if input is already terminated or was successfully
+/// terminated and false if an error occurred in the process.
 bool	ft_assert_finished(t_data *data)
 {
 	char	*linepl;
 	char	*temp;
-	
+
 	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, data->line);
 	ft_assert_not_null (data, data->tab);
 	while (ft_istype (data->tab[ft_tablen (data->tab) - 1], T_OP, true)
 		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true))
@@ -92,7 +98,7 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 /// @param data The minishell's data;
 /// @param pathname The pathname;
 /// @param permss The permission to check: either R_OK or W_OK from unistd.h.
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss) // check if executable
+void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 {
 	int		i;
 	t_args	*args;
