@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 21:43:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:03:15 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ typedef enum e_type
 	T_CMD_CAT,
 	T_SPECIAL
 }	t_type;
-typedef enum e_instructions
+typedef enum e_inst
 {
-	I_PIPE = 9999,
+	I_UNDEF = 9999,
+	I_START,
+	I_PIPE,
 	I_AND,
-	I_OR,
-	I_AND_PARENTH,
-	I_OR_PARENTH
-}	t_instructions;
+	I_OR
+}	t_inst;
 typedef enum e_errno {
 	ERR_DEFAULT = 1,
 	ERR_NULL_PTR,
@@ -74,7 +74,7 @@ typedef enum e_errno {
 	ERR_AMBIGUOUS_REDIRECT
 }	t_errno;
 typedef int	t_fd;
-typedef int	t_wstatus;
+typedef int	t_lvl;
 typedef struct s_args
 {
 	char	**tab;
@@ -102,6 +102,9 @@ typedef struct s_cmd
 	char	**args_redir;
 	int		*redirs;
 	int		redirsc;
+	int		lvl;
+	int		inst;
+	pid_t	pid;
 }	t_cmd;
 typedef struct s_data
 {
@@ -112,10 +115,6 @@ typedef struct s_data
 	t_cmd		*cmds;
 	int			cmdsc;
 	t_fd		*pipes;
-	pid_t		*pids;
-	int			*ops;
-	int			*insts;
-	int			insts_len;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);

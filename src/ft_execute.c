@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 22:08:40 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:13:39 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,19 @@ static void	ft_close(t_data *data, int infd, int outfd)
 			close (data->pipes[i]);
 }
 
-static void	ft_child(t_data *data, int i, t_fd infd, t_fd outfd)
+static void	ft_child(t_data *data, int i)
 {
+	t_fd	infd;
+	t_fd	outfd;
+	
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
-	data->pids[i] = fork ();
-	if (data->pids[i] == -1)
+	infd = STDIN_FILENO;
+	infd = STDOUT_FILENO;
+	data->cmds[i].pid = fork ();
+	if (data->cmds[i].pid == -1)
 		ft_throw (data, ERR_FAIL, "fork", true);
-	if (data->pids[i] == 0)
+	if (data->cmds[i].pid == 0)
 	{
 		ft_pipe (data, i, &infd, STREAM_INPUT);
 		ft_redirect (data, i, &infd, &outfd);
@@ -69,40 +74,73 @@ static void	ft_child(t_data *data, int i, t_fd infd, t_fd outfd)
 	}
 }
 
-static void	ft_prepare(t_data *data)
-{
-	int	i;
+// static void	ft_prepare(t_data *data)
+// {
+// 	int	i;
 	
-	i = -1;
-	if (data->cmdsc > 1)
+// 	i = -1;
+// 	if (data->cmdsc > 1)
+// 	{
+// 		data->pipes = (t_fd *) malloc ((data->cmdsc - 1) * 2 * sizeof (t_fd));
+// 		ft_assert_not_null (data, data->pipes);
+// 		i = -1;
+// 		while (++i < data->cmdsc - 1)
+// 			if (pipe (data->pipes + (2 * i)) == -1)
+// 				ft_throw (data, ERR_FAIL, "pipe", true);
+// 	}
+// 	data->pids = (pid_t *) malloc (data->cmdsc * sizeof (pid_t));
+// }
+
+// static bool	ft_loop (t_data *data, int lvl, int *i)
+// {
+// 	int	c;
+// 	int	wstatus;
+	
+// 	ft_assert_not_null (data, data);
+// 	while (data->cmds[*i].lvl = 0 || data->cmds[*i].lvl == lvl)
+// 	{
+// 		if (data->cmds[*i].lvl != lvl)
+// 			ft_loop (data, lvl + 1, *i);
+// 		ft_child (data, *i, STDIN_FILENO, STDOUT_FILENO);
+// 		wait (&wstatus);
+// 		if (*i == data->cmdsc - 1 
+// 			|| (wstatus != 0 && data->cmds[*i + 1].inst == I_AND))
+// 			return (false);
+// 	}
+// 	return (true);
+// }
+
+static bool ft_loop(t_data *data, int lvl, int *i)
+{
+	// int	pipesc;
+	int status;
+
+	ft_assert_not_null (data, data);
+	status = 0;
+	while (data->cmds[*i].lvl >= lvl && *i < data->cmdsc)
 	{
-		data->pipes = (t_fd *) malloc ((data->cmdsc - 1) * 2 * sizeof (t_fd));
-		ft_assert_not_null (data, data->pipes);
-		i = -1;
-		while (++i < data->cmdsc - 1)
-			if (pipe (data->pipes + (2 * i)) == -1)
-				ft_throw (data, ERR_FAIL, "pipe", true);
+		if (data->cmds[*i].lvl > 0)
+			ft_loop (data, data->cmds[*i].lvl, i);
+		else if (data->cmds[*i].inst == I_START
+			|| (data->cmds[*i].inst == I_OR && status != 0)
+			|| (data->cmds[*i].inst == I_AND && status == 0))
+		{
+			ft_child (data, *i);
+			wait (&status);
+			ft_putnbr_fd (status, 2);
+		}
+		(*i)++;
 	}
-	data->pids = (pid_t *) malloc (data->cmdsc * sizeof (pid_t));
-	ft_assert_not_null (data, data->pids);
+	return (true);
 }
 
 void	ft_execute(t_data *data)
 {
-	int	wstatus;
 	int	i;
 
 	ft_assert_not_null (data, data);
 	if (data->cmds == NULL)
 		ft_throw (data, ERR_NULL_PTR, "ft_execute data->cmds", true);
-	ft_prepare (data);
-	i = -1;
-	while (++i < data->cmdsc)
-		ft_child (data, i, STDIN_FILENO, STDOUT_FILENO);
-	i = -1;
-	while (++i < (data->cmdsc - 1) * 2)
-		close (data->pipes[i]);
-	i = -1;
-	while (++i < data->cmdsc)
-		waitpid (data->pids[i], &wstatus, WUNTRACED);
+	i = 0;
+	ft_loop (data, 0, &i);
 }

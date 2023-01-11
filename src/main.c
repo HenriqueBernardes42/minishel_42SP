@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 22:05:29 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:50:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 static bool	ft_isvalid (t_data *data)
 {
 	int	i;
-	bool open;
+	int opened;
 	
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
 	i = -1;
-	open = false;
+	opened = 0;
 	while (data->tab[++i] != NULL)
 	{
 		if (ft_istype (data->tab[i], T_REDIR, true))
@@ -34,28 +34,25 @@ static bool	ft_isvalid (t_data *data)
 		}
 		else if (ft_istype (data->tab[i], T_PARENTH_OPEN, true))
 		{
-			if (open)
-				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-					data->tab[i], false));
-			else if (i != 0 && !ft_istype (data->tab[i - 1], T_CMD_CAT, true))
-				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-					data->tab[i], false));
-			else
-				open = true;
+			opened++;
+			// if (open)
+			// 	return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+			// 		data->tab[i], false));
+			// else if (i != 0 && !ft_istype (data->tab[i - 1], T_CMD_CAT, true))
+			// 	return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
+			// 		data->tab[i], false));
+			// else
 		}
 		else if(ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
 		{
-			if (!open)
-				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-					data->tab[i], false));
-			else if (ft_istype (data->tab[i - 1], T_SPECIAL, true))
+			if (opened < 0)
 				return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
 			else
-				open = false;
+				opened--;
 		}
 		else if (ft_istype (data->tab[i], T_CMD_SEP, true)
-			&& open)
+			&& opened > 0)
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 				data->tab[i], false));
 		else if (ft_istype (data->tab[i], T_CMD_CAT, true) 
@@ -105,44 +102,14 @@ static void	ft_catch(t_data *data, int *i, int j)
 	}
 }
 
-static void	ft_add_instruction(t_data *data, int i)
-{
-	ft_assert_not_null (data, data);
-	if (ft_istype (data->tab[i], T_PIPE, true))
-		ft_addint (data, &data->insts, data->insts_len, I_PIPE);
-	else if (ft_istype (data->tab[i], T_OP_AND, true)
-		|| ft_istype (data->tab[i], T_OP_OR, true))
-	{
-		if (i == 0)
-			ft_throw (data, ERR_UNEXPECTED_TOKEN, data->tab[i], true);
-		if (ft_istype (data->tab[i], T_OP_AND, true))
-		{
-			if (ft_istype (data->tab[i - 1], T_PARENTH, true)
-				|| ft_istype (data->tab[i + 1], T_PARENTH, true))
-				ft_addint (data, &data->insts, data->insts_len, I_AND_PARENTH);
-			else
-				ft_addint (data, &data->insts, data->insts_len, I_AND);
-		}
-		else
-		{
-			if (ft_istype (data->tab[i - 1], T_PARENTH, true)
-				| ft_istype (data->tab[i + 1], T_PARENTH, true))
-				ft_addint (data, &data->insts, data->insts_len, I_OR_PARENTH);
-			else
-				ft_addint (data, &data->insts, data->insts_len, I_OR);
-		}
-	}
-	else
-		ft_throw (data, ERR_FAIL, "add instruction", true);
-	data->insts_len++;
-}
-
 /// @brief Parse the array of input to an array of structs of type s_cmd.
 /// @param data The minishell's data.
 static void	ft_parse(t_data *data)
 {
 	int	i;
 	int	j;
+	int	lvl;
+	int	inst;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
@@ -155,25 +122,37 @@ static void	ft_parse(t_data *data)
 	data->cmds = ft_initcmds (data, data->cmdsc);
 	i = 0;
 	j = 0;
+	lvl = 0;
+	inst = I_START;
 	while (data->tab[i] != NULL && j < data->cmdsc)
 	{
-		while (data->tab[i] != NULL 
-			&& !ft_istype (data->tab[i], T_PIPE, true)
-			&& !ft_istype (data->tab[i], T_OP, true)) 
+		if (ft_istype (data->tab[i], T_SPECIAL, true))
 		{
-			if (!ft_istype (data->tab[i], T_CMD_SEP, true)
-				&& !ft_istype (data->tab[i], T_PARENTH, true))
-				ft_catch (data, &i, j);
-			i++;
+			if (ft_istype (data->tab[i], T_PARENTH_OPEN, true))
+				lvl++;
+			else if (ft_istype (data->tab[i], T_PARENTH, true))
+				lvl--;
+			else if (ft_istype (data->tab[i], T_PIPE, true)
+				|| ft_istype (data->tab[i], T_OP, true))
+			{
+				if (ft_istype (data->tab[i], T_PIPE, true))
+					inst = I_PIPE;
+				else if (ft_istype (data->tab[i], T_OP_AND, true))
+					inst = I_AND;
+				else if (ft_istype (data->tab[i], T_OP_OR, true))
+					inst = I_OR;
+				j++;
+			}
 		}
-		if (data->tab[i] != NULL
-			&& (ft_istype (data->tab[i], T_PIPE, true)
-			|| ft_istype (data->tab[i], T_OP, true)))
+		else
 		{
-			ft_add_instruction (data, i);
-			i++;
+			if (data->cmds[j].inst == I_UNDEF)
+				data->cmds[j].inst = inst;
+			if (data->cmds[j].lvl == -1)
+				data->cmds[j].lvl = lvl;
+			ft_catch (data, &i, j);
 		}
-		j++;
+		i++;
 	}
 }
 
