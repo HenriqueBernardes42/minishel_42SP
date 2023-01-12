@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 14:38:04 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 15:22:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
-	init_signal_handler();
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 12:25:49 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 15:33:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**ft_minishell_split(t_data *data, char *str)
 	if (str == NULL)
 		return (NULL);
 	args3 = ft_initargs3 (data);
+	tab = NULL;
 	while (str[args3->i] != '\0')
 		ft_handle_type (data, args3, &tab, str);
 	if (args3->status == 1)
