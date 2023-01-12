@@ -16,8 +16,7 @@ void	ft_echo(t_data *data, char **args)
 {
 	int	i;
 
-	if (*get_env_var(data->envp, "PATH") != NULL)
-		args++;
+	ft_assert_not_null (data, data);
 	i = 0;
 	if (*args != NULL && (!ft_strncmp ("-n", *args, 3)
 			|| !ft_strncmp ("-", *args, 2)))

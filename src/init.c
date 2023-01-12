@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:44:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:36:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 static void	ft_initdata_envp(t_data *data, char **envp)
 {
 	int	i;
-	
+
 	ft_assert_not_null (data, data);
 	data->envp = (char **) malloc ((ft_tablen (envp) + 1) * sizeof (char *));
 	if (data->envp == NULL)
@@ -93,7 +93,6 @@ static void	ft_initdata_envp(t_data *data, char **envp)
 t_data	*ft_initdata(char **envp)
 {
 	t_data	*data;
-	int		i;
 
 	data = (t_data *) malloc (sizeof (t_data));
 	ft_assert_not_null (data, data);

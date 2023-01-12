@@ -6,11 +6,36 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:06:05 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:23:33 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_assert_finished(t_data *data)
+{
+	char	*linepl;
+	char	*temp;
+
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, data->line);
+	ft_assert_not_null (data, data->tab);
+	while (ft_istype (data->tab[ft_tablen (data->tab) - 1], T_OP, true)
+		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true))
+	{
+		linepl = readline ("> ");
+		temp = ft_strjoin (data->line, " ");
+		free (data->line);
+		data->line = ft_strjoin (temp, linepl);
+		free (temp);
+		free (linepl);
+		ft_destroy_tab (data->tab);
+		data->tab = ft_minishell_split (data, data->line);
+		if (!ft_isvalid (data))
+			return (false);
+	}
+	return (true);
+}
 
 /// @brief Assert that a pointer is not null.
 /// @param data The minishell's data;
@@ -68,7 +93,7 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 /// @param data The minishell's data;
 /// @param pathname The pathname;
 /// @param permss The permission to check: either R_OK or W_OK from unistd.h.
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss) // check if executable
+void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 {
 	int		i;
 	t_args	*args;
