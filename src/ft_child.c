@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_child.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 14:35:44 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:46:02 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ static void	ft_exec_cmd(t_data *data, int i, int j)
 
 void	ft_child(t_data *data, int i, int j)
 {
-	t_fd	infd;
-	t_fd	outfd;
-
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
 	if (ft_isbuiltin (data->cmds[i].name) == 2)
