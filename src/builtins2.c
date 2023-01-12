@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:06:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:23:02 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,19 @@ void	ft_export(t_data *data, char **args)
 	i = -1;
 	if (args == NULL)
 	{
+		ft_assert_not_null (data, data->envp);
 		while (data->envp[++i] != NULL)
 		{
 			var = ft_split(data->envp[i], '=');
+			ft_assert_not_null (data, var);
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 			ft_destroy_tab(var);
 		}
 		return ;
 	}
-	while (*args != NULL)
-		if (ft_strchr(*args++, '=') != NULL)
-			ar_env_var(data, args - 1);
+	while (args[++i] != NULL)
+		if (ft_strchr(args[i], '=') != NULL)
+			ar_env_var(data, args + i);
 }
 
 void	ft_cd(t_data *data, char *path)
