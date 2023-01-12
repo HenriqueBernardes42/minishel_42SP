@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 12:04:30 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:49:54 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	*tab = ntab;
 }
 
-t_redir	ft_getredir(char *str)
+t_type	ft_getredir(char *str)
 {
 	if (ft_strncmp (str, "<", 2) == 0)
 		return (REDIR_INFILE);

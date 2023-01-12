@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 10:31:59 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:44:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,24 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].args_redir = NULL;
 		cmds[i].redirs = NULL;
 		cmds[i].redirsc = 0;
+		cmds[i].lvl = -1;
+		cmds[i].inst = I_UNDEF;
 	}
 	return (cmds);
+}
+
+static void	ft_initdata_envp(t_data *data, char **envp)
+{
+	int	i;
+	
+	ft_assert_not_null (data, data);
+	data->envp = (char **) malloc ((ft_tablen (envp) + 1) * sizeof (char *));
+	if (data->envp == NULL)
+		ft_throw (data, ERR_FAIL, "malloc", true);
+	i = ft_tablen (envp);
+	data->envp[i] = NULL;
+	while (--i >= 0)
+		data->envp[i] = ft_strdup (envp[i]);
 }
 
 t_data	*ft_initdata(char **envp)
@@ -81,24 +97,12 @@ t_data	*ft_initdata(char **envp)
 
 	data = (t_data *) malloc (sizeof (t_data));
 	ft_assert_not_null (data, data);
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	data->envp = (char **)malloc((i + 1) * sizeof(char *));
-	ft_assert_not_null (data, data->envp);
-	data->envp[i] = NULL;
-	while (--i >= 0)
-	{
-		data->envp[i] = ft_strdup(envp[i]);
-		if (data->envp[i] == NULL)
-			ft_throw (data, ERR_NULL_PTR, "init envp copy", true);
-	}
+	ft_initdata_envp (data, envp);
+	if (envp != NULL)
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;
 	data->cmdsc = -1;
 	data->pipes = NULL;
-	data->pids = NULL;
-	data->foreground_pipe = ft_itoa(0);
 	return (data);
 }

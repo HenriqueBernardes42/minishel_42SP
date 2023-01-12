@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 12:08:53 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:08:05 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,11 @@ void	ft_destroy_execution(t_data *data)
 		ft_destroy_cmds (data);
 	if (data->pipes != NULL)
 		free (data->pipes);
-	if (data->pids != NULL)
-		free (data->pids);
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;
 	data->pipes = NULL;
 	data->cmdsc = 0;
-	data->pids = NULL;
 }
 
 /// @brief Destroy the minishell's data, 

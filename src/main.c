@@ -6,12 +6,17 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/12 12:43:05 by rburgsta         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/12 12:34:09 by katchogl         ###   ########.fr       */
+>>>>>>> katchogl
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+<<<<<<< HEAD
 /// @brief Check whether the array of input strings is valid or not.
 /// @param data The minishell's data;
 /// @return the result.
@@ -172,6 +177,8 @@ void	ft_split_input(t_data *data)
 	}
 }
 
+=======
+>>>>>>> katchogl
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
@@ -179,12 +186,16 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
+<<<<<<< HEAD
 	init_signal_handler();
+=======
+>>>>>>> katchogl
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line != NULL && ft_strncmp (data->line, "", 1) != 0)
 		{
+<<<<<<< HEAD
 			//data->tab = ft_split (data->line, ' ');
 			ft_split_input(data);
 			ft_expand (data);
@@ -195,14 +206,24 @@ int	main(int argc, char **argv, char **envp)
 			printf("'%p'\n", data->tab[i]);
 			if (ft_isvalid (data))
 			{
+=======
+			data->tab = ft_minishell_split (data, data->line);
+			if (ft_isvalid (data) && ft_assert_finished (data))
+			{
+				add_history (data->line);
+>>>>>>> katchogl
 				ft_parse (data);
 				ft_heredocs (data);
 				ft_execute (data);
 			}
+<<<<<<< HEAD
 			add_history (data->line);
 		}
 		else if (data->line == NULL)
 			ft_exit(data, NULL);
+=======
+		}
+>>>>>>> katchogl
 		ft_destroy_execution (data);
 	}
 	ft_destroy_data (data);

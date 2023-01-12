@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/10 14:38:55 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:06:39 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
