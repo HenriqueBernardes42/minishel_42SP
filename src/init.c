@@ -6,28 +6,11 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 11:52:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:36:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	*ft_initpipes(t_data *data, int cmdsc)
-{	
-	int	*pipes;
-	int	i;
-
-	if (cmdsc < 2)
-		return (NULL);
-	pipes = (int *) malloc ((cmdsc - 1) * 2 * sizeof (int));
-	if (pipes == NULL)
-		ft_throw (data, ERR_FAIL, "malloc", true);
-	i = -1;
-	while (++i < cmdsc - 1)
-		if (pipe (pipes + i * 2) != 0)
-			ft_throw (data, ERR_FAIL, "fail", true);
-	return (pipes);
-}
 
 t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
 {
@@ -93,14 +76,28 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 	return (cmds);
 }
 
+static void	ft_initdata_envp(t_data *data, char **envp)
+{
+	int	i;
+
+	ft_assert_not_null (data, data);
+	data->envp = (char **) malloc ((ft_tablen (envp) + 1) * sizeof (char *));
+	if (data->envp == NULL)
+		ft_throw (data, ERR_FAIL, "malloc", true);
+	i = ft_tablen (envp);
+	data->envp[i] = NULL;
+	while (--i >= 0)
+		data->envp[i] = ft_strdup (envp[i]);
+}
+
 t_data	*ft_initdata(char **envp)
 {
 	t_data	*data;
 
 	data = (t_data *) malloc (sizeof (t_data));
 	ft_assert_not_null (data, data);
-	data->envp = envp;
-	data->path = ft_split (getenv ("PATH"), ':');
+	ft_initdata_envp (data, envp);
+	if (envp != NULL)
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;

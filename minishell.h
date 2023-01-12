@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 12:42:01 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:21:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define BUFFER_SIZE 42
 # include <stdio.h>
 # include <string.h>
+# include <signal.h>
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -25,7 +26,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
+# define BUFFER_SIZE 42
 
 typedef enum e_stream
 {
@@ -119,7 +122,6 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char		**envp;
-	char		**path;
 	char		*line;
 	char		**tab;
 	t_cmd		*cmds;
@@ -171,4 +173,5 @@ bool	valid_env_name(char *str);
 void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
+void	init_signal_handler(void);
 #endif
