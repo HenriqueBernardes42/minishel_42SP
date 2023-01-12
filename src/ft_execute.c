@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:24:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 21:06:09 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ static void	ft_run(t_data *data, int *i, int *status)
 
 	j = -1;
 	while (++j < data->cmdsc_pps)
-	{
-		ft_child (data, *i, j);
-		(*i)++;
-	}
+		ft_child (data, (*i)++, j);
 	if (data->pipes != NULL)
 	{
 		j = -1;
@@ -43,7 +40,11 @@ static void	ft_run(t_data *data, int *i, int *status)
 	}
 	j = -1;
 	while (++j < data->cmdsc_pps)
+	{
 		wait (status);
+		if (ft_isbuiltin (data->cmds[j].name) != 2)
+			data->ret_pipe = *status >> 8 ;
+	}
 	if (data->pipes != NULL)
 	{
 		free (data->pipes);

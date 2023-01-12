@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 14:21:45 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 20:52:52 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	int			cmdsc_pps;
+	int			ret_pipe;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -173,5 +174,5 @@ bool	valid_env_name(char *str);
 void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
-void	init_signal_handler(void);
+void	init_signal_handler(t_data *data);
 #endif

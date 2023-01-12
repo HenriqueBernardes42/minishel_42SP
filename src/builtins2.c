@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 16:23:02 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 20:40:18 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_unset(t_data *data, char **args)
 {
 	while (args != NULL && *args != NULL)
 		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
+	data->ret_pipe = EXIT_SUCCESS;
 }
 
 /** 
@@ -55,7 +56,10 @@ static void	ar_env_var(t_data *data, char **args)
 
 	var = ft_split(*args, '=');
 	if (!valid_env_name(var[0]))
+	{
 		printf("bash: export: '%s': not a valid identifier\n", *args);
+		data->ret_pipe = EXIT_FAILURE;
+	}
 	env_var = *get_env_var(data->envp, var[0]);
 	free(env_var);
 	if (valid_env_name(var[0]) && env_var != NULL)

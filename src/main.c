@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 16:20:16 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 21:13:05 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	char	*str;
 	char	*var;
 	int		i;
-	
-	i = 0;
-	while (ft_isalnum(tab[0][index + i]) || tab[0][index + i] == '_')
-		i++;
+
+	i = (ft_isdigit(tab[0][index]) || tab[0][index] == '?');
+	if (i == 0)
+		while (ft_isalnum(tab[0][index + i]) || tab[0][index + i] == '_')
+			i++;
 	var = ft_substr(*tab, index, i);
-	if (*get_env_var(data->envp, var) != NULL)
+	if ((*tab)[index] == '?')
+		str = ft_itoa(data->ret_pipe);
+	else if (*get_env_var(data->envp, var) != NULL)
 		str = *get_env_var(data->envp, var) + ft_strlen(var) + 1;
 	else
 		str = "";
@@ -30,39 +33,42 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
 	ft_strlcpy(var, *tab, index);
 	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
-	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) - ft_strlen(str));
+	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) - ft_strlen(str) + 1);
+	if ((*tab)[index] == '?')
+		free(str);
 	free(*tab);
 	*tab = var;
 }
 
 static void	ft_expand(t_data *data)
 {
-	int	ign;
+	int	ig;
 	int	i;
 	int	i2;
 
 	ft_assert_not_null (data, data);
 	i = -1;
-	ign = 0;
+	ig = 0;
 	while (data->tab[++i] != NULL)
 	{
 		i2 = -1;
 		while (data->tab[i][++i2] != '\0')
 		{
 			if (data->tab[i][i2] == '\'')
-				ign = !ign;	
-			else if (data->tab[i][i2] == '$' && !ign)
-				ft_insert_var(data, data->tab + i, i2 + 1);
+				ig = !ig;
+			else if (data->tab[i][i2] == '$' && !ig)
+				if (data->tab[i][i2 + 1] != ' ' && data->tab[i][i2 + 1] != '\0')
+					ft_insert_var(data, data->tab + i, i2 + 1);
 		}
 	}
 }
 
 void	ft_split_input(t_data *data)
 {
-	int	i;
-	int	i2;
-	char *tmp;
-	int	ign;
+	int		i;
+	int		i2;
+	char	*tmp;
+	int		ign;
 
 	i = -1;
 	ign = 0;
@@ -115,7 +121,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
-	init_signal_handler();
+	init_signal_handler(data);
 	while (true)
 	{
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
