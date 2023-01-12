@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/08 11:05:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 10:19:20 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static void	ft_error(t_errno err)
 	else if (err != 0)
 		printf ("an unexpected error occurred");
 }
- 
+
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
 	printf ("minishell: ");
-	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES 
-		|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
+	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES
+			|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
 		printf ("%s: ", info);
 	else if (info != NULL && err == ERR_FAIL)
 		printf ("%s ", info);
@@ -50,7 +50,7 @@ bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 	if (info != NULL && err == ERR_UNEXPECTED_TOKEN)
 		printf (" `%s'", info);
 	if (info != NULL && err != ERR_UNEXPECTED_TOKEN && err != ERR_ENOENT
-		&& err != ERR_CMD_NOT_FOUND && err != ERR_EACCES && err != ERR_FAIL 
+		&& err != ERR_CMD_NOT_FOUND && err != ERR_EACCES && err != ERR_FAIL
 		&& err != ERR_AMBIGUOUS_REDIRECT)
 		printf (": `%s'", info);
 	printf ("\n");

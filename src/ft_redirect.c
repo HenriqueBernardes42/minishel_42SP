@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 19:47:15 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:52:23 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static void	ft_setnfd(t_data *data, t_args2 *args2)
 	ft_assert_not_null (data, args2);
 	if (args2->redir == REDIR_INFILE)
 		args2->nfd = open (data->cmds[args2->i].args_redir[args2->j],
-				O_RDONLY); // first check if file exits if yes use elsecheck if matches
-				// any pattern, if yes ambiguous else no such file
+				O_RDONLY);
 	else if (args2->redir == REDIR_HEREDOC)
 		args2->nfd = ft_atoi (data->cmds[args2->i]
 				.args_redir[args2->j]);

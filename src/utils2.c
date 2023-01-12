@@ -6,39 +6,33 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 21:49:10 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 12:01:59 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_builtin(t_data *data, int i, char *builtin)
+void	ft_exec_builtin(t_data *data, int i, char *builtin)
 {
 	if (ft_strncmp (builtin, "echo", 5) == 0)
-		ft_echo (data->cmds[i].args);
+		ft_echo (data, data->cmds[i].args);
 	else if (ft_strncmp (builtin, "cd", 3) == 0)
 	{
 		if (data->cmds[i].argsc > 1)
-			ft_cd (data, data->cmds[i].args[1]);
+			ft_cd (data, data->cmds[i].args[0]);
 		else
 			ft_cd (data, NULL);
 	}
 	else if (ft_strncmp (builtin, "pwd", 4) == 0)
 		ft_pwd (data);
-	else if (ft_strncmp (builtin, "export", 7) == 0)
+	else if (ft_strncmp (builtin, "export", 8) == 0)
 		ft_export (data, data->cmds[i].args);
-	else if (ft_strncmp (builtin, "unset", 6) == 0)
+	else if (ft_strncmp (builtin, "unset", 7) == 0)
 		ft_unset (data, data->cmds[i].args);
 	else if (ft_strncmp (builtin, "env", 4) == 0)
 		ft_env(data);
 	else if (ft_strncmp (builtin, "exit", 5) == 0)
-		ft_exit (data);
-}
-
-char	*ft_getinput(t_data *data)
-{
-	ft_assert_not_null (data, data);
-	return (NULL);
+		ft_exit (data, data->cmds[i].args);
 }
 
 size_t	ft_tablen(char **tab)
@@ -53,20 +47,38 @@ size_t	ft_tablen(char **tab)
 	return (len);
 }
 
-
-bool	ft_isbuiltin(char *str)
+int	ft_isbuiltin(char *str)
 {
 	if (str == NULL)
 		return (false);
 	if (ft_strncmp (str, "echo", 5) == 0
-		|| ft_strncmp (str, "cd", 3) == 0
 		|| ft_strncmp (str, "pwd", 4) == 0
-		|| ft_strncmp (str, "export", 7) == 0
-		|| ft_strncmp (str, "unset", 6) == 0
-		|| ft_strncmp (str, "env", 4) == 0
-		|| ft_strncmp (str, "exit", 5) == 0)
-		return (true);
-	return (false);
+		|| ft_strncmp (str, "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp (str, "exit", 5) == 0
+		|| ft_strncmp (str, "export", 8) == 0
+		|| ft_strncmp (str, "unset", 7) == 0
+		|| ft_strncmp (str, "cd", 3) == 0)
+		return (2);
+	return (0);
+}
+
+static int	ft_istypepl(char *str, t_type type, bool strict)
+{
+	if (ft_strncmp (str, "|", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PIPE || type == T_CMD_CAT))
+		return (1);
+	else if (ft_strncmp (str, "&&", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_OP || type == T_OP_AND
+			|| type == T_CMD_CAT))
+		return (2);
+	else if (ft_strncmp (str, "(", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PARENTH_OPEN || type == T_PARENTH))
+		return (1);
+	else if (ft_strncmp (str, ")", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PARENTH_CLOSE || type == T_PARENTH))
+		return (1);
+	return (0);
 }
 
 int	ft_istype(char *str, t_type type, bool strict)
@@ -89,19 +101,9 @@ int	ft_istype(char *str, t_type type, bool strict)
 		&& (type == T_SPECIAL || type == T_CMD_SEP || type == T_CMD_CAT))
 		return (1);
 	else if (ft_strncmp (str, "||", 2 + strict) == 0
-		&& (type == T_SPECIAL || type == T_OP || type == T_OP_OR || type == T_CMD_CAT))
+		&& (type == T_SPECIAL || type == T_OP || type == T_OP_OR
+			|| type == T_CMD_CAT))
 		return (2);
-	else if (ft_strncmp (str, "|", 1 + strict) == 0
-		&& (type == T_SPECIAL || type == T_PIPE || type == T_CMD_CAT))
-		return (1);
-	else if (ft_strncmp (str, "&&", 2 + strict) == 0
-		&& (type == T_SPECIAL || type == T_OP || type == T_OP_AND || type == T_CMD_CAT))
-		return (2);
-	else if (ft_strncmp (str, "(", 1 + strict) == 0
-		&& (type == T_SPECIAL || type == T_PARENTH_OPEN || type == T_PARENTH))
-		return (1);
-	else if (ft_strncmp (str, ")", 1 + strict) == 0
-		&& (type == T_SPECIAL || type == T_PARENTH_CLOSE || type == T_PARENTH))
-		return (1);
-	return (0);
+	else
+		return (ft_istypepl (str, type, strict));
 }

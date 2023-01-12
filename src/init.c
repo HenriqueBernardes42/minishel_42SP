@@ -6,17 +6,17 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/11 11:49:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:52:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		*ft_initpipes(t_data *data, int cmdsc)
+int	*ft_initpipes(t_data *data, int cmdsc)
 {	
 	int	*pipes;
 	int	i;
-	
+
 	if (cmdsc < 2)
 		return (NULL);
 	pipes = (int *) malloc ((cmdsc - 1) * 2 * sizeof (int));
