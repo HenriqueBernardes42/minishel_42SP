@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 12:25:59 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 12:42:01 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_args2
 }	t_args2;
 typedef struct s_args3
 {
-	int 	status;
+	int		status;
 	size_t	i;
 	size_t	temp;
 }	t_args3;
@@ -101,8 +101,8 @@ typedef struct s_args4
 {
 	int	i;
 	int	j;
-	int lvl;
-	int inst;
+	int	lvl;
+	int	inst;
 }	t_args4;
 typedef struct s_cmd
 {
@@ -160,14 +160,14 @@ int		ft_istype(char *str, t_type type, bool strict);
 int		*ft_initpipes(t_data *data, int cmdsc);
 size_t	ft_tablen(char **tab);
 bool	ft_assert_finished(t_data *data);
-bool	ft_isvalid (t_data *data);
+bool	ft_isvalid(t_data *data);
 void	ft_pipe(t_data *data, int j, t_fd *iofd, t_stream s);
 void	ft_close(t_data *data, int infd, int outfd);
 void	ft_child(t_data *data, int i, int j);
 int		ft_anticipate_cmdsc(t_data *data, int i);
 bool	ft_loop(t_data *data, int lvl, int *i);
 char	**get_env_var(char **envp, char *var);
-bool 	valid_env_name(char *str);
+bool	valid_env_name(char *str);
 void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
