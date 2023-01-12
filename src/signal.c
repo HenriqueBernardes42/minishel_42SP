@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/10 17:06:25 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 10:26:32 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void signal_handler(int sig)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		write(1, "\033[32;1mminishell$ \033[0m", 23);
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		//write(1, "\033[32;1mminishell$ \033[0m", 23);
+	}
 }
 
 void	init_signal_handler(void)
