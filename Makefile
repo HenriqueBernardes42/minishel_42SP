@@ -9,7 +9,7 @@ NAME			=	minishell
 
 SRC				=	main init destroy utils ft_execute assert \
 					ft_redirect ft_heredocs error builtins \
-					builtins2 signal bools utils2
+					builtins2 signal utils2  bools
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -17,7 +17,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-READLINE		=	/Users/$(USER)/homebrew/opt/readline
+READLINE		=	/Users/$(USER)/.brew/opt/readline
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -25,14 +25,10 @@ READLINE		=	/Users/$(USER)/homebrew/opt/readline
 all: $(NAME)
 
 $(LIBFT):
-	#git clone https://github.com/AtchogloDev/$(LIBFT_REPO).git
 	make -C $(LIBFT_REPO)
 
-$(READLINE)/lib:
-	brew install readline
-
-$(NAME): $(LIBFT)$(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBFT) -lreadline
+$(NAME): $(LIBFT) $(READLINE)/lib $(OBJ)
+	$(CC) $(CFLAGS) $(LIBFT) -L$(READLINE)/lib -lreadline $(OBJ) -o $(NAME)
 
 clean:
 	@rm -f $(OBJ)
@@ -53,6 +49,10 @@ purge: fclean
 	fi ;
 
 m: $(NAME)
+	@./$(NAME)
+
+mc: $(NAME)
+	make clean
 	@./$(NAME)
 
 test-leaks: $(NAME)

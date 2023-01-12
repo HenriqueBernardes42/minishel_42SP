@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/12 10:26:32 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:56:54 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void signal_handler(int sig)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		//write(1, "\033[32;1mminishell$ \033[0m", 23);
 	}
 }
 
