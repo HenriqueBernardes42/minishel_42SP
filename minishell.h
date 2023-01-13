@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 20:52:52 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:20:12 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_args2
 }	t_args2;
 typedef struct s_args3
 {
+	char	*str;
 	int		status;
 	size_t	i;
 	size_t	temp;
@@ -172,7 +173,7 @@ bool	ft_loop(t_data *data, int lvl, int *i);
 char	**get_env_var(char **envp, char *var);
 bool	valid_env_name(char *str);
 void	ft_parse(t_data *data);
-t_args3	*ft_initargs3(t_data *data);
+t_args3	*ft_initargs3(t_data *data, char *str);
 t_args4	*ft_initargs4(t_data *data);
 void	init_signal_handler(t_data *data);
 #endif

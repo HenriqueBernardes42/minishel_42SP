@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:26:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:20:26 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ t_args4	*ft_initargs4(t_data *data)
 	return (args4);
 }
 
-t_args3	*ft_initargs3(t_data *data)
+t_args3	*ft_initargs3(t_data *data, char *str)
 {
 	t_args3	*args3;
 
 	args3 = (t_args3 *) malloc (sizeof (t_args3));
 	if (args3 == NULL)
 		ft_throw (data, ERR_FAIL, "malloc", true);
+	args3->str = str;
 	args3->i = 0;
 	args3->status = 0;
 	return (args3);
