@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 13:32:54 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:19:21 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,22 @@ void	ft_close(t_data *data, int infd, int outfd)
 	while (++i < (data->cmdsc_pps - 1) * 2)
 		if (data->pipes[i] != infd && data->pipes[i] != outfd)
 			close (data->pipes[i]);
+}
+
+void	ft_close_curr_lvl(t_data *data)
+{
+	int	j;
+
+	j = -1;
+	while (++j < data->cmdsc_pps)
+	{
+		wait (&data->status);
+		if (WIFEXITED (data->status))
+			data->status = WEXITSTATUS (data->status);
+	}
+	if (data->pipes != NULL)
+	{
+		free (data->pipes);
+		data->pipes = NULL;
+	}
 }

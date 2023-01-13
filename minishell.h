@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 14:24:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:19:02 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	int			cmdsc_pps;
+	int			status;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -179,4 +180,5 @@ char	*ft_memdup(char const *s, size_t a, size_t b);
 void	ft_init_signal_handler(void);
 int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
+void	ft_close_curr_lvl(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 14:11:14 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:12:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_exec_cmd(t_data *data, int i, int j)
 	t_fd	infd;
 	t_fd	outfd;
 
-	ft_prepare_cmd_exec (data, &pid, &i, &j);
+	ft_prepare_cmd_exec (data, &pid, &infd, &outfd);
 	if (pid == 0)
 	{
 		ft_pipe(data, j, &infd, STREAM_INPUT);
