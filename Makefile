@@ -7,11 +7,13 @@ CDEPS			=	minishell.h
 
 NAME			=	minishell
 
-SRC				=	main init destroy utils ft_execute assert \
+SRC				=	main init destroy ft_execute assert \
 					ft_redirect ft_heredocs error builtins \
-					builtins2 signal utils2 \
-					ft_minishell_split ft_execute_utils \
-					utils3 ft_isvalid ft_parse init2 ft_child
+					builtins2 signal ft_minishell_split \
+					ft_isvalid ft_parse init2 ft_child \
+					utils_builtins utils_execute \
+					utils_libft_impl utils_minishell_split \
+					utils_type utils
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -21,7 +23,7 @@ LIBFT			=	$(LIBFT_REPO)/libft.a
 
 READLINE		=	/Users/$(USER)/homebrew/opt/readline
 
-%.o: %.c $(CDEPS)
+%.o: %.c $(sDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)

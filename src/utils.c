@@ -6,11 +6,23 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 15:37:01 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:28:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+size_t	ft_tablen(char **tab)
+{
+	size_t	len;
+
+	if (tab == NULL)
+		return (0);
+	len = 0;
+	while (tab[len] != NULL)
+		len++;
+	return (len);
+}
 
 void	ft_remove(t_data *data, char ***tab, char *str)
 {
@@ -90,18 +102,6 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	*tab = ntab;
 }
 
-t_type	ft_getredir(char *str)
-{
-	if (ft_strncmp (str, "<", 2) == 0)
-		return (REDIR_INFILE);
-	else if (ft_strncmp (str, ">", 2) == 0)
-		return (REDIR_OUTFILE_TRC);
-	else if (ft_strncmp (str, "<<", 3) == 0)
-		return (REDIR_HEREDOC);
-	else if (ft_strncmp (str, ">>", 3) == 0)
-		return (REDIR_OUTFILE_APP);
-	return (REDIR_UNDEF);
-}
 
 char	*ft_pathname(t_data *data, char *name)
 {
@@ -115,8 +115,8 @@ char	*ft_pathname(t_data *data, char *name)
 	if (access (name, X_OK) != -1)
 		return (ft_strdup (name));
 	i = -1;
-	if (*get_env_var(data->envp, "PATH") != NULL)
-		path = ft_split(*get_env_var(data->envp, "PATH") + 5, ':');
+	if (*ft_get_env_var(data->envp, "PATH") != NULL)
+		path = ft_split(*ft_get_env_var(data->envp, "PATH") + 5, ':');
 	else
 		return (NULL);
 	while (path[++i] != NULL)

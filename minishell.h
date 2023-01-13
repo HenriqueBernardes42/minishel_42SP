@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 16:31:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:35:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <sys/param.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <dirent.h>
 # define BUFFER_SIZE 42
 
 typedef enum e_stream
@@ -168,10 +170,14 @@ void	ft_close(t_data *data, int infd, int outfd);
 void	ft_child(t_data *data, int i, int j);
 int		ft_anticipate_cmdsc(t_data *data, int i);
 bool	ft_loop(t_data *data, int lvl, int *i);
-char	**get_env_var(char **envp, char *var);
-bool	valid_env_name(char *str);
+char	**ft_get_env_var(char **envp, char *var);
+bool	ft_valid_env_name(char *str);
 void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
-void	init_signal_handler(void);
+char	*ft_memdup(char const *s, size_t a, size_t b);
+void	ft_init_signal_handler(void);
+char	*ft_getcwd(t_data *data);
+int 	ft_strchri(const char *s, int c);
+bool 	ft_matches_pattern(char *pattern, char *filename);
 #endif

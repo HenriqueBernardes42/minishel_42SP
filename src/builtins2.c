@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:06:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 10:03:38 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @return Pointer to the variable if found otherwise pointer to 
  * the end of the array
  */
-char	**get_env_var(char **envp, char *var)
+char	**ft_get_env_var(char **envp, char *var)
 {
 	int	i;
 	int	len;
@@ -40,7 +40,7 @@ char	**get_env_var(char **envp, char *var)
 void	ft_unset(t_data *data, char **args)
 {
 	while (args != NULL && *args != NULL)
-		ft_remove (data, &data->envp, *get_env_var(data->envp, *args++));
+		ft_remove (data, &data->envp, *ft_get_env_var(data->envp, *args++));
 }
 
 /** 
@@ -48,19 +48,19 @@ void	ft_unset(t_data *data, char **args)
  * @param[in] data Minishell data
  * @param[in] args The variables
  */
-static void	ar_env_var(t_data *data, char **args)
+static void	ft_ar_env_var(t_data *data, char **args)
 {
 	char	**var;
 	char	*env_var;
 
 	var = ft_split(*args, '=');
-	if (!valid_env_name(var[0]))
+	if (!ft_valid_env_name(var[0]))
 		printf("bash: export: '%s': not a valid identifier\n", *args);
-	env_var = *get_env_var(data->envp, var[0]);
+	env_var = *ft_get_env_var(data->envp, var[0]);
 	free(env_var);
-	if (valid_env_name(var[0]) && env_var != NULL)
+	if (ft_valid_env_name(var[0]) && env_var != NULL)
 		env_var = ft_strdup(*args);
-	else if (valid_env_name(var[0]))
+	else if (ft_valid_env_name(var[0]))
 		ft_push(data, &data->envp, *args);
 	ft_destroy_tab(var);
 }
@@ -83,7 +83,7 @@ void	ft_export(t_data *data, char **args)
 	}
 	while (*args != NULL)
 		if (ft_strchr(*args++, '=') != NULL)
-			ar_env_var(data, args - 1);
+			ft_ar_env_var(data, args - 1);
 }
 
 void	ft_cd(t_data *data, char *path)
@@ -93,7 +93,7 @@ void	ft_cd(t_data *data, char *path)
 
 	if (path == NULL)
 	{
-		path = *get_env_var(data->envp, "HOME");
+		path = *ft_get_env_var(data->envp, "HOME");
 		if (path != NULL)
 			path += 5;
 		else
@@ -107,7 +107,7 @@ void	ft_cd(t_data *data, char *path)
 		if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 			ft_throw (data, ERR_FAIL, "cd getcwd null check", true);
 		temp = ft_strjoin("PWD=", cwd);
-		ft_remove(data, &data->envp, *get_env_var(data->envp, "PWD"));
+		ft_remove(data, &data->envp, *ft_get_env_var(data->envp, "PWD"));
 		ft_push(data, &data->envp, temp);
 		free(temp);
 		free(cwd);

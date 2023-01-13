@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/13 09:02:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 10:05:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int sig)
+void	ft_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -28,11 +28,11 @@ void	signal_handler(int sig)
 	}
 }
 
-void	init_signal_handler(void)
+void	ft_init_signal_handler(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = &signal_handler;
+	sa.sa_handler = &ft_signal_handler;
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);

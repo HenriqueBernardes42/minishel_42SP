@@ -1,30 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   utils_libft_impl.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 10:53:00 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 11:53:45 by katchogl         ###   ########.fr       */
+/*   Created: 2023/01/13 13:27:31 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/13 13:29:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	valid_env_name(char *str)
+char	*ft_memdup(char const *s, size_t a, size_t b)
+{
+	char	*ptr;
+	int		i;
+
+	if (b - a <= 0)
+		return (NULL);
+	ptr = (char *) malloc ((b - a + 1) * sizeof (char));
+	i = -1;
+	while (a < b)
+	{
+		ptr[++i] = s[a];
+		a++;
+	}
+	ptr[++i] = '\0';
+	return (ptr);
+}
+
+int ft_strchri(const char *s, int c)
 {
 	int	i;
 
-	if (ft_strlen(str) < 1)
-		return (false);
 	i = -1;
-	while (str[++i] != '\0')
-	{
-		if (!i && ft_isdigit(str[i]))
-			return (false);
-		else if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (false);
-	}
-	return (true);
+	if (c == 0)
+		return (ft_strlen (s));
+	while (s[++i])
+		if (s[i] == (const char) c)
+			return (i);
+	return (-1);
 }
