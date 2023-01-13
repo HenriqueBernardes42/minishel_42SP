@@ -53,8 +53,8 @@ static int	valid_number(t_data *data, char *str)
 {
 	int	i;
 
-	ft_assert_not_null (data, str);
 	i = 0;
+	ft_assert_not_null(data, str);
 	while (str[i] != '\0' && (str[i] == 32 || (str[i] < 14 && str[i] > 8)))
 		i++;
 	if (str[i] == '\0')
@@ -76,10 +76,7 @@ void	ft_exit(t_data *data, char **args)
 
 	printf("exit\n");
 	if (args == NULL)
-	{
 		ft_destroy_data(data);
-		exit (EXIT_SUCCESS);
-	}
 	else
 	{
 		if (!valid_number(data, *args))
@@ -89,14 +86,16 @@ void	ft_exit(t_data *data, char **args)
 			exit(2);
 		}
 		else if (*(args + 1) != NULL)
-			printf("bash: exit: too many arguments\n");
-		else
 		{
-			i = ft_atoi(*args);
-			ft_destroy_data(data);
-			exit(i);
+			data->ret_pipe = EXIT_FAILURE;
+			printf("bash: exit: too many arguments\n");
+			return ;
 		}
+		i = ft_atoi(*args);
+		ft_destroy_data(data);
+		exit(i);
 	}
+	exit (EXIT_SUCCESS);
 }
 
 void	ft_env(t_data *data)

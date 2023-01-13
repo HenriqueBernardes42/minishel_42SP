@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 21:13:05 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:26:56 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static void	ft_exec(t_data *data)
 {
 	ft_assert_not_null (data, data);
 	data->tab = ft_minishell_split (data, data->line);
-	//ft_split_input(data);
 	ft_expand(data);
 	// Debug
 	// int i = -1;

@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 20:40:18 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/13 09:46:30 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	ft_cd(t_data *data, char *path)
 		else
 			printf("bash: cd: HOME not set\n");
 	}
-	if (path != NULL && chdir(path))
+	else if (chdir(path))
 		printf("bash: cd: %s: No such file or directory\n", path);
-	else if (path != NULL)
+	else
 	{
 		cwd = NULL;
 		if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
