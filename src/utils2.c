@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 14:10:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:25:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_type	ft_getredir(char *str)
 
 static bool	ft_isexecutable(char *pathname)
 {
-	struct stat file_stat;
+	struct stat	file_stat;
 
 	stat (pathname, &file_stat);
 	if (!S_ISREG (file_stat.st_mode))

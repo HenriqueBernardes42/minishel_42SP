@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 16:24:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:24:39 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_assert_not_null(t_data *data, void *ptr)
 /// @param pathname The pathname.
 void	ft_assert_not_dir(t_data *data, char *pathname)
 {
-	struct stat file_stat;
+	struct stat	file_stat;
 
 	ft_assert_not_null (data, pathname);
 	stat (pathname, &file_stat);

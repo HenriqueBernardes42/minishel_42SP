@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 13:49:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:25:29 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,38 @@ static void	ft_push_special(t_data *data, t_args3 *args3, char ***tab,
 	char *str)
 {
 	char	*substr;
-	
-	substr = ft_memdup (str, args3->i, args3->i 
-		+ ft_istype (&str[args3->i], T_SPECIAL, false));
+
+	substr = ft_memdup (str, args3->i, args3->i
+			+ ft_istype (&str[args3->i], T_SPECIAL, false));
 	ft_push (data, tab, substr);
 	free (substr);
 	args3->i += ft_istype (&str[args3->i], T_SPECIAL, false);
 }
 
-static int ft_push_substr_wildcard(t_data *data,
+static int	ft_push_substr_wildcard(t_data *data,
 	char ***tab, char *pattern)
 {
 	DIR				*dir;
 	struct dirent	*ent;
-	char			*cwd;
 	int				c;
 
 	c = 0;
-	cwd = ft_getcwd (data);
-	if (cwd != NULL)
+	dir = opendir (".");
+	if (dir != NULL)
 	{
-		dir = opendir (cwd);
-		if (dir != NULL)
+		ent = readdir (dir);
+		while (ent != NULL)
 		{
-			ent = readdir (dir);
-			while (ent != NULL)
-			{
-				if ((ft_strncmp ("*", pattern, 2) == 0
+			if ((ft_strncmp ("*", pattern, 2) == 0
 					|| ft_matches_pattern (pattern, ent->d_name))
-					&& (ent->d_name[0] != '.'))
-				{
-					ft_push (data, tab, ent->d_name);
-					c++;
-				}
-				ent = readdir (dir);
+				&& (ent->d_name[0] != '.'))
+			{
+				ft_push (data, tab, ent->d_name);
+				c++;
 			}
-			closedir (dir);
+			ent = readdir (dir);
 		}
-		free (cwd);
+		closedir (dir);
 	}
 	return (c);
 }
@@ -63,7 +57,7 @@ static void	ft_push_substr(t_data *data, t_args3 *args3, char ***tab,
 {
 	char	*wcard_ptr;
 	char	*substr;
-	
+
 	substr = ft_memdup (str, args3->temp, args3->i);
 	wcard_ptr = ft_strchr (substr, '*');
 	if (wcard_ptr != NULL)

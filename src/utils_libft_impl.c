@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:27:31 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 13:29:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:26:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_memdup(char const *s, size_t a, size_t b)
 	return (ptr);
 }
 
-int ft_strchri(const char *s, int c)
+int	ft_strchri(const char *s, int c)
 {
 	int	i;
 
