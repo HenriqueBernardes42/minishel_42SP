@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 15:33:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:26:08 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	ft_handle_type(t_data *data, t_args3 *args3, char ***tab, char *str)
 		args3->temp = args3->i;
 		args3->i++;
 	}
-	else if (args3->status != 0
+	else if (args3->status == 1
 		&& (ft_istype (&str[args3->i], T_SPECIAL, false)
 			|| str[args3->i] == ' '))
 	{
