@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 15:19:02 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:44:54 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	ft_unset(t_data *data, char **args);
 void	ft_exit(t_data *data, char **args);
 void	ft_export(t_data *data, char **args);
 void	ft_env(t_data *data);
-char	**ft_minishell_split(t_data *data, char *str);
+bool	ft_minishell_split(t_data *data, char *str);
 int		ft_istype(char *str, t_type type, bool strict);
 int		*ft_initpipes(t_data *data, int cmdsc);
 size_t	ft_tablen(char **tab);
