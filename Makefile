@@ -13,7 +13,7 @@ SRC				=	main init destroy ft_execute assert \
 					ft_isvalid ft_parse init2 ft_child \
 					utils_builtins utils_execute \
 					utils_libft_impl utils_minishell_split \
-					utils_type utils
+					utils utils2
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 

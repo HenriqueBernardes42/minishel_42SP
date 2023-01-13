@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 12:37:14 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:49:35 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int ft_push_substr_wildcard(t_data *data,
 			{
 				if ((ft_strncmp ("*", pattern, 2) == 0
 					|| ft_matches_pattern (pattern, ent->d_name))
-					&& ent->d_name[0] != '.')
+					&& (ent->d_name[0] != '.'))
 				{
 					ft_push (data, tab, ent->d_name);
 					c++;

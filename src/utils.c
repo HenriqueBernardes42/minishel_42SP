@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 13:28:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:58:32 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,34 +100,4 @@ void	ft_push(t_data *data, char ***tab, char *str)
 	if (*tab != NULL)
 		ft_destroy_tab (*tab);
 	*tab = ntab;
-}
-
-
-char	*ft_pathname(t_data *data, char *name)
-{
-	int		i;
-	char	*dir;
-	char	*pathname;
-	char	**path;
-
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, name);
-	if (access (name, X_OK) != -1)
-		return (ft_strdup (name));
-	i = -1;
-	if (*ft_get_env_var(data->envp, "PATH") != NULL)
-		path = ft_split(*ft_get_env_var(data->envp, "PATH") + 5, ':');
-	else
-		return (NULL);
-	while (path[++i] != NULL)
-	{
-		dir = ft_strjoin (path[i], "/");
-		pathname = ft_strjoin (dir, name);
-		free (dir);
-		if (access (pathname, X_OK) != -1)
-			return (ft_destroy_tab(path), pathname);
-		free (pathname);
-	}
-	ft_destroy_tab(path);
-	return (NULL);
 }

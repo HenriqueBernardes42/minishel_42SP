@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_type.c                                       :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 13:29:05 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:10:35 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,43 @@ t_type	ft_getredir(char *str)
 	else if (ft_strncmp (str, ">>", 3) == 0)
 		return (REDIR_OUTFILE_APP);
 	return (REDIR_UNDEF);
+}
+
+static bool	ft_isexecutable(char *pathname)
+{
+	struct stat file_stat;
+
+	stat (pathname, &file_stat);
+	if (!S_ISREG (file_stat.st_mode))
+		return (false);
+	return (true);
+}
+
+char	*ft_pathname(t_data *data, char *name)
+{
+	int		i;
+	char	*dir;
+	char	*pathname;
+	char	**path;
+
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, name);
+	if (access (name, X_OK) != -1 && ft_isexecutable (name))
+		return (ft_strdup (name));
+	i = -1;
+	if (*ft_get_env_var(data->envp, "PATH") != NULL)
+		path = ft_split(*ft_get_env_var(data->envp, "PATH") + 5, ':');
+	else
+		return (NULL);
+	while (path[++i] != NULL)
+	{
+		dir = ft_strjoin (path[i], "/");
+		pathname = ft_strjoin (dir, name);
+		free (dir);
+		if (access (pathname, X_OK) != -1)
+			return (ft_destroy_tab(path), pathname);
+		free (pathname);
+	}
+	ft_destroy_tab(path);
+	return (NULL);
 }
