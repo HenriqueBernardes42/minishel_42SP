@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/** 
+ * Before merge I need to check the behaviour on mac for only '-' as argument ######
+ */
 void	ft_echo(t_data *data, char **args)
 {
 	int	i;
