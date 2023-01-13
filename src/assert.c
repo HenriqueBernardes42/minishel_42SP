@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 14:24:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:11:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ bool	ft_assert_finished(t_data *data)
 		free (temp);
 		free (linepl);
 		ft_destroy_tab (data->tab);
-		data->tab = ft_minishell_split (data, data->line);
-		if (!ft_isvalid (data))
+		data->tab = NULL;
+		if (!ft_minishell_split (data, data->line) || !ft_isvalid (data))
 			return (false);
 	}
 	return (true);

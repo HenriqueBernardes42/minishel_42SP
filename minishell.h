@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 15:44:54 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:01:21 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,4 +181,5 @@ void	ft_init_signal_handler(void);
 int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
 void	ft_close_curr_lvl(t_data *data);
+void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 #endif

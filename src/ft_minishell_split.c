@@ -6,22 +6,11 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 15:55:02 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:06:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_push_special(t_data *data, t_args3 *args3, char *str)
-{
-	char	*substr;
-
-	substr = ft_memdup (str, args3->i, args3->i
-			+ ft_istype (&str[args3->i], T_SPECIAL, false));
-	ft_push (data, &data->tab, substr);
-	free (substr);
-	args3->i += ft_istype (&str[args3->i], T_SPECIAL, false);
-}
 
 static int	ft_push_substr_wildcard(t_data *data, char *pattern)
 {
@@ -50,30 +39,38 @@ static int	ft_push_substr_wildcard(t_data *data, char *pattern)
 	return (c);
 }
 
-static bool	ft_push_substr(t_data *data, t_args3 *args3, char *str)
+static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 {
 	int		c;
+	bool	isredir;
+
+	isredir = false;
+	if (ft_tablen (data->tab) > 0)
+		isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
+				T_REDIR, true) != 0;
+	c = ft_push_substr_wildcard (data, substr);
+	if (c <= 0)
+		ft_push (data, &data->tab, substr);
+	else if (c > 0 && isredir)
+	{
+		ft_throw (data, ERR_AMBIGUOUS_REDIRECT, substr, false);
+		free (substr);
+		return (false);
+	}
+	return (true);
+}
+
+static bool	ft_push_substr(t_data *data, t_args3 *args3, char *str)
+{
 	char	*wcard_ptr;
 	char	*substr;
-	bool	isredir;
 
 	substr = ft_memdup (str, args3->temp, args3->i);
 	wcard_ptr = ft_strchr (substr, '*');
 	if (wcard_ptr != NULL)
 	{
-		isredir = false;
-		if (ft_tablen (data->tab) > 0)
-			isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
-				T_REDIR, true) != 0;
-		c = ft_push_substr_wildcard (data, substr);
-		if (c <= 0)
-			ft_push (data, &data->tab, substr);
-		else if (c > 0 && isredir)
-		{
-			ft_throw (data, ERR_AMBIGUOUS_REDIRECT, substr, false);
-			free (substr);
+		if (!ft_exec_push_substr_wildcard (data, substr))
 			return (false);
-		}
 	}
 	else
 		ft_push (data, &data->tab, substr);
@@ -97,16 +94,16 @@ static bool	ft_handle_type(t_data *data, t_args3 *args3, char *str)
 	else if (args3->status == 1
 		&& (ft_istype (&str[args3->i], T_SPECIAL, false)
 			|| str[args3->i] == ' '))
-		{
-			if (!ft_push_substr (data, args3, str))
-				return (false);
-		}
+	{
+		if (!ft_push_substr (data, args3, str))
+			return (false);
+	}
 	else
 		args3->i++;
 	return (true);
 }
 
-bool ft_minishell_split(t_data *data, char *str)
+bool	ft_minishell_split(t_data *data, char *str)
 {
 	t_args3	*args3;
 
