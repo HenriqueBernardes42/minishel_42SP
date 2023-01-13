@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 12:42:47 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/13 17:15:53 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,16 @@ void	push_element(t_data *data, t_args3 *args3, char ***tab, bool expand)
 {
 	char	*element;
 
-	element = ft_memdup(args3->str, args3->temp, args3->i);
-	if (expand == true)
-		ft_expand(data, &element);
-	ft_push(data, tab, element);
-	free(element);
+	if (args3->temp < args3->i)
+	{
+		printf("substr: #%s# %p\n", ft_memdup(args3->str, args3->temp, args3->i), args3->str + args3->temp);
+		element = ft_memdup(args3->str, args3->temp, args3->i);
+		ft_assert_not_null (data, element);
+		if (expand == true)
+			ft_expand(data, &element);
+		ft_push(data, tab, element);
+		free(element);
+	}
 	args3->status = 0;
 }
 
@@ -88,42 +93,38 @@ static void	ft_handle_type(t_data *data, t_args3 *args3, char ***tab, char *str)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, args3);
-	if (ft_istype (&str[args3->i], T_SPECIAL, false) && args3->status == 0)
+	if (ft_istype (&str[args3->i], T_SPECIAL, false))
 	{
-		//Test
-		printf("#######\n");
-		ft_push (data, tab, ft_memdup (str, args3->i,
-				args3->i + ft_istype (&str[args3->i], T_SPECIAL, false)));
+		args3->temp = args3->i;
 		args3->i += ft_istype (&str[args3->i], T_SPECIAL, false);
+		push_element(data, args3, tab, false);
 	}
 	else if (str[args3->i] == '\"' && args3->status == 0)
 	{
-		args3->status = 3;
-		args3->temp = args3->i + 1;
-		args3->i++;
+		args3->temp = ++args3->i;
+		while (str[args3->i] != '\0' && str[args3->i] != '\"')
+			args3->i++;
+		push_element(data, args3, tab, true);
 	}
 	else if (str[args3->i] == '\'' && args3->status == 0)
 	{
-		args3->status = 2;
-		args3->temp = args3->i + 1;
-		args3->i++;
-	}
-	else if (str[args3->i] != ' ' && args3->status == 0)
-	{
-		args3->status = 1;
-		args3->temp = args3->i;
-		args3->i++;
-	}
-	else if (args3->status == 3 && str[args3->i] == '\"')
-		push_element(data, args3, tab, true);
-	else if (args3->status == 2 && str[args3->i] == '\'')
+		args3->temp = ++args3->i;
+		while (str[args3->i] != '\0' && str[args3->i] != '\'')
+			args3->i++;
 		push_element(data, args3, tab, false);
-	else if (args3->status == 1
-		&& (ft_istype (&str[args3->i], T_SPECIAL, false)
-			|| str[args3->i] == ' '))
-		push_element(data, args3, tab, true);
+	}
 	else
-		args3->i++;
+	{
+		args3->temp = args3->i;
+		while (str[args3->i] != '\0' && str[args3->i] != ' ')
+		{
+			if (ft_istype (&str[args3->i], T_SPECIAL, false) && !args3->status)
+				break ;
+			args3->i++;
+		}
+		push_element(data, args3, tab, true);
+		args3->status = 0;
+	}
 }
 
 char	**ft_minishell_split(t_data *data, char *str)
@@ -136,9 +137,12 @@ char	**ft_minishell_split(t_data *data, char *str)
 	tab = NULL;
 	args3 = ft_initargs3 (data, str);
 	while (str[args3->i] != '\0')
-		ft_handle_type (data, args3, &tab, str);
-	if (args3->status != 0)
-		push_element(data, args3, &tab, (args3->status != 2));
+	{
+		while (str[args3->i] != '\0' && str[args3->i] == ' ')
+			args3->i++;
+		if (str[args3->i] != '\0')
+			ft_handle_type (data, args3, &tab, str);
+	}
 	free (args3);
 	return (tab);
 }
