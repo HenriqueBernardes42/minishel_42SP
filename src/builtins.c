@@ -98,7 +98,7 @@ void	ft_exit(t_data *data, char **args)
 		ft_destroy_data(data);
 		exit(i);
 	}
-	exit (EXIT_SUCCESS);
+	exit (data->ret_pipe);
 }
 
 void	ft_env(t_data *data)

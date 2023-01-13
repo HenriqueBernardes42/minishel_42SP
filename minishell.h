@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 12:20:12 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:54:40 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,5 @@ void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data, char *str);
 t_args4	*ft_initargs4(t_data *data);
 void	init_signal_handler(t_data *data);
+void	ft_expand(t_data *data, char **str);
 #endif
