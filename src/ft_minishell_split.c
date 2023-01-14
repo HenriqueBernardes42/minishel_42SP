@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 12:41:23 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:24:42 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,6 @@ static void	push_argument(t_data *data, t_args3 *args, char ***tab, bool expand)
 	ft_push(data, tab, argument);
 	free(argument);
 }
-
-// void	push_quotes(t_data *data, t_args3 *args, char ***tab, char c)
-// {
-// 	args->temp = args->i++;
-// 	while (args->str[args->i] != '\0' && args->str[args->i] != c)
-// 		args->i++;
-// 	args->i++;
-// 	push_argument(data, args, tab, !args->single_quote);
-// 	args->single_quote = false;
-// 	args->double_quote = false;
-// }
 
 static void	ft_handle_type(t_data *data, t_args3 *args3, char ***tab)
 {

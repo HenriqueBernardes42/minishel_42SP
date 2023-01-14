@@ -15,8 +15,13 @@
 static void	remove_quote(t_data *data, bool *quote, char **str, int index)
 {
 	char	*temp;
+	int		i;
 
-	*quote = !*quote;
+	i = index + 1;
+	while ((*str)[i] != '\0' && (*str)[i] != (*str)[index])
+		i++;
+	if ((*str)[i] != '\0')
+		*quote = !*quote;
 	temp = (char *)malloc(ft_strlen(*str));
 	ft_assert_not_null(data, temp);
 	ft_strlcpy(temp, *str, index + 1);
