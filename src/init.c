@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 15:45:35 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:57:39 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ t_data	*ft_initdata(char **envp)
 	data->child_running = 0;
 	data->ret_pipe = 0;
 	if (tcgetattr(STDIN_FILENO, &data->tty_attr) != 0)
-			ft_throw (data, ERR_FAIL, "ft_currentlvl settattr fail", true);
+			ft_throw (data, ERR_FAIL, "init gettattr fail", true);
 	return (data);
 }
