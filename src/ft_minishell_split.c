@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 00:50:12 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 12:41:23 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ static char	*ft_memdup(char const *s, size_t a, size_t b)
 	char	*ptr;
 	int		i;
 
-	if (b - a <= 0)
+	if (b - a < 0)
 		return (NULL);
 	ptr = (char *) malloc ((b - a + 1) * sizeof (char));
+	if (ptr == NULL)
+		return (NULL);
 	i = -1;
 	while (a < b)
 	{
@@ -30,56 +32,55 @@ static char	*ft_memdup(char const *s, size_t a, size_t b)
 	return (ptr);
 }
 
-void	push_element(t_data *data, t_args3 *args3, char ***tab, bool expand)
+static void	push_argument(t_data *data, t_args3 *args, char ***tab, bool expand)
 {
-	char	*element;
+	char	*argument;
 
-	if (args3->i - args3->temp > 1)
-	{
-		//Debug
-		//printf("substr: #%s# %p\n", ft_memdup(args3->str, args3->temp, args3->i), args3->str + args3->temp);
-		element = ft_memdup(args3->str, args3->temp, args3->i);
-		ft_assert_not_null (data, element);
-		if (expand == true)
-			ft_expand(data, &element);
-		ft_push(data, tab, element);
-		free(element);
-	}
+	// Debug
+	// printf("substr: #%s# %p\n", ft_memdup(args3->str, args3->temp, args3->i), args3->str + args3->temp);
+	argument = ft_memdup(args->str, args->temp, args->i);
+	ft_assert_not_null(data, argument);
+	if (expand == true)
+		ft_expand(data, args, &argument);
+	ft_push(data, tab, argument);
+	free(argument);
 }
 
-void	push_quotes(t_data *data, t_args3 *args, char ***tab, char c, bool exp)
-{
-	args->temp = ++args->i;
-	while (args->str[args->i] != '\0' && args->str[args->i] != c)
-		args->i++;
-	push_element(data, args, tab, exp);
-	args->i++;
-}
+// void	push_quotes(t_data *data, t_args3 *args, char ***tab, char c)
+// {
+// 	args->temp = args->i++;
+// 	while (args->str[args->i] != '\0' && args->str[args->i] != c)
+// 		args->i++;
+// 	args->i++;
+// 	push_argument(data, args, tab, !args->single_quote);
+// 	args->single_quote = false;
+// 	args->double_quote = false;
+// }
 
-static void	ft_handle_type(t_data *data, t_args3 *args3, char ***tab, char *str)
+static void	ft_handle_type(t_data *data, t_args3 *args3, char ***tab)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, args3);
+	args3->temp = args3->i;
 	if (ft_istype (&args3->str[args3->i], T_SPECIAL, false))
 	{
-		args3->temp = args3->i;
 		args3->i += ft_istype (&args3->str[args3->i], T_SPECIAL, false);
-		push_element(data, args3, tab, false);
+		push_argument(data, args3, tab, false);
+		return ;
 	}
-	else if (str[args3->i] == '\"')
+	while (args3->str[args3->i] != '\0' && ((args3->str[args3->i] != ' '
+				&& !ft_istype(&args3->str[args3->i], T_SPECIAL, false))
+			|| args3->single_quote || args3->double_quote))
 	{
-		printf("#1 %s\n", str + args3->i);
-		push_quotes(data, args3, tab, '\"', true);
+		if (args3->str[args3->i] == '\"')
+			args3->double_quote = !args3->double_quote;
+		else if (args3->str[args3->i] == '\'')
+			args3->single_quote = !args3->single_quote;
+		args3->i++;
 	}
-	else if (str[args3->i] == '\'')
-		push_quotes(data, args3, tab, '\'', false);
-	else
-	{
-		args3->temp = args3->i;
-		while (str[args3->i] != '\0' && str[args3->i] != ' ')
-			args3->i++;
-		push_element(data, args3, tab, true);
-	}
+	args3->double_quote = false;
+	args3->single_quote = false;
+	push_argument(data, args3, tab, true);
 }
 
 char	**ft_minishell_split(t_data *data, char *str)
@@ -96,7 +97,7 @@ char	**ft_minishell_split(t_data *data, char *str)
 		while (str[args3->i] != '\0' && str[args3->i] == ' ')
 			args3->i++;
 		if (str[args3->i] != '\0')
-			ft_handle_type (data, args3, &tab, str);
+			ft_handle_type (data, args3, &tab);
 	}
 	free (args3);
 	return (tab);

@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+static void	remove_quote(t_data *data, bool *quote, char **str, int index)
+{
+	char	*temp;
+
+	*quote = !*quote;
+	temp = (char *)malloc(ft_strlen(*str));
+	ft_assert_not_null(data, temp);
+	ft_strlcpy(temp, *str, index + 1);
+	ft_strlcat(temp, *str + index + 1, ft_strlen(*str));
+	free(*str);
+	*str = temp;
+}
+
 static void	ft_insert_var(t_data *data, char **tab, int index)
 {
 	char	*str;
@@ -20,7 +33,7 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 
 	i = (ft_isdigit((*tab)[index]) || tab[0][index] == '?');
 	if (i == 0)
-		while ((ft_isalnum((*tab)[index + i]) || tab[0][index + i] == '_') && tab[0][index + i] != '\'')
+		while ((ft_isalnum((*tab)[index + i]) || (*tab)[index + i] == '_'))
 			i++;
 	var = ft_substr(*tab, index, i);
 	if ((*tab)[index] == '?')
@@ -40,42 +53,21 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	*tab = var;
 }
 
-void	remove_char(t_data *data, char **str, int index)
-{
-	char	*temp;
-
-	temp = (char *)malloc(ft_strlen(*str));
-	ft_assert_not_null(data, temp);
-	ft_strlcpy(temp, *str, index + 1);
-	ft_strlcat(temp, *str + index + 1, ft_strlen(*str));
-	free(*str);
-	*str = temp;
-}
-
-void	ft_expand(t_data *data, char **str)
+void	ft_expand(t_data *data, t_args3 *args3, char **str)
 {
 	int	i;
-	bool	expand;
 
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, str);
 	i = -1;
-	expand = true;
+	//Debug
+	//printf("DEBUG: string to expand: %s\n", *str);
 	while ((*str)[++i] != '\0')
 	{
-		if (expand && (*str)[i] == '\'')
-		{
-			remove_char(data, str, i--);
-			expand = !expand;
-			continue ;
-		}
-		else if (expand && (*str)[i] == '\"')
-		{
-			remove_char(data, str, i--);
-			continue ;
-		}
-		if ((*str)[i] == '$' && (*str)[i + 1] != ' '
-			&& (*str)[i + 1] != '\0' && expand == true)
-			ft_insert_var(data, str, i + 1);
+		if (!args3->double_quote && (*str)[i] == '\'')
+			remove_quote(data, &args3->single_quote, str, i--);
+		else if (!args3->single_quote && (*str)[i] == '\"')
+			remove_quote(data, &args3->double_quote, str, i--);
+		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0'
+			&& !args3->single_quote)
+			ft_insert_var(data, str, i-- + 1);
 	}
 }

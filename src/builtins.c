@@ -21,8 +21,7 @@ void	ft_echo(t_data *data, char **args)
 
 	i = 0;
 	(void)data;
-	if (args != NULL && (!ft_strncmp ("-n", *args, 3)
-			|| !ft_strncmp ("-", *args, 2)))
+	if (args != NULL && !ft_strncmp ("-n", *args, 3))
 		i++;
 	while (args != NULL && args[i] != NULL)
 	{
@@ -40,8 +39,7 @@ void	ft_pwd(t_data *data)
 	char	*cwd;
 
 	cwd = (char *)malloc(MAXPATHLEN + 1);
-	if (cwd == NULL)
-		ft_throw (data, ERR_FAIL, "pwd cwd", true);
+	ft_assert_not_null(data, cwd);
 	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 	{
 		free(cwd);
@@ -84,14 +82,14 @@ void	ft_exit(t_data *data, char **args)
 	{
 		if (!valid_number(data, *args))
 		{
-			printf("bash: exit: %s: numeric argument required\n", *args);
+			printf("minishell: exit: %s: numeric argument required\n", *args);
 			ft_destroy_data(data);
 			exit(2);
 		}
 		else if (*(args + 1) != NULL)
 		{
 			data->ret_pipe = EXIT_FAILURE;
-			printf("bash: exit: too many arguments\n");
+			printf("minishell: exit: too many arguments\n");
 			return ;
 		}
 		i = ft_atoi(*args);

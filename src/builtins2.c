@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 11:27:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 09:46:30 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:39:55 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/** 
- * Searches an array for a variable
- * @param[in] envp The array to be searched
- * @param[in] var The name of the variable that will be searched for
- * @return Pointer to the variable if found otherwise pointer to 
- * the end of the array
- */
-char	**get_env_var(char **envp, char *var)
-{
-	int	i;
-	int	len;
-
-	len = ft_strlen(var);
-	i = -1;
-	while (envp[++i] != NULL)
-		if (!ft_strncmp(var, envp[i], len) && envp[i][len] == '=')
-			return (envp + i);
-	return (envp + i);
-}
 
 /** 
  * Removes variables from array
@@ -49,23 +29,26 @@ void	ft_unset(t_data *data, char **args)
  * @param[in] data Minishell data
  * @param[in] args The variables
  */
-static void	ar_env_var(t_data *data, char **args)
+static void	ar_env_var(t_data *data, char *args)
 {
 	char	**var;
-	char	*env_var;
+	char	**env_var;
 
-	var = ft_split(*args, '=');
+	var = ft_split(args, '=');
+	ft_assert_not_null(data, var);
 	if (!valid_env_name(var[0]))
 	{
-		printf("bash: export: '%s': not a valid identifier\n", *args);
+		printf("minishell: export: '%s': not a valid identifier\n", args);
 		data->ret_pipe = EXIT_FAILURE;
 	}
-	env_var = *get_env_var(data->envp, var[0]);
-	free(env_var);
-	if (valid_env_name(var[0]) && env_var != NULL)
-		env_var = ft_strdup(*args);
+	env_var = get_env_var(data->envp, var[0]);
+	if (*env_var != NULL)
+	{
+		free(*env_var);
+		*env_var = ft_strdup(args);
+	}
 	else if (valid_env_name(var[0]))
-		ft_push(data, &data->envp, *args);
+		ft_push(data, &data->envp, args);
 	ft_destroy_tab(var);
 }
 
@@ -89,33 +72,37 @@ void	ft_export(t_data *data, char **args)
 	}
 	while (args[++i] != NULL)
 		if (ft_strchr(args[i], '=') != NULL)
-			ar_env_var(data, args + i);
+			ar_env_var(data, args[i]);
 }
 
-void	ft_cd(t_data *data, char *path)
+static void update_pwd(t_data *data)
 {
 	char	*cwd;
 	char	*temp;
 
+	cwd = (char *)malloc(MAXPATHLEN + 1);
+	ft_assert_not_null(data, cwd);
+	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
+		ft_throw(data, ERR_FAIL, "cd getcwd null check", true);
+	temp = ft_strjoin("PWD=", cwd);
+	ar_env_var(data, temp);
+	free(temp);
+	free(cwd);
+}
+
+void	ft_cd(t_data *data, char *path)
+{
 	if (path == NULL)
 	{
 		path = *get_env_var(data->envp, "HOME");
 		if (path != NULL)
 			path += 5;
 		else
-			printf("bash: cd: HOME not set\n");
+			printf("minishell: cd: HOME not set\n");
 	}
-	else if (chdir(path))
-		printf("bash: cd: %s: No such file or directory\n", path);
-	else
-	{
-		cwd = NULL;
-		if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
-			ft_throw (data, ERR_FAIL, "cd getcwd null check", true);
-		temp = ft_strjoin("PWD=", cwd);
-		ft_remove(data, &data->envp, *get_env_var(data->envp, "PWD"));
-		ft_push(data, &data->envp, temp);
-		free(temp);
-		free(cwd);
-	}
+	if (path != NULL && ft_assert_not_dir(data, path, false))
+		printf("minishell: cd: %s: Not a directory\n", path);
+	else if (path != NULL && chdir(path))
+		printf("minishell: cd: %s: No such file or directory\n", path);
+	update_pwd(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 19:16:22 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 12:46:28 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_data	*ft_initdata(char **envp)
 	data->cmds = NULL;
 	data->cmdsc = -1;
 	data->pipes = NULL;
+	data->child_running = 0;
 	data->ret_pipe = 0;
 	return (data);
 }

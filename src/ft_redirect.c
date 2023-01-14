@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:25:02 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:32:50 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_assert_valid_files(t_data *data, int i)
 			permss = R_OK;
 			if (data->cmds[i].redirs[j] != REDIR_INFILE)
 				permss = W_OK;
-			ft_assert_not_dir (data, data->cmds[i].args_redir[j]);
+			ft_assert_not_dir (data, data->cmds[i].args_redir[j], true);
 			ft_assert_valid_permissions (data,
 				data->cmds[i].args_redir[j], permss);
 		}

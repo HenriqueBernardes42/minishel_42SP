@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 12:20:26 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 11:25:04 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_args3	*ft_initargs3(t_data *data, char *str)
 		ft_throw (data, ERR_FAIL, "malloc", true);
 	args3->str = str;
 	args3->i = 0;
-	args3->status = 0;
+	args3->single_quote = false;
+	args3->double_quote = false;
 	return (args3);
 }
 

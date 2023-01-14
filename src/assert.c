@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assert.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 14:23:33 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:31:25 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,18 @@ void	ft_assert_not_null(t_data *data, void *ptr)
 /// @brief Assert that a file is not a directory.
 /// @param data The minishell's data;
 /// @param pathname The pathname.
-void	ft_assert_not_dir(t_data *data, char *pathname)
+bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 {
-	int	fd;
+	struct stat	file_stat;
 
 	ft_assert_not_null (data, pathname);
-	fd = open (pathname, O_DIRECTORY);
-	if (fd != -1)
-	{
-		close (fd);
-		ft_throw (data, ERR_EISDIR, pathname, true);
-	}
+	stat (pathname, &file_stat);
+	if (S_ISDIR (file_stat.st_mode) && exitp == true)
+		ft_throw (data, ERR_EISDIR, NULL, true);
+	else if (S_ISDIR(file_stat.st_mode))
+		return (false);
+	return (true);
+		
 }
 
 /// @brief Join the pathnane by far with the additional one.

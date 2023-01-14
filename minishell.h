@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 21:54:40 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:31:51 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ typedef struct s_args2
 typedef struct s_args3
 {
 	char	*str;
-	int		status;
+	bool	single_quote;
+	bool	double_quote;
 	size_t	i;
 	size_t	temp;
 }	t_args3;
@@ -129,6 +130,7 @@ typedef struct s_data
 	int			cmdsc;
 	t_fd		*pipes;
 	int			cmdsc_pps;
+	bool		child_running;
 	int			ret_pipe;
 }	t_data;
 void	ft_execute(t_data *data);
@@ -137,7 +139,7 @@ t_data	*ft_initdata(char **envp);
 t_args	*ft_initargs(t_data *data, char *pathname);
 t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_assert_not_null(t_data *data, void *ptr);
-void	ft_assert_not_dir(t_data *data, char *pathname);
+bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss);
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char	*ft_pathname(t_data *data, char *name);
@@ -176,5 +178,5 @@ void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data, char *str);
 t_args4	*ft_initargs4(t_data *data);
 void	init_signal_handler(t_data *data);
-void	ft_expand(t_data *data, char **str);
+void	ft_expand(t_data *data, t_args3 *args3, char **str);
 #endif
