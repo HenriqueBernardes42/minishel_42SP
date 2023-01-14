@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 14:31:51 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:30:14 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/param.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <termios.h>
 # define BUFFER_SIZE 42
 
 typedef enum e_stream
@@ -132,6 +133,7 @@ typedef struct s_data
 	int			cmdsc_pps;
 	bool		child_running;
 	int			ret_pipe;
+	struct termios tty_attr;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);

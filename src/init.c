@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 12:46:28 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:32:12 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ t_data	*ft_initdata(char **envp)
 	data->pipes = NULL;
 	data->child_running = 0;
 	data->ret_pipe = 0;
+	tcgetattr(STDIN_FILENO, &data->tty_attr);
 	return (data);
 }

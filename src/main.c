@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 14:37:06 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:32:30 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	init_signal_handler(data);
 	while (true)
 	{
-		//Debug
+		data->tty_attr.c_lflag &= ~ECHOCTL;
+    	tcsetattr(STDIN_FILENO, TCSAFLUSH, &data->tty_attr);
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line == NULL)
 			ft_exit(data, NULL);

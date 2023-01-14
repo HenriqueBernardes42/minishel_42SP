@@ -57,8 +57,7 @@ m: $(NAME)
 	@./$(NAME)
 
 mc: $(NAME)
-	make clean
-	@./$(NAME)
+	make && make clean && clear && ./$(NAME)
 
 test-leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
