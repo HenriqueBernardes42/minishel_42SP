@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 15:33:35 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:44:54 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static void	ft_currentlvl(t_data *data, int *i, int *status)
 		data->cmdsc_pps = ft_anticipate_cmdsc (data, *i);
 		data->pipes = ft_initpipes (data, data->cmdsc_pps);
 		data->tty_attr.c_lflag |= ECHOCTL;
-    	tcsetattr(STDIN_FILENO, TCSAFLUSH, &data->tty_attr);
+    	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
+			ft_throw (data, ERR_FAIL, "ft_currentlvl settattr fail", true);
 		ft_run (data, i, status);
 	}
 	else

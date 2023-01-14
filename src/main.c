@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/14 15:32:30 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:45:12 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		data->tty_attr.c_lflag &= ~ECHOCTL;
-    	tcsetattr(STDIN_FILENO, TCSAFLUSH, &data->tty_attr);
+    	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
+			ft_throw (data, ERR_FAIL, "ft_currentlvl settattr fail", true);
 		data->line = readline ("\033[32;1mminishell$ \033[0m");
 		if (data->line == NULL)
 			ft_exit(data, NULL);
