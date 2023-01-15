@@ -6,16 +6,35 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 13:01:11 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:01:12 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:27:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	ft_all_parenth_closed(t_data *data)
+{
+	int c;
+	int	i;
+	
+	ft_assert_not_null(data, data);
+	c = 0;
+	i = -1;
+	while (data->tab[++i] != NULL)
+	{
+		if (ft_istype (data->tab[i], T_PARENTH_OPEN, true))
+			c++;
+		else if (ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
+			c--;
+	}
+	return (c == 0);
+}
+
 void	ft_notify_line_changed(t_data *data)
 {
 	struct _hist_entry	*entry;
 
+	ft_assert_not_null(data, data);
 	if (where_history () >= 0)
 	{
 		entry = remove_history (where_history () - 1);

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 13:42:38 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:07:19 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,5 @@ void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
+bool	ft_all_parenth_closed(t_data *data);
 #endif

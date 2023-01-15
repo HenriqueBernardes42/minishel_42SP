@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:12:17 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:40:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static bool	ft_isvalidpl2(t_data *data, int i, int *opened)
 		(*opened)++;
 	else if (ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
 	{
-		if (*opened <= 0 || ft_istype (data->tab[i - 1], T_PIPE, true)
-			|| ft_istype (data->tab[i - 1], T_PARENTH_OPEN, true))
+		ft_putnbr_fd (*opened, 2);
+		if (*opened == 0 || ft_istype (data->tab[i - 1], T_PIPE, true))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
 		else
@@ -79,8 +79,5 @@ bool	ft_isvalid(t_data *data)
 				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened)))
 			return (false);
 	}
-	if (opened > 0)
-		return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
-				"(null)", false));
 	return (true);
 }

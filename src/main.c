@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 13:44:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:41:34 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	ft_mainpl(t_data *data)
 {
 	ft_assert_not_null (data, data);
 	add_history (data->line);
-	if (ft_minishell_split (data, data->line)
-		&& ft_assert_finished (data) && ft_isvalid (data))
+	if (ft_minishell_split (data, data->line) && ft_isvalid (data)
+		&& ft_assert_finished (data))
 	{
 		ft_parse (data);
 		ft_heredocs (data);

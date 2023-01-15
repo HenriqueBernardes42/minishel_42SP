@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:16:30 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:25:41 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ static int	ft_push_substr_wildcard(t_data *data, char *pattern)
 static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 {
 	int		c;
-	bool	isredir;
+	int		isredir;
 
-	isredir = false;
-	if (ft_tablen (data->tab) > 0)
-		isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
-				T_REDIR, true) != 0;
+	isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
+		T_REDIR, true) != 0;
 	c = ft_push_substr_wildcard (data, substr);
 	if (c <= 0)
 		ft_push (data, &data->tab, substr);
@@ -64,10 +62,15 @@ static bool	ft_push_substr(t_data *data, t_args3 *args3, char *str)
 {
 	char	*wcard_ptr;
 	char	*substr;
+	bool	expand_wildc;
 
 	substr = ft_memdup (str, args3->temp, args3->i);
 	wcard_ptr = ft_strchr (substr, '*');
-	if (wcard_ptr != NULL)
+	expand_wildc = true;
+	if (ft_tablen (data->tab) > 0)
+		expand_wildc = ft_istype (data->tab[ft_tablen (data->tab) -1],
+				REDIR_HEREDOC, true) == 0;
+	if (wcard_ptr != NULL && expand_wildc)
 	{
 		if (!ft_exec_push_substr_wildcard (data, substr))
 			return (false);
