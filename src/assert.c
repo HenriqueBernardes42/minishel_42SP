@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 16:11:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 13:01:21 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bool	ft_assert_finished(t_data *data)
 	ft_assert_not_null (data, data->line);
 	ft_assert_not_null (data, data->tab);
 	while (ft_istype (data->tab[ft_tablen (data->tab) - 1], T_OP, true)
-		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true))
+		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true)
+		|| !ft_all_apostroph_closed (data))
 	{
 		linepl = readline ("> ");
 		temp = ft_strjoin (data->line, " ");
