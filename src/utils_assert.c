@@ -6,11 +6,38 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 13:01:11 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 13:13:34 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:01:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_notify_line_changed(t_data *data)
+{
+	struct _hist_entry	*entry;
+
+	if (where_history () >= 0)
+	{
+		entry = remove_history (where_history () - 1);
+		if (entry != NULL)
+		{
+			free (entry->line);
+			free (entry->data);
+			free (entry);
+		}
+	}
+	add_history (data->line);
+}
+
+void	ft_linejoin(t_data *data, char *linepl)
+{
+	char	*temp;
+	
+	temp = ft_strjoin (data->line, " ");
+	free (data->line);
+	data->line = ft_strjoin (temp, linepl);
+	free (temp);
+}
 
 static void	ft_notify_f_found(int *c, char *f, char chr)
 {

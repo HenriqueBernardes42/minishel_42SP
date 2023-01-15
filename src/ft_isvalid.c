@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 12:44:11 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:12:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isvalidpl3(t_data *data, int i, int *opened)
+static bool	ft_isvalidpl3(t_data *data, int i, int *opened)
 {
 	if (ft_istype (data->tab[i], T_CMD_SEP, true)
 		&& *opened > 0)
@@ -32,7 +32,7 @@ bool	ft_isvalidpl3(t_data *data, int i, int *opened)
 	return (true);
 }
 
-bool	ft_isvalidpl2(t_data *data, int i, int *opened)
+static bool	ft_isvalidpl2(t_data *data, int i, int *opened)
 {
 	if (ft_istype (data->tab[i], T_PARENTH_OPEN, true))
 		(*opened)++;
@@ -48,7 +48,7 @@ bool	ft_isvalidpl2(t_data *data, int i, int *opened)
 	return (true);
 }
 
-bool	ft_isvalidpl(t_data *data, int i)
+static bool	ft_isvalidpl(t_data *data, int i)
 {
 	if (ft_istype (data->tab[i], T_REDIR, true))
 	{
@@ -66,15 +66,19 @@ bool	ft_isvalid(t_data *data)
 {
 	int	i;
 	int	opened;
+	int	opened2;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
 	i = -1;
 	opened = 0;
+	opened2 = false;
 	while (data->tab[++i] != NULL)
-		if (!ft_isvalidpl (data, i) || !ft_isvalidpl2 (data, i, &opened)
-			|| !ft_isvalidpl3 (data, i, &opened))
+	{
+		if (!opened2 && (!ft_isvalidpl (data, i) || !ft_isvalidpl2
+				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened)))
 			return (false);
+	}
 	if (opened > 0)
 		return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 				"(null)", false));
