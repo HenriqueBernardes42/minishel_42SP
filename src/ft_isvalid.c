@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:52:17 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:59:39 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ bool	ft_isvalid(t_data *data)
 	int		i;
 	int		opened;
 	int		opened2;
-	// char	f;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
@@ -76,6 +75,7 @@ bool	ft_isvalid(t_data *data)
 	opened2 = false;
 	while (data->tab[++i] != NULL)
 	{
+		ft_putendl_fd (data->tab[i], 2);
 		if (!opened2 && (!ft_isvalidpl (data, i) || !ft_isvalidpl2
 				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened)))
 			return (false);

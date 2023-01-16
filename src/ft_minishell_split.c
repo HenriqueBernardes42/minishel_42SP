@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:51:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:03:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,12 @@ static void	ft_handle_quotes(t_data *data, t_args3 *args3, char *str)
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, args3);
 	ft_assert_not_null (data, str);
-	args3->opened = true;
-	args3->q = str[args3->i];
-	if (args3->opened)
+	if (!args3->opened)
+	{
+		args3->opened = true;
+		args3->q = str[args3->i];
+	}
+	else if (str[args3->i] == args3->q)
 	{
 		args3->opened = false;
 		args3->q = 0;
