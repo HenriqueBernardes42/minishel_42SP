@@ -1,5 +1,7 @@
 # minishell
 
+## ! starting minishell tests on Wednesday, 18th Jan 
+
 ## Bugs
 - awk + syntax error handling special chars between quotes 
 - expansions (ft_minishell_split, ft_child )
