@@ -1,10 +1,10 @@
 # minishell
 
 ## Bugs
-// awk + syntax error handling special chars between quotes 
-// expansions (ft_minishell_split, ft_child )
-// signals:
-// builtins: env vars added in the end, cd not working
+- awk + syntax error handling special chars between quotes 
+- expansions (ft_minishell_split, ft_child )
+- signals:
+- builtins: env vars added in the end, cd not working
 
 ## Docs
 ### Redirections
