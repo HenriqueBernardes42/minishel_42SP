@@ -3,7 +3,8 @@
 ## ! starting minishell tests on Wednesday, 18th Jan 
 
 ## Bugs
-- [ ] awk + syntax error handling special chars between quotes (ls "(")
+- [ ] awk
+- [x] syntax error handling special chars between quotes (ls "(")
 - [ ] expansions (ft_minishell_split, ft_child )
 - [ ] signals:
 - [ ] on Ctrl+d

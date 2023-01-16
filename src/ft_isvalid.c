@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:59:39 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:24:23 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static bool	ft_isvalidpl2(t_data *data, int i, int *opened)
 		(*opened)++;
 	else if (ft_istype (data->tab[i], T_PARENTH_CLOSE, true))
 	{
-		ft_putnbr_fd (*opened, 2);
 		if (*opened == 0 || ft_istype (data->tab[i - 1], T_PIPE, true))
 			return (ft_throw (data, ERR_UNEXPECTED_TOKEN,
 					data->tab[i], false));
@@ -66,18 +65,15 @@ bool	ft_isvalid(t_data *data)
 {
 	int		i;
 	int		opened;
-	int		opened2;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
 	i = -1;
 	opened = 0;
-	opened2 = false;
 	while (data->tab[++i] != NULL)
 	{
-		ft_putendl_fd (data->tab[i], 2);
-		if (!opened2 && (!ft_isvalidpl (data, i) || !ft_isvalidpl2
-				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened)))
+		if (!ft_isvalidpl (data, i) || !ft_isvalidpl2
+				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened))
 			return (false);
 	}
 	return (true);
