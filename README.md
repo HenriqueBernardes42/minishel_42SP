@@ -1,11 +1,9 @@
 # minishell
 
-## ! starting minishell tests on Wednesday, 18th Jan 
-
 ## Bugs
-- [ ] awk (in progress)
+- [ ] awk **(in progress)**
 - [x] syntax error handling special chars between quotes (ls "(")
-- [ ] expansions (ft_minishell_split, ft_child ) (in progress)
+- [ ] expansions (ft_minishell_split, ft_child ) **(in progress)**
 - [ ] signals: double displaying prompt, Ctrl+d exiting with error ...
 ```
 minishell$
@@ -13,14 +11,6 @@ exit
 make: *** [m] Error 1
 ```
 - [ ] builtins: env vars not in alphabetical order, cd not working
-
-## Docs
-### Redirections
-https://www.gnu.org/software/bash/manual/html_node/Redirections.html
-
-### GNU History Library
-https://tiswww.case.edu/php/chet/readline/history.html
-
 
 ## Awk fix
 
@@ -46,3 +36,10 @@ static void	ft_prepare(t_data *data)
 	}
 }
 ```
+
+## Docs
+### Redirections
+https://www.gnu.org/software/bash/manual/html_node/Redirections.html
+
+### GNU History Library
+https://tiswww.case.edu/php/chet/readline/history.html
