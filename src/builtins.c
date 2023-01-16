@@ -12,22 +12,24 @@
 
 #include "minishell.h"
 
+/** 
+ * Before merge I need to check the behaviour on mac for only '-' as argument ######
+ */
 void	ft_echo(t_data *data, char **args)
 {
 	int	i;
 
-	ft_assert_not_null (data, data);
 	i = 0;
-	if (*args != NULL && (!ft_strncmp ("-n", *args, 3)
-			|| !ft_strncmp ("-", *args, 2)))
+	(void)data;
+	if (args != NULL && !ft_strncmp ("-n", *args, 3))
 		i++;
-	while (args[i] != NULL)
+	while (args != NULL && args[i] != NULL)
 	{
 		printf("%s", args[i++]);
 		if (args[i] != NULL)
 			printf(" ");
 	}
-	if (*args == NULL || ft_strncmp ("-n", *args, 3) != 0)
+	if (args == NULL || ft_strncmp ("-n", *args, 3) != 0)
 		printf("\n");
 	exit (EXIT_SUCCESS);
 }
@@ -37,8 +39,7 @@ void	ft_pwd(t_data *data)
 	char	*cwd;
 
 	cwd = (char *)malloc(MAXPATHLEN + 1);
-	if (cwd == NULL)
-		ft_throw (data, ERR_FAIL, "pwd cwd", true);
+	ft_assert_not_null(data, cwd);
 	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
 	{
 		free(cwd);
@@ -49,11 +50,12 @@ void	ft_pwd(t_data *data)
 	exit (EXIT_SUCCESS);
 }
 
-static int	valid_number(char *str)
+static int	valid_number(t_data *data, char *str)
 {
 	int	i;
 
 	i = 0;
+	ft_assert_not_null(data, str);
 	while (str[i] != '\0' && (str[i] == 32 || (str[i] < 14 && str[i] > 8)))
 		i++;
 	if (str[i] == '\0')
@@ -75,27 +77,26 @@ void	ft_exit(t_data *data, char **args)
 
 	printf("exit\n");
 	if (args == NULL)
-	{
 		ft_destroy_data(data);
-		exit (EXIT_SUCCESS);
-	}
 	else
 	{
-		if (!valid_number(*args))
+		if (!valid_number(data, *args))
 		{
-			printf("bash: exit: %s: numeric argument required\n", *args);
+			printf("minishell: exit: %s: numeric argument required\n", *args);
 			ft_destroy_data(data);
 			exit(2);
 		}
 		else if (*(args + 1) != NULL)
-			printf("bash: exit: too many arguments\n");
-		else
 		{
-			i = ft_atoi(*args);
-			ft_destroy_data(data);
-			exit(i);
+			data->status = EXIT_FAILURE;
+			printf("minishell: exit: too many arguments\n");
+			return ;
 		}
+		i = ft_atoi(*args);
+		ft_destroy_data(data);
+		exit(i);
 	}
+	exit (data->status);
 }
 
 void	ft_env(t_data *data)
@@ -103,6 +104,7 @@ void	ft_env(t_data *data)
 	int	i;
 
 	i = -1;
+	ft_assert_not_null (data, data->envp);
 	while (data->envp[++i] != NULL)
 		printf("%s\n", data->envp[i]);
 	exit (EXIT_SUCCESS);

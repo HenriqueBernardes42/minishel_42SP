@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:27:04 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:45:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,18 @@ bool	ft_assert_finished(t_data *data)
 		|| !ft_all_apostroph_closed (data))
 	{
 		linepl = readline ("> ");
-		ft_linejoin (data, linepl);
-		free (linepl);
-		ft_notify_line_changed (data);
-		ft_destroy_tab (data->tab);
-		data->tab = NULL;
-		if (!ft_minishell_split (data, data->line) || !ft_isvalid (data))
-			return (false);
+		if (linepl == NULL)
+			return (ft_throw (data, ERR_UNEXPECTED_EOF, NULL, false));
+		else if (ft_strncmp (linepl, "", 1) != 0)
+		{
+			ft_linejoin (data, linepl);
+			free (linepl);
+			ft_notify_line_changed (data);
+			ft_destroy_tab (data->tab);
+			data->tab = NULL;
+			if (!ft_minishell_split (data, data->line) || !ft_isvalid (data))
+				return (false);
+		}
 	}
 	return (true);
 }
@@ -48,14 +53,18 @@ void	ft_assert_not_null(t_data *data, void *ptr)
 /// @brief Assert that a file is not a directory.
 /// @param data The minishell's data;
 /// @param pathname The pathname.
-void	ft_assert_not_dir(t_data *data, char *pathname)
+bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 {
 	struct stat	file_stat;
 
 	ft_assert_not_null (data, pathname);
 	stat (pathname, &file_stat);
-	if (S_ISDIR (file_stat.st_mode))
+	if (S_ISDIR (file_stat.st_mode) && exitp == true)
 		ft_throw (data, ERR_EISDIR, NULL, true);
+	else if (S_ISDIR(file_stat.st_mode))
+		return (false);
+	return (true);
+		
 }
 
 /// @brief Join the pathnane by far with the additional one.

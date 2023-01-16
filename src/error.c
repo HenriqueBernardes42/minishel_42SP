@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 14:24:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:46:04 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void	ft_error(t_errno err)
 		printf ("%s", strerror (EISDIR));
 	else if (err == ERR_AMBIGUOUS_REDIRECT)
 		printf ("ambiguous redirect");
+	else if (err == ERR_UNEXPECTED_EOF)
+		printf ("unexpected eoi");
 	else if (err != 0)
 		printf ("an unexpected error occurred");
 }

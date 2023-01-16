@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 15:07:19 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:39:30 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <dirent.h>
+# include <termios.h>
 # define BUFFER_SIZE 42
 
 typedef enum e_stream
@@ -74,7 +75,8 @@ typedef enum e_errno {
 	ERR_ENOENT,
 	ERR_EACCES,
 	ERR_EISDIR,
-	ERR_AMBIGUOUS_REDIRECT
+	ERR_AMBIGUOUS_REDIRECT,
+	ERR_UNEXPECTED_EOF
 }	t_errno;
 typedef int	t_fd;
 typedef int	t_lvl;
@@ -98,9 +100,9 @@ typedef struct s_args2
 }	t_args2;
 typedef struct s_args3
 {
-	int		status;
 	size_t	i;
 	size_t	temp;
+	int		status;
 }	t_args3;
 typedef struct s_args4
 {
@@ -131,6 +133,7 @@ typedef struct s_data
 	t_fd		*pipes;
 	int			cmdsc_pps;
 	int			status;
+	struct termios tty_attr;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -138,7 +141,7 @@ t_data	*ft_initdata(char **envp);
 t_args	*ft_initargs(t_data *data, char *pathname);
 t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd);
 void	ft_assert_not_null(t_data *data, void *ptr);
-void	ft_assert_not_dir(t_data *data, char *pathname);
+bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss);
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char	*ft_pathname(t_data *data, char *name);
@@ -177,7 +180,6 @@ void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
 char	*ft_memdup(char const *s, size_t a, size_t b);
-void	ft_init_signal_handler(void);
 int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
 void	ft_close_curr_lvl(t_data *data);
@@ -186,4 +188,6 @@ bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
+void	ft_init_signal_handler(t_data *data);
+void	ft_expand(t_data *data, t_args3 *args3, char **str);
 #endif
