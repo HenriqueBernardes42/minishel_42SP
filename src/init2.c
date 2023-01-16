@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:28:05 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:45:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_args3	*ft_initargs3(t_data *data)
 		ft_throw (data, ERR_FAIL, "malloc", true);
 	args3->i = 0;
 	args3->status = 0;
+	args3->q = 0;
+	args3->opened = false;
 	return (args3);
 }
 

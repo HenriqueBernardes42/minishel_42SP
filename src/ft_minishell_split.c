@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:27:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:51:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,22 @@ static bool	ft_push_substr(t_data *data, t_args3 *args3, char *str)
 	return (true);
 }
 
+static void	ft_handle_quotes(t_data *data, t_args3 *args3, char *str)
+{
+	if (str[args3->i] != '\'' && str[args3->i] != '"')
+		return ;
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, args3);
+	ft_assert_not_null (data, str);
+	args3->opened = true;
+	args3->q = str[args3->i];
+	if (args3->opened)
+	{
+		args3->opened = false;
+		args3->q = 0;
+	}
+}
+
 static bool	ft_handle_type(t_data *data, t_args3 *args3, char *str)
 {
 	ft_assert_not_null (data, data);
@@ -90,13 +106,13 @@ static bool	ft_handle_type(t_data *data, t_args3 *args3, char *str)
 		ft_push_special (data, args3, str);
 	else if (str[args3->i] != ' ' && args3->status == 0)
 	{
+		ft_handle_quotes (data, args3, str);
 		args3->status = 1;
 		args3->temp = args3->i;
 		args3->i++;
 	}
-	else if (args3->status == 1
-		&& (ft_istype (&str[args3->i], T_SPECIAL, false)
-			|| str[args3->i] == ' '))
+	else if (args3->status == 1 
+		&& str[args3->i] == ' ' && !args3->opened)
 	{
 		if (!ft_push_substr (data, args3, str))
 			return (false);

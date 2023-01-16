@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:40:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:52:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ static bool	ft_isvalidpl(t_data *data, int i)
 
 bool	ft_isvalid(t_data *data)
 {
-	int	i;
-	int	opened;
-	int	opened2;
+	int		i;
+	int		opened;
+	int		opened2;
+	// char	f;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);

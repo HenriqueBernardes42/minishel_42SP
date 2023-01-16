@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:39:30 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:45:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ typedef struct s_args3
 	size_t	i;
 	size_t	temp;
 	int		status;
+	char	q;
+	bool	opened;
 }	t_args3;
 typedef struct s_args4
 {
