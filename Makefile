@@ -23,7 +23,7 @@ LIBFT			=	$(LIBFT_REPO)/libft.a
 
 READLINE		=	/Users/$(USER)/homebrew/opt/readline
 
-%.o: %.c $(sDEPS)
+%.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
@@ -33,7 +33,7 @@ $(LIBFT):
 	make -C $(LIBFT_REPO)
 
 $(READLINE)/lib:
-	#brew install readline
+	brew install readline
 
 $(NAME): $(LIBFT) $(READLINE)/lib $(OBJ)
 	$(CC) $(CFLAGS) $(LIBFT) -L$(READLINE)/lib -lreadline $(OBJ) -o $(NAME)
@@ -57,7 +57,7 @@ uninstall:
 	then \
 		brew uninstall readline ; \
 	fi ;
-	
+
 m: $(NAME)
 	@./$(NAME)
 
