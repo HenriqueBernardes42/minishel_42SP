@@ -1,10 +1,12 @@
 # minishell
 
 ## Bugs
-- [ ] awk **(in progress)**
+- [ ] child minishell
+- [ ] prompt
+- [x] awk 
 - [x] syntax error handling special chars between quotes (ls "(")
-- [ ] expansions (ft_minishell_split, ft_child ) **(in progress)**
-- [ ] signals: double displaying prompt, Ctrl+d exiting with error ...
+- [x] expansions 
+- [x] signals
 ```
 minishell$
 exit
