@@ -13,6 +13,8 @@ make: *** [m] Error 1
 - [ ] builtins: env vars not in alphabetical order
 - [x] cd not working
 - [ ] foreground pipe status updating not complete. E. g. < M* should set status to 1
+- [ ] in bash 'export HOME=/ && cat $HOME/Makefile' changes HOME and 'export HOME=/ | cat $HOME/Makefile' does not.
+- [ ] expansion of executable pathname?
 
 ## Awk fix
 

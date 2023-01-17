@@ -42,9 +42,9 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 			i++;
 	var = ft_substr(*tab, index, i);
 	if ((*tab)[index] == '?')
-		str = ft_itoa(data->ret_pipe);
-	else if (*get_env_var(data->envp, var) != NULL)
-		str = *get_env_var(data->envp, var) + ft_strlen(var) + 1;
+		str = ft_itoa(data->status);
+	else if (*ft_get_env_var(data->envp, var) != NULL)
+		str = *ft_get_env_var(data->envp, var) + ft_strlen(var) + 1;
 	else
 		str = "";
 	free(var);
@@ -58,21 +58,39 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	*tab = var;
 }
 
-void	ft_expand(t_data *data, t_args3 *args3, char **str)
+void ft_expand_str(t_data *data, char **str)
+{
+	int		i;
+	bool	double_quote;
+	bool	single_quote;
+
+	i = -1;
+	double_quote = false;
+	single_quote = false;
+	while ((*str)[++i] != '\0')
+	{
+		if (!double_quote && (*str)[i] == '\'')
+			remove_quote(data, &single_quote, str, i--);
+		else if (!single_quote && (*str)[i] == '\"')
+			remove_quote(data, &double_quote, str, i--);
+		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
+			ft_insert_var(data, str, i-- + 1);
+	}
+	//Debug
+	printf("'%s' ", *str);
+}
+
+void	ft_expand_tab(t_data *data, char **tab)
 {
 	int	i;
 
+	if (tab == NULL)
+		return ;
 	i = -1;
 	//Debug
-	//printf("DEBUG: string to expand: %s\n", *str);
-	while ((*str)[++i] != '\0')
-	{
-		if (!args3->double_quote && (*str)[i] == '\'')
-			remove_quote(data, &args3->single_quote, str, i--);
-		else if (!args3->single_quote && (*str)[i] == '\"')
-			remove_quote(data, &args3->double_quote, str, i--);
-		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0'
-			&& !args3->single_quote)
-			ft_insert_var(data, str, i-- + 1);
-	}
+	printf("DEBUG: output: ft_expand_tab: ");
+	while (tab[++i] != NULL)
+		ft_expand_str(data, tab + i);
+	//Debug
+	printf("\n");
 }

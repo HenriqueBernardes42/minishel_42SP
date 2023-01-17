@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_child.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:13:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:45:52 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	ft_exec_cmd(t_data *data, int i, int j)
 			ft_exec_builtin (data, i, data->cmds[i].name);
 		else if (data->cmds[i].pathname != NULL)
 		{
+			ft_expand_tab(data, data->cmds[i].args);
 			execve(data->cmds[i].pathname,
 				data->cmds[i].args, data->envp);
 			ft_throw(data, ERR_FAIL, "execve", true);
