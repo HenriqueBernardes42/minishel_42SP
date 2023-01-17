@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-/** 
- * Before merge I need to check the behaviour on mac for only '-' as argument ######
- */
 void	ft_echo(t_data *data, char **args)
 {
 	int	i;
@@ -74,8 +71,7 @@ static int	valid_number(t_data *data, char *str)
 void	ft_exit(t_data *data, char **args)
 {
 	int	i;
-
-	printf("exit\n");
+	
 	if (args == NULL)
 		ft_destroy_data(data);
 	else

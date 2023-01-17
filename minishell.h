@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:53:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 22:45:59 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ t_args4	*ft_initargs4(t_data *data);
 char	*ft_memdup(char const *s, size_t a, size_t b);
 int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
-void	ft_close_curr_lvl(t_data *data);
+void	ft_close_curr_lvl(t_data *data, int temp_i);
 void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_linejoin(t_data *data, char *linepl);
@@ -195,6 +195,9 @@ void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
 void 	ft_expand_str(t_data *data, char **str);
-void	ft_expand_tab(t_data *data, char **tab);
+void	ft_expand_tab(t_data *data, char ***tab);
 void	ft_shift(t_data *data, char ***tab, char *str);
+void	ft_explode_name(t_data *data, int i);
+bool	ft_isenv_var(char *str);
+int 	ft_expand_env_var(t_data *data, char ***tab, int i);
 #endif

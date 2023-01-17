@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:46:22 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 22:46:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	ft_exec_cmd(t_data *data, int i)
 	ft_shift (data, &data->cmds[i].args, data->cmds[i].pathname);
 	execve(data->cmds[i].pathname,
 		data->cmds[i].args, data->envp);
-	ft_putendl_fd (data->cmds[i].pathname, 2);
 	ft_throw(data, ERR_FAIL, "execve", true);
 }
 
@@ -62,7 +61,8 @@ void	ft_child(t_data *data, int i, int j)
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
 	ft_expand_str (data, &data->cmds[i].name);
-	ft_expand_tab (data, data->cmds[i].args);
+	ft_explode_name (data, i);
+	ft_expand_tab (data, &data->cmds[i].args);
 	if (ft_isbuiltin (data->cmds[i].name) == 2)
 		ft_exec_builtin (data, i, data->cmds[i].name);
 	else

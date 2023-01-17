@@ -78,13 +78,25 @@ void ft_expand_str(t_data *data, char **str)
 	}
 }
 
-void	ft_expand_tab(t_data *data, char **tab)
+void	ft_expand_tab(t_data *data, char ***tab)
 {
 	int	i;
 
 	if (tab == NULL)
+		ft_throw (data, ERR_NULL_PTR, NULL, true);
+	else if (*tab == NULL)
 		return ;
 	i = -1;
-	while (tab[++i] != NULL)
-		ft_expand_str(data, tab + i);
+	while ((*tab)[++i] != NULL)
+	{
+		if (!ft_isenv_var ((*tab)[i]))
+			ft_expand_str(data, (*tab) + i);
+		else if (*ft_get_env_var(data->envp, (*tab)[i] + 1) != NULL)
+			i += ft_expand_env_var (data, tab, i) - 1;
+		else
+		{
+			free ((*tab)[i]);
+			(*tab)[i] = ft_strdup ("");
+		}
+	}
 }

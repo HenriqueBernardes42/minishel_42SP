@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:49:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:36:14 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,10 @@ static void	ft_error(t_errno err)
 		printf ("an unexpected error occurred");
 }
 
-static void	ft_pexit(enum e_errno err)
-{
-	int	exit_code;
-
-	exit_code = EXIT_FAILURE;
-	if (err == ERR_CMD_NOT_FOUND)
-		exit_code = EXIT_CMDNOTFOUND;
-	exit (exit_code);
-}
-
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
+	int	status;
+	
 	printf ("minishell: ");
 	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES
 			|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
@@ -68,8 +60,9 @@ bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 	printf ("\n");
 	if (exitp)
 	{
+		status = data->status;
 		ft_destroy_data (data);
-		ft_pexit (err);
+		exit (status);
 	}
 	return (false);
 }

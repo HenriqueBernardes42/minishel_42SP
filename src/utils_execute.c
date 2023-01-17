@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:50:44 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:32:38 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_close(t_data *data, int infd, int outfd)
 			close (data->pipes[i]);
 }
 
-void	ft_close_curr_lvl(t_data *data)
+void	ft_close_curr_lvl(t_data *data, int temp_i)
 {
 	int	j;
 
@@ -63,7 +63,14 @@ void	ft_close_curr_lvl(t_data *data)
 	{
 		wait (&data->status);
 		if (WIFEXITED (data->status))
-			data->status = WEXITSTATUS (data->status);
+		{
+			if (!ft_isbuiltin (data->cmds[temp_i].name)
+				&& data->cmds[temp_i].pathname == NULL)
+				data->status = EXIT_CMDNOTFOUND;
+			else
+				data->status = WEXITSTATUS (data->status);
+			temp_i++;
+		}
 	}
 	if (data->pipes != NULL)
 	{
