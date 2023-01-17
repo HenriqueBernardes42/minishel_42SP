@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 21:57:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:08:03 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_data	*ft_initdata(char **envp)
 	data->pipes = NULL;
 	data->cmdsc_pps = -1;
 	data->status = 0;
+	data->read_state = false;
 	if (tcgetattr(STDIN_FILENO, &data->tty_attr) != 0)
 			ft_throw (data, ERR_FAIL, "init gettattr fail", true);
 	return (data);

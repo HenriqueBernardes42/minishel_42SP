@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 21:58:23 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:07:54 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_data
 	t_fd		*pipes;
 	int			cmdsc_pps;
 	int			status;
+	int			read_state;
 	struct termios tty_attr;
 }	t_data;
 void	ft_execute(t_data *data);
