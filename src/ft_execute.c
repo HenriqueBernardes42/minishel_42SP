@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:21:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:29:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	ft_upperlvl(t_data *data, int lvl, int *i)
 {
-	if (data->cmds[*i].inst == I_START
-		|| (data->cmds[*i].inst == I_OR && data->status != 0)
-		|| (data->cmds[*i].inst == I_AND && data->status == 0))
+	if (data->cmds[*i].instr == I_START
+		|| (data->cmds[*i].instr == I_OR && data->status != 0)
+		|| (data->cmds[*i].instr == I_AND && data->status == 0))
 		ft_loop (data, data->cmds[*i].lvl, i);
 	else
 	{
@@ -43,9 +43,9 @@ static void	ft_run(t_data *data, int *i)
 
 static void	ft_currentlvl(t_data *data, int *i)
 {
-	if (data->cmds[*i].inst == I_START
-		|| (data->cmds[*i].inst == I_OR && data->status != 0)
-		|| (data->cmds[*i].inst == I_AND && data->status == 0))
+	if (data->cmds[*i].instr == I_START
+		|| (data->cmds[*i].instr == I_OR && data->status != 0)
+		|| (data->cmds[*i].instr == I_AND && data->status == 0))
 	{
 		data->cmdsc_pps = ft_anticipate_cmdsc (data, *i);
 		data->pipes = ft_initpipes (data, data->cmdsc_pps);

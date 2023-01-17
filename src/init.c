@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:15:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:57:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].redirs = NULL;
 		cmds[i].redirsc = 0;
 		cmds[i].lvl = -1;
-		cmds[i].inst = I_UNDEF;
+		cmds[i].instr = I_UNDEF;
 	}
 	return (cmds);
 }

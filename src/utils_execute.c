@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/13 15:19:21 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:59:15 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_anticipate_cmdsc(t_data *data, int i)
 	int	cmdsc;
 
 	cmdsc = 1;
-	while (++i < data->cmdsc && data->cmds[i].inst == I_PIPE)
+	while (++i < data->cmdsc && data->cmds[i].instr == I_PIPE)
 		cmdsc++;
 	return (cmdsc);
 }

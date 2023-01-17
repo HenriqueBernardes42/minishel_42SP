@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:45:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:58:23 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct s_args4
 	int	i;
 	int	j;
 	int	lvl;
-	int	inst;
+	int	instr;
 }	t_args4;
 typedef struct s_cmd
 {
@@ -123,7 +123,7 @@ typedef struct s_cmd
 	int		*redirs;
 	int		redirsc;
 	int		lvl;
-	int		inst;
+	int		instr;
 }	t_cmd;
 typedef struct s_data
 {
@@ -191,5 +191,5 @@ void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
-void	ft_expand(t_data *data, t_args3 *args3, char **str);
+void	ft_expand(t_data *data, int cmd_i);
 #endif

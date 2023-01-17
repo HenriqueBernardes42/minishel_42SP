@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:08:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:20:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:58:06 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ static void	ft_handle_specials(t_data *data, t_args4 *args4)
 		|| ft_istype (data->tab[args4->i], T_OP, true))
 	{
 		if (ft_istype (data->tab[args4->i], T_PIPE, true))
-			args4->inst = I_PIPE;
+			args4->instr = I_PIPE;
 		else if (ft_istype (data->tab[args4->i], T_OP_AND, true))
-			args4->inst = I_AND;
+			args4->instr = I_AND;
 		else if (ft_istype (data->tab[args4->i], T_OP_OR, true))
-			args4->inst = I_OR;
+			args4->instr = I_OR;
 		args4->j++;
 	}
 	else if (ft_istype (data->tab[args4->i], T_REDIR, true))
@@ -84,8 +84,8 @@ static void	ft_handle_type(t_data *data, t_args4 *args4)
 		ft_handle_specials (data, args4);
 	else
 	{
-		if (data->cmds[args4->j].inst == I_UNDEF)
-			data->cmds[args4->j].inst = args4->inst;
+		if (data->cmds[args4->j].instr == I_UNDEF)
+			data->cmds[args4->j].instr = args4->instr;
 		if (data->cmds[args4->j].lvl == -1)
 			data->cmds[args4->j].lvl = args4->lvl;
 		ft_catch (data, args4);
