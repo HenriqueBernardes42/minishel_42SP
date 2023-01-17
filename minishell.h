@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:01:00 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:53:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <dirent.h>
 # include <termios.h>
 # define BUFFER_SIZE 42
+# define EXIT_CMDNOTFOUND 127
+# define EXIT_SIGINT 130
 
 typedef enum e_stream
 {
