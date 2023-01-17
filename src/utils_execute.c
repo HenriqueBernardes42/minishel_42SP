@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 18:32:38 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:06:43 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@ int	ft_anticipate_cmdsc(t_data *data, int i)
 	while (++i < data->cmdsc && data->cmds[i].instr == I_PIPE)
 		cmdsc++;
 	return (cmdsc);
-}
-
-void	ft_pipe(t_data *data, int j, t_fd *iofd, t_stream s)
-{
-	t_fd	fd;
-
-	if (data->pipes == NULL || data->cmdsc_pps <= 1
-		|| (s == STREAM_INPUT && j < 1)
-		|| (s == STREAM_OUTPUT && j == data->cmdsc_pps -1))
-		return ;
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, iofd);
-	if (s == STREAM_INPUT)
-		fd = data->pipes[(j - 1) * 2];
-	else
-		fd = data->pipes[(j * 2) + 1];
-	if (dup2 (fd, *iofd) == -1)
-		ft_throw (data, ERR_FAIL, "dup2", true);
-	*iofd = fd;
 }
 
 void	ft_close(t_data *data, int infd, int outfd)

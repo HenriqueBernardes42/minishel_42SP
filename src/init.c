@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 15:08:03 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:37:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
+t_args2	*ft_initargs2(t_data *data, int i)
 {
 	t_args2	*args2;
 
@@ -23,8 +23,7 @@ t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
 	ft_assert_not_null (data, args2);
 	args2->i = i;
 	args2->j = data->cmds[i].redirsc;
-	args2->infd = infd;
-	args2->outfd = outfd;
+	args2->iofd = -1;
 	return (args2);
 }
 

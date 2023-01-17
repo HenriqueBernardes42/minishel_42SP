@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 22:58:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:59:37 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,9 @@ typedef struct s_args2
 {
 	int		i;
 	t_type	redir;
-	t_fd	*iofd;
+	t_fd	iofd;
 	t_fd	nfd;
 	int		j;
-	t_fd	*infd;
-	t_fd	*outfd;
 }	t_args2;
 typedef struct s_args3
 {
@@ -144,7 +142,7 @@ void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
 t_data	*ft_initdata(char **envp);
 t_args	*ft_initargs(t_data *data, char *pathname);
-t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd);
+t_args2	*ft_initargs2(t_data *data, int i);
 void	ft_assert_not_null(t_data *data, void *ptr);
 bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss);
@@ -156,7 +154,7 @@ void	ft_destroy_execution(t_data *data);
 void	ft_destroy_data(t_data *data);
 void	ft_destroy_tab(char **tab);
 void	ft_addint(t_data *data, int **arr, int len, int i);
-void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
+void	ft_redirect(t_data *data, int i);
 void	ft_heredocs(t_data *data);
 void	ft_remove(t_data *data, char ***tab, char *str);
 int		ft_isbuiltin(char *str);
@@ -174,7 +172,6 @@ int		*ft_initpipes(t_data *data, int cmdsc);
 size_t	ft_tablen(char **tab);
 bool	ft_assert_finished(t_data *data);
 bool	ft_isvalid(t_data *data);
-void	ft_pipe(t_data *data, int j, t_fd *iofd, t_stream s);
 void	ft_close(t_data *data, int infd, int outfd);
 void	ft_child(t_data *data, int i, int j);
 int		ft_anticipate_cmdsc(t_data *data, int i);
