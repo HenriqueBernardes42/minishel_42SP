@@ -13,7 +13,8 @@ SRC				=	main init destroy ft_execute assert \
 					ft_isvalid ft_parse init2 ft_child \
 					utils_builtins utils_execute \
 					utils_libft_impl utils_minishell_split \
-					utils utils2 utils_assert ft_expand
+					utils utils2 utils_assert expand \
+					utils_child
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -58,11 +59,10 @@ uninstall:
 		brew uninstall readline ; \
 	fi ;
 
+factory-reset: purge uninstall
+
 m: $(NAME)
 	@./$(NAME)
-
-mc: $(NAME)
-	make && make clean && clear && ./$(NAME)
 
 test-leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
