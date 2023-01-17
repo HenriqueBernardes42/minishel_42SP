@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 14:45:52 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:16:35 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	ft_exec_cmd(t_data *data, int i, int j)
 		else if (data->cmds[i].pathname != NULL)
 		{
 			ft_expand_tab(data, data->cmds[i].args);
+			ft_expand_str(data, &data->cmds[i].pathname);
 			execve(data->cmds[i].pathname,
 				data->cmds[i].args, data->envp);
 			ft_throw(data, ERR_FAIL, "execve", true);
@@ -52,8 +53,14 @@ void	ft_child(t_data *data, int i, int j)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
+	// expand the name and args
 	if (ft_isbuiltin (data->cmds[i].name) == 2)
 		ft_exec_builtin (data, i, data->cmds[i].name);
 	else
+	{
+		// get the pathname with expanded name: 
+			// if name is path to executable, check permissions and existence else exit
+			// else use PATH to get path to executable
 		ft_exec_cmd (data, i, j);
+	}
 }

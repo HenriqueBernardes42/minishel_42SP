@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:08:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/12 13:20:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:12:24 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,7 @@ static void	ft_catch(t_data *data, t_args4 *args4)
 	if (redir != REDIR_UNDEF)
 		ft_catch_redir (data, args4, redir);
 	else if (data->cmds[args4->j].name == NULL)
-	{
 		data->cmds[args4->j].name = ft_strdup (data->tab[args4->i]);
-		if (!ft_isbuiltin (data->cmds[args4->j].name))
-		{
-			data->cmds[args4->j].pathname = ft_pathname
-				(data, data->cmds[args4->j].name);
-			ft_push (data, &data->cmds[args4->j].args,
-				data->cmds[args4->j].pathname);
-			data->cmds[args4->j].argsc++;
-		}
-	}
 	else
 	{
 		ft_push (data, &data->cmds[args4->j].args, data->tab[args4->i]);

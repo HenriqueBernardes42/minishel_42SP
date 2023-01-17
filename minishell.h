@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:45:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:41:51 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,6 @@ void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
-void	ft_expand(t_data *data, t_args3 *args3, char **str);
+void	ft_expand_tab(t_data *data, char **tab);
+void	ft_expand_str(t_data *data, char **str);
 #endif
