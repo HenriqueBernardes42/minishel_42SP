@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 15:07:54 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:01:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,5 +192,7 @@ void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
-void	ft_expand(t_data *data, int cmd_i);
+void 	ft_expand_str(t_data *data, char **str);
+void	ft_expand_tab(t_data *data, char **tab);
+void	ft_shift(t_data *data, char ***tab, char *str);
 #endif

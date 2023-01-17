@@ -6,11 +6,19 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 15:08:19 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:47:11 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_readline(t_data *data)
+{
+	ft_assert_not_null (data, data);
+	data->read_state = true;
+	data->line = readline ("\033[32;1mminishell$ \033[0m");
+	data->read_state = false;
+}
 
 static void	ft_mainpl(t_data *data)
 {
@@ -38,11 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		data->tty_attr.c_lflag &= ~ECHOCTL;
     	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
 			ft_throw (data, ERR_FAIL, "main settattr fail", true);
-		// ft_putendl_fd ("-----> before prompt", 2);
-		data->read_state = true;
-		data->line = readline ("\033[32;1mminishell$ \033[0m");
-		data->read_state = false;
-		// ft_putendl_fd ("-----> after prompt", 2);
+		ft_readline (data);
 		if (data->line == NULL)
 			ft_exit(data, NULL);
 		else if (ft_strncmp (data->line, "", 1) != 0)

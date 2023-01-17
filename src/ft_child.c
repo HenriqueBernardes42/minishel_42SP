@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 14:32:54 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:27:25 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,21 @@ static void	ft_prepare_cmd_exec(t_data *data, pid_t *pid,
 		ft_throw(data, ERR_FAIL, "fork", true);
 }
 
-static void	ft_exec_cmd(t_data *data, int i, int j)
+static void	ft_exec_cmd(t_data *data, int i)
+{
+	if (ft_strchr (data->cmds[i].name, '/') != NULL)
+	{
+		ft_assert_not_dir (data, data->cmds[i].pathname, true);
+		ft_assert_valid_permissions (data, data->cmds[i].pathname, X_OK);
+	}
+	ft_shift (data, &data->cmds[i].args, data->cmds[i].pathname);
+	execve(data->cmds[i].pathname,
+		data->cmds[i].args, data->envp);
+	ft_putendl_fd (data->cmds[i].pathname, 2);
+	ft_throw(data, ERR_FAIL, "execve", true);
+}
+
+static void	ft_exec_cmd_or_builtin1(t_data *data, int i, int j)
 {
 	pid_t	pid;
 	t_fd	infd;
@@ -38,11 +52,7 @@ static void	ft_exec_cmd(t_data *data, int i, int j)
 		if (ft_isbuiltin (data->cmds[i].name) == 1)
 			ft_exec_builtin (data, i, data->cmds[i].name);
 		else if (data->cmds[i].pathname != NULL)
-		{
-			execve(data->cmds[i].pathname,
-				data->cmds[i].args, data->envp);
-			ft_throw(data, ERR_FAIL, "execve", true);
-		}
+			ft_exec_cmd (data, i);
 		ft_throw(data, ERR_CMD_NOT_FOUND, data->cmds[i].name, true);
 	}
 }
@@ -51,8 +61,17 @@ void	ft_child(t_data *data, int i, int j)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
+	ft_expand_str (data, &data->cmds[i].name);
+	ft_expand_tab (data, data->cmds[i].args);
 	if (ft_isbuiltin (data->cmds[i].name) == 2)
 		ft_exec_builtin (data, i, data->cmds[i].name);
 	else
-		ft_exec_cmd (data, i, j);
+	{
+		if (ft_strchr (data->cmds[i].name, '/') != NULL)
+			data->cmds[i].pathname = ft_strdup (data->cmds[i].name);
+		else
+			data->cmds[i].pathname = ft_pathname
+				(data, data->cmds[i].name);
+		ft_exec_cmd_or_builtin1 (data, i, j);
+	}
 }

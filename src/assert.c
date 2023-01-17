@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:45:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:12:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 	while (++i < args->count)
 	{
 		ft_mkpath (args, pathname, i);
-		if ((permss == R_OK || (permss == W_OK && i < args->count - 1))
+		if (((permss == R_OK || permss == X_OK)
+			|| (permss == W_OK && i < args->count - 1))
 			&& (access (args->path, F_OK) != 0
 				|| access (args->path, permss) != 0))
 		{
