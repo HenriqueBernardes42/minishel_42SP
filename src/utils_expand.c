@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 22:36:41 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 22:56:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isenv_var(char *str)
+bool	ft_isenv_var_only(char *str)
 {
 	int	i;
 

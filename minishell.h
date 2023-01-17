@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 22:45:59 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 22:58:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,6 @@ void 	ft_expand_str(t_data *data, char **str);
 void	ft_expand_tab(t_data *data, char ***tab);
 void	ft_shift(t_data *data, char ***tab, char *str);
 void	ft_explode_name(t_data *data, int i);
-bool	ft_isenv_var(char *str);
+bool	ft_isenv_var_only(char *str);
 int 	ft_expand_env_var(t_data *data, char ***tab, int i);
 #endif

@@ -89,7 +89,8 @@ void	ft_expand_tab(t_data *data, char ***tab)
 	i = -1;
 	while ((*tab)[++i] != NULL)
 	{
-		if (!ft_isenv_var ((*tab)[i]))
+		if (!ft_isenv_var_only ((*tab)[i])
+			|| ft_strncmp ((*tab)[i], "$?", 3) == 0)
 			ft_expand_str(data, (*tab) + i);
 		else if (*ft_get_env_var(data->envp, (*tab)[i] + 1) != NULL)
 			i += ft_expand_env_var (data, tab, i) - 1;
