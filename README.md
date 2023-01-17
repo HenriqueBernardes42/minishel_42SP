@@ -10,7 +10,9 @@ minishell$
 exit
 make: *** [m] Error 1
 ```
-- [ ] builtins: env vars not in alphabetical order, cd not working
+- [ ] builtins: env vars not in alphabetical order
+- [x] cd not working
+- [ ] foreground pipe status updating not complete. E. g. < M* should set status to 1
 
 ## Awk fix
 

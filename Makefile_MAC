@@ -13,7 +13,7 @@ SRC				=	main init destroy ft_execute assert \
 					ft_isvalid ft_parse init2 ft_child \
 					utils_builtins utils_execute \
 					utils_libft_impl utils_minishell_split \
-					utils utils2 utils_assert
+					utils utils2 utils_assert #ft_expand
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))
 
@@ -21,7 +21,7 @@ LIBFT_REPO		=	libft
 
 LIBFT			=	$(LIBFT_REPO)/libft.a
 
-READLINE		=	/Users/$(USER)/homebrew/opt/readline
+READLINE		=	/Users/$(USER)/.brew/opt/readline
 
 %.o: %.c $(CDEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -29,7 +29,6 @@ READLINE		=	/Users/$(USER)/homebrew/opt/readline
 all: $(NAME)
 
 $(LIBFT):
-	git clone https://github.com/AtchogloDev/$(LIBFT_REPO).git
 	make -C $(LIBFT_REPO)
 
 $(READLINE)/lib:
@@ -51,8 +50,6 @@ purge: fclean
 	@rm -rf $(NAME).dsYM
 	@rm -f $(NAME).log
 	@rm -rf .vscode
-
-uninstall:
 	@if [[ -d $(READLINE) ]] ; \
 	then \
 		brew uninstall readline ; \

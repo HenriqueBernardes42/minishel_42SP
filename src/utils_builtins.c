@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:25:56 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:06:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:31:28 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_exec_builtin(t_data *data, int i, char *builtin)
 		ft_echo (data, data->cmds[i].args);
 	else if (ft_strncmp (builtin, "cd", 3) == 0)
 	{
-		if (data->cmds[i].argsc > 1)
+		if (data->cmds[i].argsc > 0)
 			ft_cd (data, data->cmds[i].args[0]);
 		else
 			ft_cd (data, NULL);
