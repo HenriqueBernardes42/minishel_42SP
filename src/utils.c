@@ -1,131 +1,110 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 11:22:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:23:18 by katchogl         ###   ########.fr       */
+/*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/16 17:19:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_tablen(char **tab)
+static int	ft_istypepl(char *str, t_type type, bool strict)
 {
-	size_t	len;
+	if (ft_strncmp (str, "|", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PIPE || type == T_CMD_CAT))
+		return (1);
+	else if (ft_strncmp (str, "&&", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_OP || type == T_OP_AND
+			|| type == T_CMD_CAT))
+		return (2);
+	else if (ft_strncmp (str, "(", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PARENTH_OPEN || type == T_PARENTH))
+		return (1);
+	else if (ft_strncmp (str, ")", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_PARENTH_CLOSE || type == T_PARENTH))
+		return (1);
+	return (0);
+}
 
-	if (tab == NULL)
+int	ft_istype(char *str, t_type type, bool strict)
+{
+	if (str == NULL)
 		return (0);
-	len = 0;
-	while (tab[len] != NULL)
-		len++;
-	return (len);
-}
-
-void	ft_remove(t_data *data, char ***tab, char *str)
-{
-	char	**ntab;
-	int		size_tab;
-	int		i;
-
-	if (str == NULL)
-		return ;
-	size_tab = 0;
-	i = -1;
-	if (*tab != NULL)
-		while ((*tab)[++i] != NULL)
-			if (ft_strncmp(str, (*tab)[i], ft_strlen(str) + 1))
-				size_tab++;
-	ntab = (char **)malloc((size_tab + 1) * sizeof (char *));
-	if (ntab == NULL)
-		ft_throw(data, ERR_FAIL, "malloc", true);
-	ntab[size_tab] = NULL;
-	while (--size_tab >= 0)
-	{
-		if (!ft_strncmp(str, (*tab)[--i], ft_strlen(str) + 1))
-			i--;
-		ntab[size_tab] = ft_strdup ((*tab)[i]);
-	}
-	ft_destroy_tab(*tab);
-	*tab = ntab;
-}
-
-void	ft_addint(t_data *data, int **arr, int len, int n)
-{
-	int	*narr;
-	int	i;
-
-	if (len <= 0 || *arr == NULL)
-		len = 1;
+	if (ft_strncmp (str, "<<", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_REDIR || type == REDIR_HEREDOC))
+		return (2);
+	else if (ft_strncmp (str, ">>", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_REDIR || type == REDIR_OUTFILE_APP))
+		return (2);
+	else if (ft_strncmp (str, "<", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_REDIR || type == REDIR_INFILE))
+		return (1);
+	else if (ft_strncmp (str, ">", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_REDIR || type == REDIR_OUTFILE_TRC))
+		return (1);
+	else if (ft_strncmp (str, ";", 1 + strict) == 0
+		&& (type == T_SPECIAL || type == T_CMD_SEP || type == T_CMD_CAT))
+		return (1);
+	else if (ft_strncmp (str, "||", 2 + strict) == 0
+		&& (type == T_SPECIAL || type == T_OP || type == T_OP_OR
+			|| type == T_CMD_CAT))
+		return (2);
 	else
-		len += 1;
-	narr = (int *) malloc (len * sizeof (int));
-	ft_assert_not_null (data, narr);
-	if (*arr != NULL)
-	{
-		i = -1;
-		while (++i < len - 1)
-			narr[i] = (*arr)[i];
-	}
-	narr[len - 1] = n;
-	free (*arr);
-	*arr = narr;
+		return (ft_istypepl (str, type, strict));
 }
 
-void	ft_push(t_data *data, char ***tab, char *str)
+t_type	ft_getredir(char *str)
 {
-	char	**ntab;
-	int		size_tab;
-	int		i;
-
-	if (str == NULL)
-		return ;
-	size_tab = 0;
-	if (*tab != NULL)
-	{
-		i = -1;
-		while ((*tab)[++i] != NULL)
-			size_tab++;
-	}
-	ntab = (char **) malloc ((size_tab + 2) * sizeof (char *));
-	if (ntab == NULL)
-		ft_throw (data, ERR_NULL_PTR, "ft_push ntab", true);
-	i = -1;
-	while (++i < size_tab)
-		ntab[i] = ft_strdup ((*tab)[i]);
-	ntab[i] = ft_strdup (str);
-	ntab[i + 1] = NULL;
-	if (*tab != NULL)
-		ft_destroy_tab (*tab);
-	*tab = ntab;
+	if (ft_strncmp (str, "<", 2) == 0)
+		return (REDIR_INFILE);
+	else if (ft_strncmp (str, ">", 2) == 0)
+		return (REDIR_OUTFILE_TRC);
+	else if (ft_strncmp (str, "<<", 3) == 0)
+		return (REDIR_HEREDOC);
+	else if (ft_strncmp (str, ">>", 3) == 0)
+		return (REDIR_OUTFILE_APP);
+	return (REDIR_UNDEF);
 }
 
-void	ft_shift(t_data *data, char ***tab, char *str)
+static bool	ft_isexecutable(char *pathname)
 {
-	char	**ntab;
-	int		size_tab;
-	int		i;
+	struct stat	file_stat;
 
-	if (str == NULL)
-		return ;
-	size_tab = 0;
-	if (*tab != NULL)
-	{
-		i = -1;
-		while ((*tab)[++i] != NULL)
-			size_tab++;
-	}
-	ntab = (char **) malloc ((size_tab + 2) * sizeof (char *));
-	if (ntab == NULL)
-		ft_throw (data, ERR_NULL_PTR, "ft_push ntab", true);
-	ntab[0] = ft_strdup (str);
+	stat (pathname, &file_stat);
+	if (!S_ISREG (file_stat.st_mode))
+		return (false);
+	return (true);
+}
+
+char	*ft_pathname(t_data *data, char *name)
+{
+	int		i;
+	char	*dir;
+	char	*pathname;
+	char	**path;
+
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, name);
+	if (access (name, X_OK) != -1 && ft_isexecutable (name))
+		return (ft_strdup (name));
 	i = -1;
-	while (++i < size_tab)
-		ntab[i + 1] = ft_strdup ((*tab)[i]);
-	ntab[size_tab + 1] = NULL;
-	if (*tab != NULL)
-		ft_destroy_tab (*tab);
-	*tab = ntab;
+	if (*ft_get_env_var(data->envp, "PATH") != NULL)
+		path = ft_split(*ft_get_env_var(data->envp, "PATH") + 5, ':');
+	else
+		return (NULL);
+	while (path[++i] != NULL)
+	{
+		dir = ft_strjoin (path[i], "/");
+		pathname = ft_strjoin (dir, name);
+		free (dir);
+		if (access (pathname, X_OK) != -1)
+			return (ft_destroy_tab(path), pathname);
+		free (pathname);
+	}
+	ft_destroy_tab(path);
+	return (NULL);
 }
