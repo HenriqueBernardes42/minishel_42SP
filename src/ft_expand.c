@@ -80,6 +80,9 @@ void ft_expand_str(t_data *data, char **str)
 	printf("'%s' ", *str);
 }
 
+/// @brief 
+/// @param data 
+/// @param tab The arguments
 void	ft_expand_tab(t_data *data, char **tab)
 {
 	int	i;
@@ -91,6 +94,6 @@ void	ft_expand_tab(t_data *data, char **tab)
 	printf("DEBUG: output: ft_expand_tab: ");
 	while (tab[++i] != NULL)
 		ft_expand_str(data, tab + i);
-	//Debug
+	
 	printf("\n");
 }
