@@ -15,8 +15,6 @@ minishell$
 exit
 make: *** [m] Error 1
 ```
-- [ ] builtins: env vars not in alphabetical order, cd not working
-
 ## Awk fix
 
 ```
