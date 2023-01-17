@@ -84,7 +84,7 @@ void	ft_exit(t_data *data, char **args)
 		{
 			printf("minishell: exit: %s: numeric argument required\n", *args);
 			ft_destroy_data(data);
-			exit(2);
+			exit(1);
 		}
 		else if (*(args + 1) != NULL)
 		{
