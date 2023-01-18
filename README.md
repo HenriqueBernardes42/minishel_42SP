@@ -2,12 +2,11 @@
 
 ## Bugs
 - [ ] norm && leaks
-- 
-[x]
+- [x]
 ```
 expand ~
 ```
-[x]
+- [x]
 ```
 < non-existing echo hello | grep hello
 ```
