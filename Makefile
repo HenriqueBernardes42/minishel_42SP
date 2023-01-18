@@ -71,4 +71,6 @@ log-leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all \
 	--log-file=$(NAME).log ./$(NAME)
 
-.PHONY: all clean fclean re purge m test-leaks log-leaks
+.PHONY: all clean fclean re \
+		purge uninstall factory-reset m \
+		test-leaks log-leaks
