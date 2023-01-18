@@ -4,7 +4,7 @@
 - [ ] norm && leaks
 - [x] :
 ```
-expand ~
+echo ~
 ```
 - [x] :
 ```
