@@ -9,8 +9,8 @@ echo "    $HOME       $PATH  "
 - [x] pipes && redirs (test further)
 - [x] child minishell
 - [x] prompt on cmd paste
-- [x] forbidden readline func at SIGNINT handling
-- [x] forbidden readline func in assert_not_finished history
+- [x] forbidden readline funcs at SIGNINT handling
+- [x] forbidden readline funcs in assert_not_finished history
 - [x] awk 
 - [x] syntax error handling special chars between quotes (ls "(")
 - [x] signals
