@@ -58,6 +58,20 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	*tab = var;
 }
 
+static void	ft_insert_home_dir(t_data *data, char **tab, int index)
+{
+	char	*var;
+	char	*str;
+
+	str = *ft_get_env_var(data->envp, "HOME") + 5;
+	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
+	ft_strlcpy(var, *tab, index);
+	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
+	ft_strlcat(var, *tab + index, ft_strlen(*tab) + ft_strlen(str) + 1);
+	free(*tab);
+	*tab = var;
+}
+
 void ft_expand_str(t_data *data, char **str)
 {
 	int		i;
@@ -75,6 +89,10 @@ void ft_expand_str(t_data *data, char **str)
 			remove_quote(data, &double_quote, str, i--);
 		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
 			ft_insert_var(data, str, i-- + 1);
+		else if ((ft_strncmp (*str + i, "~", 1) == 0
+			&& ((*str)[i + 1] == '/' || (*str)[i + 1] == '\0'))
+			&& !single_quote && !double_quote)
+				ft_insert_home_dir(data, str, i-- + 1);
 	}
 }
 
