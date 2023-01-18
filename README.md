@@ -1,45 +1,17 @@
 # minishell
 
 ## Bugs
-- [ ] awk **(in progress)**
+- [ ] pipes && redirs
+- [ ] child minishell
+- [ ] prompt on cmd paste
+- [ ] issue with expansions 
+```
+echo "    $HOME       $PATH  "
+```
+- [ ] leaks
+- [x] awk 
 - [x] syntax error handling special chars between quotes (ls "(")
-- [ ] expansions (ft_minishell_split, ft_child ) **(in progress)**
-- [ ] signals: double displaying prompt, Ctrl+d exiting with error ...
-```
-minishell$
-exit
-make: *** [m] Error 1
-```
-- [ ] builtins: env vars not in alphabetical order
-- [x] cd not working
-- [ ] foreground pipe status updating not complete. E. g. < M* should set status to 1
-- [ ] in bash 'export HOME=/ && cat $HOME/Makefile' changes HOME and 'export HOME=/ | cat $HOME/Makefile' does not.
-- [ ] expansion of executable pathname?
-
-## Awk fix
-
-```
-static void	ft_prepare(t_data *data)
-{
-	char	*trimmed;
-	int		i;
-
-	i = -1;
-	while (data->tab[++i] != NULL)
-	{
-		trimmed = NULL;
-		if (data->tab[i][0] == '\'')
-			trimmed = ft_strtrim (data->tab[i], "'");
-		else if (data->tab[i][0] == '"')
-			trimmed = ft_strtrim (data->tab[i], "\"");
-		if (trimmed != NULL)
-		{
-			free (data->tab[i]);
-			data->tab[i] = trimmed;
-		}
-	}
-}
-```
+- [x] signals
 
 ## Docs
 ### Redirections
