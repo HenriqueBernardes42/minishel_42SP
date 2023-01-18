@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 18:35:03 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:13:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static void	ft_readline(t_data *data)
 {
 	ft_assert_not_null (data, data);
 	data->read_state = true;
-	data->line = readline ("\033[32;1mminishell$ \033[0m");
+	data->line = readline ("\001\033[32;1m\002minishell$ \001\033[0m\002");
 	data->read_state = false;
 }
 
 static void	ft_mainpl(t_data *data)
 {
 	ft_assert_not_null (data, data);
-	add_history (data->line);
+	ft_addhistory (data, data->line);
 	if (ft_minishell_split (data, data->line) && ft_isvalid (data)
 		&& ft_assert_finished (data))
 	{

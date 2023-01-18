@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 23:59:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:25:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_args2
 	int		i;
 	t_type	redir;
 	t_fd	iofd;
+	t_fd	infd;
+	t_fd	outfd;
 	t_fd	nfd;
 	int		j;
 }	t_args2;
@@ -125,6 +127,7 @@ typedef struct s_cmd
 	int		lvl;
 	int		instr;
 }	t_cmd;
+typedef struct termios t_termios;
 typedef struct s_data
 {
 	char		**envp;
@@ -136,7 +139,9 @@ typedef struct s_data
 	int			cmdsc_pps;
 	int			status;
 	int			read_state;
-	struct termios tty_attr;
+	char		**history;
+	int			where_history;
+	t_termios 	tty_attr;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
@@ -187,8 +192,7 @@ bool	ft_matches_pattern(char *pattern, char *filename);
 void	ft_close_curr_lvl(t_data *data, int temp_i);
 void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool 	ft_all_apostroph_closed(t_data *data);
-void	ft_linejoin(t_data *data, char *linepl);
-void 	ft_notify_line_changed(t_data *data);
+void	ft_update_line(t_data *data, char *linepl);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
 void 	ft_expand_str(t_data *data, char **str);
@@ -197,4 +201,6 @@ void	ft_shift(t_data *data, char ***tab, char *str);
 void	ft_explode_name(t_data *data, int i);
 bool	ft_isenv_var_only(char *str);
 int 	ft_expand_env_var(t_data *data, char ***tab, int i);
+void	ft_addhistory(t_data *data, char *line);
+void	ft_remove_last_history(t_data *data);
 #endif

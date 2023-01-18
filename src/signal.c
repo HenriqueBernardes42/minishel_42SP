@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/17 17:53:57 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 12:47:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	ft_signal_handler(int sig, siginfo_t *info, void *ptr)
 	{
 		if (data->read_state)
 		{
+			rl_on_new_line ();
 			rl_replace_line ("", 0);
-			rl_forced_update_display ();
+			rl_redisplay ();
 		}
 		data->status = EXIT_SIGINT;
 	}

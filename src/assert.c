@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 17:12:46 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:26:07 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ bool	ft_assert_finished(t_data *data)
 			return (ft_throw (data, ERR_UNEXPECTED_EOF, NULL, false));
 		else if (ft_strncmp (linepl, "", 1) != 0)
 		{
-			ft_linejoin (data, linepl);
+			ft_update_line (data, linepl);
 			free (linepl);
-			ft_notify_line_changed (data);
+			ft_remove_last_history (data);
+			ft_addhistory (data, data->line);
 			ft_destroy_tab (data->tab);
 			data->tab = NULL;
 			if (!ft_minishell_split (data, data->line) || !ft_isvalid (data))

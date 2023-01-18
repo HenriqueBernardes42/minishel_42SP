@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 13:01:11 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/15 14:27:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:25:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,7 @@ bool	ft_all_parenth_closed(t_data *data)
 	return (c == 0);
 }
 
-void	ft_notify_line_changed(t_data *data)
-{
-	struct _hist_entry	*entry;
-
-	ft_assert_not_null(data, data);
-	if (where_history () >= 0)
-	{
-		entry = remove_history (where_history () - 1);
-		if (entry != NULL)
-		{
-			free (entry->line);
-			free (entry->data);
-			free (entry);
-		}
-	}
-	add_history (data->line);
-}
-
-void	ft_linejoin(t_data *data, char *linepl)
+void	ft_update_line(t_data *data, char *linepl)
 {
 	char	*temp;
 	
