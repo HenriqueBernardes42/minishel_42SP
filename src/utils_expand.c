@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 12:04:26 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:08:33 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	ft_isenv_var_only(char *str)
 {
 	int	i;
 
-	if (str[0] == '$')
+	if (ft_strlen(str) > 1 && str[0] == '$')
 	{
 		i = ft_isdigit(str[1]) + 1;
 		if (i == 1)
