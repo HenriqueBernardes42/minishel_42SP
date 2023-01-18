@@ -1,11 +1,11 @@
 # minishell
 
 ## Bugs
-- [ ] issue with expansions 
+- [ ] leaks
+- [x] issue with expansions 
 ```
 echo "    $HOME       $PATH  "
 ```
-- [ ] leaks
 - [x] pipes && redirs (test further)
 - [x] child minishell
 - [x] prompt on cmd paste

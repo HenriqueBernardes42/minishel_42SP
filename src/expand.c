@@ -51,7 +51,7 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
 	ft_strlcpy(var, *tab, index);
 	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
-	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) - ft_strlen(str) + 1);
+	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) + ft_strlen(str) + 1);
 	if ((*tab)[index] == '?')
 		free(str);
 	free(*tab);
