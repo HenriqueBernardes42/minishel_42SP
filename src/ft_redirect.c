@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 19:49:48 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:00:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ static void	ft_setnfd(t_data *data, t_args2 *args2)
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
-static void	ft_prepare(t_data *data, t_args2 *args2)
-{
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, args2);
-	args2->nfd = -1;
-	args2->iofd = args2->infd;
-	if (args2->redir != REDIR_INFILE && args2->redir != REDIR_HEREDOC)
-		args2->iofd = args2->outfd;
-}
-
 static void	ft_assert_valid_files(t_data *data, int i)
 {
 	int	permss;
@@ -60,6 +50,16 @@ static void	ft_assert_valid_files(t_data *data, int i)
 				data->cmds[i].args_redir[j], permss, true);
 		}
 	}
+}
+
+static void	ft_prepare(t_data *data, t_args2 *args2)
+{
+	ft_assert_not_null (data, data);
+	ft_assert_not_null (data, args2);
+	args2->nfd = -1;
+	args2->iofd = args2->infd;
+	if (args2->redir != REDIR_INFILE && args2->redir != REDIR_HEREDOC)
+		args2->iofd = args2->outfd;
 }
 
 void	ft_redirect(t_data *data, int i)
