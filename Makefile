@@ -12,7 +12,7 @@ SRC				=	main init destroy ft_execute assert \
 					builtins2 signal ft_minishell_split \
 					ft_isvalid ft_parse init2 ft_child \
 					utils_builtins utils_execute \
-					utils_libft_impl utils_minishell_split \
+					utils_minishell_split \
 					utils_tab utils utils_assert expand \
 					utils_child utils_expand utils_history
 

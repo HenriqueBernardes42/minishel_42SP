@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:25:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:36:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ void	ft_parse(t_data *data);
 t_args3	*ft_initargs3(t_data *data);
 t_args4	*ft_initargs4(t_data *data);
 char	*ft_memdup(char const *s, size_t a, size_t b);
-int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
 void	ft_close_curr_lvl(t_data *data, int temp_i);
 void	ft_push_special(t_data *data, t_args3 *args3, char *str);
