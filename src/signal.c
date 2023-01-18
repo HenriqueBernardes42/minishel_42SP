@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/17 17:53:57 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:53:33 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,16 @@ void	ft_signal_handler(int sig, siginfo_t *info, void *ptr)
 	(void)info;
 	if (data == NULL)
 		data = (t_data *)ptr;
-	if (sig == SIGINT)
-		write(1, "\n", 1);
-	if (sig == SIGINT)
+	if (sig == SIGINT && data->read_state)
 	{
-		if (data->read_state)
-		{
-			rl_replace_line ("", 0);
-			rl_forced_update_display ();
-		}
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		data->status = EXIT_SIGINT;
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putendl_fd ("received SIGQUIT", 2);
 		rl_on_new_line();
 		rl_redisplay();
 	}

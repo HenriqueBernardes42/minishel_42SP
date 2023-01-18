@@ -58,7 +58,7 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	*tab = var;
 }
 
-void ft_expand_str(t_data *data, char **str)
+void	ft_expand_str(t_data *data, char **str)
 {
 	int		i;
 	bool	double_quote;
@@ -73,7 +73,9 @@ void ft_expand_str(t_data *data, char **str)
 			remove_quote(data, &single_quote, str, i--);
 		else if (!single_quote && (*str)[i] == '\"')
 			remove_quote(data, &double_quote, str, i--);
-		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
+		else if ((*str)[i] == '$' && !single_quote
+			&& (ft_isalnum((*str)[i + 1]) || (*str)[i + 1] == '_'
+				|| (*str)[i + 1] == '?'))
 			ft_insert_var(data, str, i-- + 1);
 	}
 }
