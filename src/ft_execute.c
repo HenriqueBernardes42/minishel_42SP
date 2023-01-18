@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:21:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:34:36 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	ft_upperlvl(t_data *data, int lvl, int *i)
 {
-	if (data->cmds[*i].inst == I_START
-		|| (data->cmds[*i].inst == I_OR && data->status != 0)
-		|| (data->cmds[*i].inst == I_AND && data->status == 0))
+	if (data->cmds[*i].instr == I_START
+		|| (data->cmds[*i].instr == I_OR && data->status != 0)
+		|| (data->cmds[*i].instr == I_AND && data->status == 0))
 		ft_loop (data, data->cmds[*i].lvl, i);
 	else
 	{
@@ -28,8 +28,10 @@ static void	ft_upperlvl(t_data *data, int lvl, int *i)
 static void	ft_run(t_data *data, int *i)
 {
 	int	j;
+	int	temp_i;
 
 	j = -1;
+	temp_i = *i;
 	while (++j < data->cmdsc_pps)
 		ft_child (data, (*i)++, j);
 	if (data->pipes != NULL)
@@ -38,14 +40,14 @@ static void	ft_run(t_data *data, int *i)
 		while (++j < (data->cmdsc_pps - 1) * 2)
 			close (data->pipes[j]);
 	}
-	ft_close_curr_lvl (data);
+	ft_close_curr_lvl (data, temp_i);
 }
 
 static void	ft_currentlvl(t_data *data, int *i)
 {
-	if (data->cmds[*i].inst == I_START
-		|| (data->cmds[*i].inst == I_OR && data->status != 0)
-		|| (data->cmds[*i].inst == I_AND && data->status == 0))
+	if (data->cmds[*i].instr == I_START
+		|| (data->cmds[*i].instr == I_OR && data->status != 0)
+		|| (data->cmds[*i].instr == I_AND && data->status == 0))
 	{
 		data->cmdsc_pps = ft_anticipate_cmdsc (data, *i);
 		data->pipes = ft_initpipes (data, data->cmdsc_pps);

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:30 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:36:14 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	ft_error(t_errno err)
 
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
+	int	status;
+	
 	printf ("minishell: ");
 	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES
 			|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
@@ -58,8 +60,9 @@ bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 	printf ("\n");
 	if (exitp)
 	{
+		status = data->status;
 		ft_destroy_data (data);
-		exit (EXIT_FAILURE);
+		exit (status);
 	}
 	return (false);
 }

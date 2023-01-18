@@ -6,13 +6,13 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:15:55 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:37:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
+t_args2	*ft_initargs2(t_data *data, int i)
 {
 	t_args2	*args2;
 
@@ -23,8 +23,7 @@ t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd)
 	ft_assert_not_null (data, args2);
 	args2->i = i;
 	args2->j = data->cmds[i].redirsc;
-	args2->infd = infd;
-	args2->outfd = outfd;
+	args2->iofd = -1;
 	return (args2);
 }
 
@@ -71,7 +70,7 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc)
 		cmds[i].redirs = NULL;
 		cmds[i].redirsc = 0;
 		cmds[i].lvl = -1;
-		cmds[i].inst = I_UNDEF;
+		cmds[i].instr = I_UNDEF;
 	}
 	return (cmds);
 }
@@ -105,6 +104,7 @@ t_data	*ft_initdata(char **envp)
 	data->pipes = NULL;
 	data->cmdsc_pps = -1;
 	data->status = 0;
+	data->read_state = false;
 	if (tcgetattr(STDIN_FILENO, &data->tty_attr) != 0)
 			ft_throw (data, ERR_FAIL, "init gettattr fail", true);
 	return (data);

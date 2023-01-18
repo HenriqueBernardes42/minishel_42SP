@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:25:56 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 14:41:28 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/17 21:30:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_exec_builtin(t_data *data, int i, char *builtin)
 {
-	ft_expand_tab(data, data->cmds[i].args);
 	if (ft_strncmp (builtin, "echo", 5) == 0)
 		ft_echo (data, data->cmds[i].args);
 	else if (ft_strncmp (builtin, "cd", 3) == 0)

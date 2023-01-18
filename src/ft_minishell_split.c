@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 19:23:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/17 19:13:44 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 	int		c;
 	int		isredir;
 
-	isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
-		T_REDIR, true) != 0;
+	isredir = false;
+	if (ft_tablen (data->tab) > 0)
+		isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
+			T_REDIR, true) != 0;
 	c = ft_push_substr_wildcard (data, substr);
 	if (c <= 0)
 		ft_push (data, &data->tab, substr);

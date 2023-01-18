@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 14:41:51 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:59:37 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <dirent.h>
 # include <termios.h>
 # define BUFFER_SIZE 42
+# define EXIT_CMDNOTFOUND 127
+# define EXIT_SIGINT 130
 
 typedef enum e_stream
 {
@@ -92,11 +94,9 @@ typedef struct s_args2
 {
 	int		i;
 	t_type	redir;
-	t_fd	*iofd;
+	t_fd	iofd;
 	t_fd	nfd;
 	int		j;
-	t_fd	*infd;
-	t_fd	*outfd;
 }	t_args2;
 typedef struct s_args3
 {
@@ -111,7 +111,7 @@ typedef struct s_args4
 	int	i;
 	int	j;
 	int	lvl;
-	int	inst;
+	int	instr;
 }	t_args4;
 typedef struct s_cmd
 {
@@ -123,7 +123,7 @@ typedef struct s_cmd
 	int		*redirs;
 	int		redirsc;
 	int		lvl;
-	int		inst;
+	int		instr;
 }	t_cmd;
 typedef struct s_data
 {
@@ -135,13 +135,14 @@ typedef struct s_data
 	t_fd		*pipes;
 	int			cmdsc_pps;
 	int			status;
+	int			read_state;
 	struct termios tty_attr;
 }	t_data;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
 t_data	*ft_initdata(char **envp);
 t_args	*ft_initargs(t_data *data, char *pathname);
-t_args2	*ft_initargs2(t_data *data, int i, t_fd *infd, t_fd *outfd);
+t_args2	*ft_initargs2(t_data *data, int i);
 void	ft_assert_not_null(t_data *data, void *ptr);
 bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss);
@@ -153,7 +154,7 @@ void	ft_destroy_execution(t_data *data);
 void	ft_destroy_data(t_data *data);
 void	ft_destroy_tab(char **tab);
 void	ft_addint(t_data *data, int **arr, int len, int i);
-void	ft_redirect(t_data *data, int i, t_fd *infd, t_fd *outfd);
+void	ft_redirect(t_data *data, int i);
 void	ft_heredocs(t_data *data);
 void	ft_remove(t_data *data, char ***tab, char *str);
 int		ft_isbuiltin(char *str);
@@ -171,7 +172,6 @@ int		*ft_initpipes(t_data *data, int cmdsc);
 size_t	ft_tablen(char **tab);
 bool	ft_assert_finished(t_data *data);
 bool	ft_isvalid(t_data *data);
-void	ft_pipe(t_data *data, int j, t_fd *iofd, t_stream s);
 void	ft_close(t_data *data, int infd, int outfd);
 void	ft_child(t_data *data, int i, int j);
 int		ft_anticipate_cmdsc(t_data *data, int i);
@@ -184,13 +184,17 @@ t_args4	*ft_initargs4(t_data *data);
 char	*ft_memdup(char const *s, size_t a, size_t b);
 int		ft_strchri(const char *s, int c);
 bool	ft_matches_pattern(char *pattern, char *filename);
-void	ft_close_curr_lvl(t_data *data);
+void	ft_close_curr_lvl(t_data *data, int temp_i);
 void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_linejoin(t_data *data, char *linepl);
 void 	ft_notify_line_changed(t_data *data);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
-void	ft_expand_tab(t_data *data, char **tab);
-void	ft_expand_str(t_data *data, char **str);
+void 	ft_expand_str(t_data *data, char **str);
+void	ft_expand_tab(t_data *data, char ***tab);
+void	ft_shift(t_data *data, char ***tab, char *str);
+void	ft_explode_name(t_data *data, int i);
+bool	ft_isenv_var_only(char *str);
+int 	ft_expand_env_var(t_data *data, char ***tab, int i);
 #endif

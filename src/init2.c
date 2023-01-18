@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 18:45:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:58:38 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_args4	*ft_initargs4(t_data *data)
 	args4->i = -1;
 	args4->j = 0;
 	args4->lvl = 0;
-	args4->inst = I_START;
+	args4->instr = I_START;
 	return (args4);
 }
 

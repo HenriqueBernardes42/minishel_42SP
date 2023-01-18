@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:08:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 16:28:36 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:50:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,7 @@ static void	ft_catch(t_data *data, t_args4 *args4)
 	if (redir != REDIR_UNDEF)
 		ft_catch_redir (data, args4, redir);
 	else if (data->cmds[args4->j].name == NULL)
-	{
 		data->cmds[args4->j].name = ft_strdup (data->tab[args4->i]);
-		if (!ft_isbuiltin (data->cmds[args4->j].name))
-		{
-			data->cmds[args4->j].pathname = ft_pathname
-				(data, data->cmds[args4->j].name);
-			ft_push (data, &data->cmds[args4->j].args,
-				data->cmds[args4->j].pathname);
-			data->cmds[args4->j].argsc++;
-		}
-	}
 	else
 	{
 		ft_push (data, &data->cmds[args4->j].args, data->tab[args4->i]);
@@ -65,11 +55,11 @@ static void	ft_handle_specials(t_data *data, t_args4 *args4)
 		|| ft_istype (data->tab[args4->i], T_OP, true))
 	{
 		if (ft_istype (data->tab[args4->i], T_PIPE, true))
-			args4->inst = I_PIPE;
+			args4->instr = I_PIPE;
 		else if (ft_istype (data->tab[args4->i], T_OP_AND, true))
-			args4->inst = I_AND;
+			args4->instr = I_AND;
 		else if (ft_istype (data->tab[args4->i], T_OP_OR, true))
-			args4->inst = I_OR;
+			args4->instr = I_OR;
 		args4->j++;
 	}
 	else if (ft_istype (data->tab[args4->i], T_REDIR, true))
@@ -84,8 +74,8 @@ static void	ft_handle_type(t_data *data, t_args4 *args4)
 		ft_handle_specials (data, args4);
 	else
 	{
-		if (data->cmds[args4->j].inst == I_UNDEF)
-			data->cmds[args4->j].inst = args4->inst;
+		if (data->cmds[args4->j].instr == I_UNDEF)
+			data->cmds[args4->j].instr = args4->instr;
 		if (data->cmds[args4->j].lvl == -1)
 			data->cmds[args4->j].lvl = args4->lvl;
 		ft_catch (data, args4);

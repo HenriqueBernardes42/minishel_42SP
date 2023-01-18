@@ -29,17 +29,14 @@ static void	ft_ar_env_var(t_data *data, char *args)
 		printf("minishell: export: '%s': not a valid identifier\n", args);
 		data->status = EXIT_FAILURE;
 	}
-	else if (ft_strchr(args, '=') != NULL)
+	env_var = ft_get_env_var(data->envp, var[0]);
+	if (*env_var != NULL)
 	{
-		env_var = ft_get_env_var(data->envp, var[0]);
-		if (*env_var != NULL)
-		{
-			free(*env_var);
-			*env_var = ft_strdup(args);
-		}
-		else if (ft_valid_env_name(var[0]))
-			ft_push(data, &data->envp, args);
+		free(*env_var);
+		*env_var = ft_strdup(args);
 	}
+	else if (ft_valid_env_name(var[0]))
+		ft_push(data, &data->envp, args);
 	ft_destroy_tab(var);
 }
 
@@ -49,7 +46,6 @@ void	ft_export(t_data *data, char **args)
 	int		i;
 
 	i = -1;
-	data->status = EXIT_SUCCESS;
 	if (args == NULL)
 	{
 		ft_assert_not_null (data, data->envp);
@@ -63,7 +59,8 @@ void	ft_export(t_data *data, char **args)
 		return ;
 	}
 	while (args[++i] != NULL)
-		ft_ar_env_var(data, args[i]);
+		if (ft_strchr(args[i], '=') != NULL)
+			ft_ar_env_var(data, args[i]);
 }
 
 static void ft_update_pwd(t_data *data)
@@ -83,7 +80,6 @@ static void ft_update_pwd(t_data *data)
 
 void	ft_cd(t_data *data, char *path)
 {
-	data->status = EXIT_FAILURE;
 	if (path == NULL)
 	{
 		path = *ft_get_env_var(data->envp, "HOME");
@@ -96,7 +92,5 @@ void	ft_cd(t_data *data, char *path)
 		printf("minishell: cd: %s: Not a directory\n", path);
 	else if (path != NULL && chdir(path))
 		printf("minishell: cd: %s: No such file or directory\n", path);
-	else if (path != NULL)
-		data->status = EXIT_SUCCESS;
 	ft_update_pwd(data);
 }

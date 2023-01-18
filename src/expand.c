@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 21:53:44 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/13 21:53:44 by rburgsta         ###   ########.fr       */
+/*   Created: 2023/01/17 14:31:01 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/17 14:31:01 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,28 @@ void ft_expand_str(t_data *data, char **str)
 		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
 			ft_insert_var(data, str, i-- + 1);
 	}
-	//Debug
-	printf("'%s' ", *str);
 }
 
-/// @brief 
-/// @param data 
-/// @param tab The arguments
-void	ft_expand_tab(t_data *data, char **tab)
+void	ft_expand_tab(t_data *data, char ***tab)
 {
 	int	i;
 
 	if (tab == NULL)
+		ft_throw (data, ERR_NULL_PTR, NULL, true);
+	else if (*tab == NULL)
 		return ;
 	i = -1;
-	//Debug
-	printf("DEBUG: output: ft_expand_tab: ");
-	while (tab[++i] != NULL)
-		ft_expand_str(data, tab + i);
-	
-	printf("\n");
+	while ((*tab)[++i] != NULL)
+	{
+		if (!ft_isenv_var_only ((*tab)[i])
+			|| ft_strncmp ((*tab)[i], "$?", 3) == 0)
+			ft_expand_str(data, (*tab) + i);
+		else if (*ft_get_env_var(data->envp, (*tab)[i] + 1) != NULL)
+			i += ft_expand_env_var (data, tab, i) - 1;
+		else
+		{
+			free ((*tab)[i]);
+			(*tab)[i] = ft_strdup ("");
+		}
+	}
 }
