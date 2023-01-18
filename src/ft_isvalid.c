@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 19:24:23 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:23:43 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ bool	ft_isvalid(t_data *data)
 	{
 		if (!ft_isvalidpl (data, i) || !ft_isvalidpl2
 				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened))
+		{
+			data->status = EXIT_UNEXPECTED_TOKEN;
 			return (false);
+		}		
 	}
 	return (true);
 }

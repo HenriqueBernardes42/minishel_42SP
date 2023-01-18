@@ -59,8 +59,6 @@ uninstall:
 		brew uninstall readline ; \
 	fi ;
 
-factory-reset: purge uninstall
-
 m: $(NAME)
 	@./$(NAME)
 
@@ -72,5 +70,5 @@ log-leaks: $(NAME)
 	--log-file=$(NAME).log ./$(NAME)
 
 .PHONY: all clean fclean re \
-		purge uninstall factory-reset m \
+		purge uninstall m \
 		test-leaks log-leaks

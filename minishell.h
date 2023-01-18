@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 20:19:09 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:23:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define STDERR_FD STDERR_FILENO
 # define EXIT_CMDNOTFOUND 127
 # define EXIT_SIGINT 130
+# define EXIT_UNEXPECTED_TOKEN 258
 
 typedef enum e_stream
 {

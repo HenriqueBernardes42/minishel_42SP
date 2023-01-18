@@ -89,8 +89,8 @@ void ft_expand_str(t_data *data, char **str)
 			remove_quote(data, &double_quote, str, i--);
 		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
 			ft_insert_var(data, str, i-- + 1);
-		else if ((ft_strncmp (*str + i, "~", 1) == 0
-			&& ((*str)[i + 1] == '/' || (*str)[i + 1] == '\0'))
+		else if ((*str)[i] == '~'
+			&& ((*str)[i + 1] == '/' || (*str)[i + 1] == '\0')
 			&& !single_quote && !double_quote)
 				ft_insert_home_dir(data, str, i-- + 1);
 	}
