@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 18:34:36 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:57:59 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,7 @@ static void	ft_run(t_data *data, int *i)
 	temp_i = *i;
 	while (++j < data->cmdsc_pps)
 		ft_child (data, (*i)++, j);
-	if (data->pipes != NULL)
-	{
-		j = -1;
-		while (++j < (data->cmdsc_pps - 1) * 2)
-			close (data->pipes[j]);
-	}
+	ft_close_all (data);
 	ft_close_curr_lvl (data, temp_i);
 }
 

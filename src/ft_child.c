@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 00:02:25 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:47:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	ft_exec_cmd(t_data *data, int i)
 	if (ft_strchr (data->cmds[i].name, '/') != NULL)
 	{
 		ft_assert_not_dir (data, data->cmds[i].pathname, true);
-		ft_assert_valid_permissions (data, data->cmds[i].pathname, X_OK);
+		ft_assert_valid_permissions (data, data->cmds[i].pathname, X_OK,
+			true);
 	}
 	ft_shift (data, &data->cmds[i].args, data->cmds[i].pathname);
 	execve(data->cmds[i].pathname,

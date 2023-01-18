@@ -6,58 +6,69 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 18:36:14 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:19:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_error(t_errno err)
+static void	ft_puterror(t_errno err)
 {
 	if (err == ERR_DEFAULT)
-		printf ("something went wrong");
+		ft_putstr_fd ("something went wrong", STDERR_FD);
 	else if (err == ERR_NULL_PTR)
-		printf ("null pointer");
+		ft_putstr_fd ("null pointer", STDERR_FD);
 	else if (err == ERR_FAIL)
-		printf ("fail");
+		ft_putstr_fd ("fail", STDERR_FD);
 	else if (err == ERR_UNEXPECTED_TOKEN)
-		printf ("syntax error near unexpected token");
+		ft_putstr_fd ("syntax error near unexpected token", STDERR_FD);
 	else if (err == ERR_INVALID_CMDSC)
-		printf ("invalid count of commands");
+		ft_putstr_fd ("invalid count of commands", STDERR_FD);
 	else if (err == ERR_CMD_NOT_FOUND)
-		printf ("command not found");
+		ft_putstr_fd ("command not found", STDERR_FD);
 	else if (err == ERR_ENOENT)
-		printf ("%s", strerror (ENOENT));
+		ft_putstr_fd (strerror (ENOENT), STDERR_FD);
 	else if (err == ERR_EACCES)
-		printf ("%s", strerror (EACCES));
+		ft_putstr_fd (strerror (EACCES), STDERR_FD);
 	else if (err == ERR_EISDIR)
-		printf ("%s", strerror (EISDIR));
+		ft_putstr_fd (strerror (EISDIR), STDERR_FD);
 	else if (err == ERR_AMBIGUOUS_REDIRECT)
-		printf ("ambiguous redirect");
+		ft_putstr_fd ("ambiguous redirect", STDERR_FD);
 	else if (err == ERR_UNEXPECTED_EOF)
-		printf ("unexpected end of input");
+		ft_putstr_fd ("unexpected end of input", STDERR_FD);
 	else if (err != 0)
-		printf ("an unexpected error occurred");
+		ft_putstr_fd ("an unexpected error occurred", STDERR_FD);
+}
+
+void	ft_putinfo(char *str, char *info, char *str2)
+{
+	if (info == NULL)
+		return ;
+	if (str != NULL)
+		ft_putstr_fd (str, STDERR_FD);
+	ft_putstr_fd (info, STDERR_FD);
+	if (str2 != NULL)
+		ft_putstr_fd (str2, STDERR_FD);
 }
 
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
 	int	status;
 	
-	printf ("minishell: ");
+	ft_putstr_fd ("minishell: ", STDERR_FD);
 	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES
 			|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))
-		printf ("%s: ", info);
+		ft_putinfo (NULL, info, ": ");
 	else if (info != NULL && err == ERR_FAIL)
-		printf ("%s ", info);
-	ft_error (err);
+		ft_putinfo (NULL, info, " ");
+	ft_puterror (err);
 	if (info != NULL && err == ERR_UNEXPECTED_TOKEN)
-		printf (" `%s'", info);
+		ft_putinfo (" `", info, "'");
 	if (info != NULL && err != ERR_UNEXPECTED_TOKEN && err != ERR_ENOENT
 		&& err != ERR_CMD_NOT_FOUND && err != ERR_EACCES && err != ERR_FAIL
 		&& err != ERR_AMBIGUOUS_REDIRECT)
-		printf (": `%s'", info);
-	printf ("\n");
+		ft_putinfo (": `", info, "'");
+	ft_putstr_fd ("\n", STDERR_FD);
 	if (exitp)
 	{
 		status = data->status;

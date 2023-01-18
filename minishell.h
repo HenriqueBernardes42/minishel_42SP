@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:36:09 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:19:09 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <dirent.h>
 # include <termios.h>
 # define BUFFER_SIZE 42
+# define STDERR_FD STDERR_FILENO
 # define EXIT_CMDNOTFOUND 127
 # define EXIT_SIGINT 130
 
@@ -148,9 +149,6 @@ t_cmd	*ft_initcmds(t_data *data, int cmdsc);
 t_data	*ft_initdata(char **envp);
 t_args	*ft_initargs(t_data *data, char *pathname);
 t_args2	*ft_initargs2(t_data *data, int i);
-void	ft_assert_not_null(t_data *data, void *ptr);
-bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss);
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char	*ft_pathname(t_data *data, char *name);
 void	ft_push(t_data *data, char ***tab, char *str);
@@ -159,7 +157,6 @@ void	ft_destroy_execution(t_data *data);
 void	ft_destroy_data(t_data *data);
 void	ft_destroy_tab(char **tab);
 void	ft_addint(t_data *data, int **arr, int len, int i);
-void	ft_redirect(t_data *data, int i);
 void	ft_heredocs(t_data *data);
 void	ft_remove(t_data *data, char ***tab, char *str);
 int		ft_isbuiltin(char *str);
@@ -202,4 +199,11 @@ bool	ft_isenv_var_only(char *str);
 int 	ft_expand_env_var(t_data *data, char ***tab, int i);
 void	ft_addhistory(t_data *data, char *line);
 void	ft_remove_last_history(t_data *data);
+void	ft_assert_not_null(t_data *data, void *ptr);
+bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
+bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
+		bool exitp);
+void	ft_redirect(t_data *data, int i);
+void	ft_close_all(t_data *data);
+void	ft_putinfo(char *str, char *info, char *str2);
 #endif

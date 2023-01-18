@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
+/*   Updated: 2023/01/18 20:24:50 by katchogl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /** 
@@ -26,7 +38,8 @@ static void	ft_ar_env_var(t_data *data, char *args)
 	ft_assert_not_null(data, var);
 	if (!ft_valid_env_name(var[0]))
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", args);
+		ft_putinfo ("minishell: export: '", args,
+			"': not a valid identifier\n");
 		data->status = EXIT_FAILURE;
 	}
 	env_var = ft_get_env_var(data->envp, var[0]);
@@ -80,17 +93,20 @@ static void ft_update_pwd(t_data *data)
 
 void	ft_cd(t_data *data, char *path)
 {
+	struct stat	file_stat;
+
 	if (path == NULL)
 	{
 		path = *ft_get_env_var(data->envp, "HOME");
 		if (path != NULL)
 			path += 5;
 		else
-			printf("minishell: cd: HOME not set\n");
+			ft_putstr_fd ("minishell: cd: HOME not set\n", STDERR_FD);
 	}
-	if (path != NULL && ft_assert_not_dir(data, path, false))
-		printf("minishell: cd: %s: Not a directory\n", path);
+	stat (path, &file_stat);
+	if (path != NULL && !S_ISDIR (file_stat.st_mode))
+		ft_putinfo ("minishell: cd: ", path, ": Not a directory\n");
 	else if (path != NULL && chdir(path))
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_putinfo ("minishell: cd: ", path, ": No such file or directory\n");
 	ft_update_pwd(data);
 }

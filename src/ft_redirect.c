@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 11:45:37 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:49:48 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	ft_assert_valid_files(t_data *data, int i)
 				permss = W_OK;
 			ft_assert_not_dir (data, data->cmds[i].args_redir[j], true);
 			ft_assert_valid_permissions (data,
-				data->cmds[i].args_redir[j], permss);
+				data->cmds[i].args_redir[j], permss, true);
 		}
 	}
 }

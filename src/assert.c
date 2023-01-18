@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:26:07 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:31:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 
 	ft_assert_not_null (data, pathname);
 	stat (pathname, &file_stat);
-	if (S_ISDIR (file_stat.st_mode) && exitp == true)
-		ft_throw (data, ERR_EISDIR, NULL, true);
-	else if (S_ISDIR(file_stat.st_mode))
+	if (S_ISDIR (file_stat.st_mode))
+	{
+		if (data->status == 0)
+			data->status = EXIT_FAILURE;
+		ft_throw (data, ERR_EISDIR, NULL, exitp);
 		return (false);
+	}
 	return (true);
-		
 }
 
 /// @brief Join the pathnane by far with the additional one.
@@ -99,7 +101,8 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 /// @param data The minishell's data;
 /// @param pathname The pathname;
 /// @param permss The permission to check: either R_OK or W_OK from unistd.h.
-void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
+bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
+	bool exitp)
 {
 	int		i;
 	t_args	*args;
@@ -117,7 +120,10 @@ void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 		{
 			if (access (args->path, F_OK) != 0)
 				args->err = ERR_ENOENT;
-			ft_throw (data, args->err, pathname, true);
+			if (data->status == 0)
+				data->status = EXIT_FAILURE;
+			ft_throw (data, args->err, pathname, exitp);
+			return (false);
 		}
 	}
 	if (args->path != NULL)
@@ -125,4 +131,5 @@ void	ft_assert_valid_permissions(t_data *data, char *pathname, int permss)
 	if (args->tab != NULL)
 		ft_destroy_tab (args->tab);
 	free (args);
+	return (true);
 }

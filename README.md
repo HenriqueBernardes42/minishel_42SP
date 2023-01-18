@@ -1,7 +1,16 @@
 # minishell
 
 ## Bugs
-- [ ] leaks
+- 
+[ ]
+```
+cd ~/
+```
+[x]
+```
+< non-existing echo hello | grep hello
+```
+- [ ] norm && leaks
 - [x] issue with expansions 
 ```
 echo "    $HOME       $PATH  "

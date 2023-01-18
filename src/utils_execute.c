@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 23:06:43 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:57:40 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ void	ft_close(t_data *data, int infd, int outfd)
 	while (++i < (data->cmdsc_pps - 1) * 2)
 		if (data->pipes[i] != infd && data->pipes[i] != outfd)
 			close (data->pipes[i]);
+}
+
+void	ft_close_all(t_data *data)
+{
+	int		i;
+
+	if (data->pipes == NULL)
+		return ;
+	ft_assert_not_null (data, data);
+	i = -1;
+	while (++i < (data->cmdsc_pps - 1) * 2)
+		close (data->pipes[i]);
 }
 
 void	ft_close_curr_lvl(t_data *data, int temp_i)

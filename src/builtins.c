@@ -78,14 +78,15 @@ void	ft_exit(t_data *data, char **args)
 	{
 		if (!valid_number(data, *args))
 		{
-			printf("minishell: exit: %s: numeric argument required\n", *args);
+			ft_putinfo ("minishell: exit: ", *args,
+				": numeric argument required\n");
 			ft_destroy_data(data);
 			exit(2);
 		}
 		else if (*(args + 1) != NULL)
 		{
 			data->status = EXIT_FAILURE;
-			printf("minishell: exit: too many arguments\n");
+			ft_putstr_fd ("minishell: exit: too many arguments\n", STDERR_FD);
 			return ;
 		}
 		i = ft_atoi(*args);

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:03:09 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:05:25 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_args2	*ft_initargs2(t_data *data, int i)
 	args2->i = i;
 	args2->j = data->cmds[i].redirsc;
 	args2->iofd = -1;
-	args2->iofd = STDIN_FILENO;
+	args2->infd = STDIN_FILENO;
 	args2->outfd = STDOUT_FILENO;
 	return (args2);
 }
