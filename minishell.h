@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 21:23:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:21:25 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define BUFFER_SIZE 42
 # define STDERR_FD STDERR_FILENO
 # define EXIT_CMDNOTFOUND 127
-# define EXIT_SIGINT 130
+# define EXIT_SIGINT 1
 # define EXIT_UNEXPECTED_TOKEN 258
 
 typedef enum e_stream
@@ -145,6 +145,15 @@ typedef struct s_data
 	int			where_history;
 	t_termios 	tty_attr;
 }	t_data;
+typedef struct s_argsxp
+{
+	t_data	*data;
+	int		i;
+	int		c;
+	char	**split;
+	int		arg_i;
+	int		arg_i_const;
+}	t_argsxp;
 void	ft_execute(t_data *data);
 t_cmd	*ft_initcmds(t_data *data, int cmdsc);
 t_data	*ft_initdata(char **envp);
@@ -192,12 +201,9 @@ bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_update_line(t_data *data, char *linepl);
 bool	ft_all_parenth_closed(t_data *data);
 void	ft_init_signal_handler(t_data *data);
-void 	ft_expand_str(t_data *data, char **str);
 void	ft_expand_tab(t_data *data, char ***tab);
 void	ft_shift(t_data *data, char ***tab, char *str);
 void	ft_explode_name(t_data *data, int i);
-bool	ft_isenv_var_only(char *str);
-int 	ft_expand_env_var(t_data *data, char ***tab, int i);
 void	ft_addhistory(t_data *data, char *line);
 void	ft_remove_last_history(t_data *data);
 void	ft_assert_not_null(t_data *data, void *ptr);
@@ -207,4 +213,10 @@ bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
 void	ft_redirect(t_data *data, int i);
 void	ft_close_all(t_data *data);
 void	ft_putinfo(char *str, char *info, char *str2);
+void	ft_insert_home_dir(t_data *data, char **tab, int index);
+t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int arg_i);
+void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
+char	**ft_subtab(t_data *data, char **tab, unsigned int start, int len);
+bool	ft_cut_str(t_data *data, char ***str, char ***tab,
+		t_argsxp *argsxp);
 #endif

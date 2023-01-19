@@ -6,65 +6,79 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 22:56:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:32:01 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isenv_var_only(char *str)
+void	ft_insert_home_dir(t_data *data, char **tab, int index)
 {
-	int	i;
+	char	*var;
+	char	*str;
 
-	if (str == NULL || str[0] != '$')
+	if (*ft_get_env_var(data->envp, "HOME") != NULL)
+		str = *ft_get_env_var(data->envp, "HOME") + 5;
+	else
+		str = "";
+	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str) + 1);
+	ft_strlcpy(var, *tab, index);
+	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str) + 1);
+	ft_strlcat(var, *tab + index, ft_strlen(*tab) + ft_strlen(str) + 1);
+	free(*tab);
+	*tab = var;
+}
+
+bool	ft_split_add_tab(t_data *data, char ***str, char ***tab,
+	t_argsxp *argsxp)
+{
+	char	**ntab;
+	int		i;
+
+	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
 		return (false);
-	i = -1;
-	while (str[++i] != '\0')
-		if (str[i] == ' ')
-			return (false);
+	ntab = ft_subtab (data, *tab, 0, argsxp->arg_i);
+	ft_push (data, &ntab, argsxp->split[0]);
+	if (ft_tablen (argsxp->split) > 2)
+	{
+		i = 0;
+		while (++i < (int) ft_tablen (argsxp->split) - 1)
+		{
+			ft_push (data, &ntab, argsxp->split[i]);
+			argsxp->arg_i++;
+		}
+	}
+	ft_push (data, &ntab, argsxp->split 
+		[ft_tablen (argsxp->split) - 1]);
+	*str = &ntab[argsxp->arg_i + 1];
+	while ((*tab)[++argsxp->arg_i_const] != NULL)
+		ft_push (data, &ntab, (*tab)[argsxp->arg_i_const]);
+	ft_destroy_tab (*tab);
+	*tab = ntab;
 	return (true);
 }
 
-static int	ft_split_add_env(t_data *data, char ***ntab, char *env)
+bool	ft_cut_str(t_data *data, char ***str, char ***tab,
+	t_argsxp *argsxp)
 {
-	int		i;
-	char	**env_tab;
-
-	if (ntab == NULL || env == NULL)
-		ft_throw (data, ERR_NULL_PTR, NULL, true);
-	env_tab = ft_split (*ft_get_env_var 
-		(data->envp, env) + ft_strlen (env) + 1, ' ');
-	if (env_tab == NULL)
+	char	**split;
+	char	*substr;
+	
+	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
+		return (false);
+	substr = ft_substr (**str, argsxp->i, argsxp->c);
+	if (substr == NULL)
+		return (false);
+	split = ft_split (**str, ' ');
+	if (split == NULL)
+		return (false);
+	if (ft_tablen (split) > 1)
 	{
-		ft_push (data, ntab, "");
-		return (1);
+		argsxp->split = split;
+		return (ft_split_add_tab (data, str, tab, argsxp));
 	}
-	i = -1;
-	while (env_tab[++i] != NULL)
-		ft_push (data, ntab, env_tab[i]);
-	ft_destroy_tab (env_tab);
-	return (i);
-}
-
-int ft_expand_env_var(t_data *data, char ***tab, int i)
-{
-	char	**ntab;
-	int		j;
-	int		c;
-
-	if (tab == NULL)
-		ft_throw (data, ERR_NULL_PTR, NULL, true);
-	ntab = NULL;
-	j = -1;
-	c = 0;
-	while ((*tab)[++j] != NULL)
-	{
-		if (j != i)
-			ft_push (data, &ntab, (*tab)[j]);
-		else
-			c += ft_split_add_env (data, &ntab, (*tab)[j] + 1);
-	}
-	ft_destroy_tab (*tab);
-	*tab = ntab;
-	return (c);
+	free (substr);
+	ft_destroy_tab (split);
+	free (argsxp);
+	return (false);
 }

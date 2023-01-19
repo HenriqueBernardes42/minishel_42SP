@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	remove_quote(t_data *data, bool *quote, char **str, int index)
+static void	ft_remove_quote(t_data *data, bool *quote, char **str, int index)
 {
 	char	*temp;
 	int		i;
@@ -30,11 +30,12 @@ static void	remove_quote(t_data *data, bool *quote, char **str, int index)
 	*str = temp;
 }
 
-static void	ft_insert_var(t_data *data, char **tab, int index)
+static int	ft_insert_var(t_data *data, char **tab, int index)
 {
 	char	*str;
 	char	*var;
 	int		i;
+	int		c;
 
 	i = (ft_isdigit((*tab)[index]) || tab[0][index] == '?');
 	if (i == 0)
@@ -48,35 +49,24 @@ static void	ft_insert_var(t_data *data, char **tab, int index)
 	else
 		str = "";
 	free(var);
-	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
+	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str) + 1);
 	ft_strlcpy(var, *tab, index);
-	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
+	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str) + 1);
 	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) + ft_strlen(str) + 1);
+	c = ft_strlen (str);
 	if ((*tab)[index] == '?')
 		free(str);
 	free(*tab);
 	*tab = var;
+	return (c);
 }
 
-static void	ft_insert_home_dir(t_data *data, char **tab, int index)
-{
-	char	*var;
-	char	*str;
-
-	str = *ft_get_env_var(data->envp, "HOME") + 5;
-	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str));
-	ft_strlcpy(var, *tab, index);
-	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str));
-	ft_strlcat(var, *tab + index, ft_strlen(*tab) + ft_strlen(str) + 1);
-	free(*tab);
-	*tab = var;
-}
-
-void ft_expand_str(t_data *data, char **str)
+void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 {
 	int		i;
 	bool	double_quote;
 	bool	single_quote;
+	int		c;
 
 	i = -1;
 	double_quote = false;
@@ -84,15 +74,25 @@ void ft_expand_str(t_data *data, char **str)
 	while ((*str)[++i] != '\0')
 	{
 		if (!double_quote && (*str)[i] == '\'')
-			remove_quote(data, &single_quote, str, i--);
+			ft_remove_quote(data, &single_quote, str, i--);
 		else if (!single_quote && (*str)[i] == '\"')
-			remove_quote(data, &double_quote, str, i--);
-		else if ((*str)[i] == '$' && (*str)[i + 1] != '\0' && !single_quote)
-			ft_insert_var(data, str, i-- + 1);
+			ft_remove_quote(data, &double_quote, str, i--);
+		else if ((*str)[i] == '$' && !single_quote
+			&& (ft_isalnum((*str)[i + 1]) || (*str)[i + 1] == '_'
+				|| (*str)[i + 1] == '?'))
+		{
+			c = ft_insert_var(data, str, i-- + 1);
+			if (!double_quote && tab != NULL && arg_i != -1)
+			{
+				if (ft_cut_str (data, &str, tab, 
+					ft_initargsxp (data, i, c, arg_i)))
+					i = -1;
+			}
+		}
 		else if ((*str)[i] == '~'
 			&& ((*str)[i + 1] == '/' || (*str)[i + 1] == '\0')
 			&& !single_quote && !double_quote)
-				ft_insert_home_dir(data, str, i-- + 1);
+			ft_insert_home_dir(data, str, i-- + 1);
 	}
 }
 
@@ -106,16 +106,5 @@ void	ft_expand_tab(t_data *data, char ***tab)
 		return ;
 	i = -1;
 	while ((*tab)[++i] != NULL)
-	{
-		if (!ft_isenv_var_only ((*tab)[i])
-			|| ft_strncmp ((*tab)[i], "$?", 3) == 0)
-			ft_expand_str(data, (*tab) + i);
-		else if (*ft_get_env_var(data->envp, (*tab)[i] + 1) != NULL)
-			i += ft_expand_env_var (data, tab, i) - 1;
-		else
-		{
-			free ((*tab)[i]);
-			(*tab)[i] = ft_strdup ("");
-		}
-	}
+		ft_expand_str(data, (*tab) + i, tab, i);
 }

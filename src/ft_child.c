@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 19:47:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/19 17:27:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_child(t_data *data, int i, int j)
 {
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
-	ft_expand_str (data, &data->cmds[i].name);
+	ft_expand_str (data, &data->cmds[i].name, NULL, -1);
 	ft_explode_name (data, i);
 	ft_expand_tab (data, &data->cmds[i].args);
 	if (ft_isbuiltin (data->cmds[i].name) == 2)

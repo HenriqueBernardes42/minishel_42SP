@@ -72,6 +72,7 @@ void	ft_exit(t_data *data, char **args)
 {
 	int	i;
 	
+	ft_putstr_fd ("exit\n", STDERR_FD);
 	if (args == NULL)
 		ft_destroy_data(data);
 	else

@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/18 19:56:21 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:54:36 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,15 @@ void	ft_signal_handler(int sig, siginfo_t *info, void *ptr)
 	(void)info;
 	if (data == NULL)
 		data = (t_data *)ptr;
-	if (sig == SIGINT)
-		write(1, "\n", 1);
-	if (sig == SIGINT)
+	if (sig == SIGINT && data->read_state)
 	{
-		if (data->read_state)
-		{
-			rl_on_new_line ();
-			rl_replace_line ("", 0);
-			rl_redisplay ();
-		}
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		data->status = EXIT_SIGINT;
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putendl_fd ("received SIGQUIT", STDERR_FD);
 		rl_on_new_line();
 		rl_redisplay();
 	}
