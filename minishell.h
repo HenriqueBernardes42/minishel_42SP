@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 19:13:45 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 23:26:49 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,6 @@ void	ft_close_all(t_data *data);
 void	ft_putinfo(char *str, char *info, char *str2);
 void	ft_insert_home_dir(t_data *data, char **tab, int index);
 void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
-char	**ft_subtab(t_data *data, char **tab, unsigned int start, int len);
 bool	ft_cut_str(t_data *data, char ***str, char ***tab,
 		t_argsxp *argsxp);
 void	ft_remove_quote(t_data *data, bool *quote, char **str,

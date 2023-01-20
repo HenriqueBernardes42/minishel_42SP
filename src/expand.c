@@ -82,7 +82,7 @@ void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 				&& arg_i != -1 && (*str)[i + 1] )
 			{
 				if (ft_cut_str (data, &str, tab, 
-					ft_initargsxp (data, i, c, &arg_i)))
+					ft_initargsxp (data, i + 1, c, &arg_i)))
 					i = -1;
 			}
 		}

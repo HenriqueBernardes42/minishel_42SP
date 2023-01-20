@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 19:51:00 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 00:14:03 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,50 @@ void	ft_insert_home_dir(t_data *data, char **tab, int index)
 	*tab = var;
 }
 
-// buggy
-// bool	ft_split_add_tab(t_data *data, char ***str, char ***tab,
-// 	t_argsxp *argsxp)
-// {
-// 	char	**ntab;
-// 	int		i;
+bool	ft_split_add_tab(t_data *data, char ***str, char ***tab,
+	t_argsxp *argsxp)
+{
+	int		i;
+	char	**ntab;
+	char	*substr2;
+	char	*temp;
 
-// 	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
-// 		return (false);
-// 	ntab = ft_subtab (data, *tab, 0, *argsxp->arg_i);
-// 	ft_push (data, &ntab, argsxp->split[0]);
-// 	if (ft_tablen (argsxp->split) > 2)
-// 	{
-// 		i = 0;
-// 		while (++i < (int) ft_tablen (argsxp->split) - 1)
-// 		{
-// 			ft_push (data, &ntab, argsxp->split[i]);
-// 			(*argsxp->arg_i)++;
-// 		}
-// 	}
-// 	ft_push (data, &ntab, argsxp->split 
-// 		[ft_tablen (argsxp->split) - 1]);
-// 	(*argsxp->arg_i)++;
-// 	*str = &ntab[*argsxp->arg_i];
-// 	while ((*tab)[++argsxp->arg_i_const] != NULL)
-// 		ft_push (data, &ntab, (*tab)[argsxp->arg_i_const]);
-// 	ft_destroy_tab (*tab);
-// 	*tab = ntab;
-// 	return (true);
-// }
+	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
+		return (false);
+	ntab = NULL;
+	i = -1;
+	while (++i < *argsxp->arg_i)
+		ft_push (data, &ntab, (*tab)[i]);
+	substr2 = ft_substr (**str, 0, argsxp->i);
+	temp = ft_strjoin (substr2, argsxp->split[0]);
+	ft_push (data, &ntab, temp);
+	free (substr2);
+	free (temp);
+	if (ft_tablen (argsxp->split) > 2)
+	{
+		i = 0;
+		while (++i < (int) ft_tablen (argsxp->split) - 1)
+		{
+			ft_push (data, &ntab, argsxp->split[i]);
+			(*argsxp->arg_i)++;
+		}
+	}
+	substr2 = ft_substr (**str, argsxp->i + argsxp->c, ft_strlen (**str));
+	temp = ft_strjoin (argsxp->split[ft_tablen (argsxp->split) - 1],
+		substr2);
+	ft_push (data, &ntab, temp);
+	(*argsxp->arg_i)++;
+	free (substr2);
+	free (temp);
+	i = argsxp->arg_i_const;
+	while ((*tab)[++i] != NULL)
+		ft_push (data, &ntab, (*tab)[i]);
+	free (*tab);
+	*tab = ntab;
+	free (**str);
+	*str = &(*tab)[*argsxp->arg_i];
+	return (true);
+}
 
 bool	ft_cut_str(t_data *data, char ***str, char ***tab,
 	t_argsxp *argsxp)
@@ -77,8 +91,6 @@ bool	ft_cut_str(t_data *data, char ***str, char ***tab,
 	if (ft_tablen (split) > 1)
 	{
 		argsxp->split = split;
-		ft_putendl_fd (argsxp->split[0], 2);
-		ft_putendl_fd (argsxp->split[1], 2);
 		return (ft_split_add_tab (data, str, tab, argsxp));
 	}
 	free (substr);
