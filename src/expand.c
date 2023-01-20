@@ -12,15 +12,11 @@
 
 #include "minishell.h"
 
-static void	ft_remove_quote(t_data *data, bool *quote, char **str, int index)
+void	ft_remove_quote(t_data *data, bool *quote, char **str, int index)
 {
 	char	*temp;
-	int		i;
 
-	i = index + 1;
-	while ((*str)[i] != '\0' && (*str)[i] != (*str)[index])
-		i++;
-	if ((*str)[i] != '\0')
+	if (quote != NULL)
 		*quote = !*quote;
 	temp = (char *)malloc(ft_strlen(*str));
 	ft_assert_not_null(data, temp);
@@ -71,7 +67,7 @@ void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 	i = -1;
 	double_quote = false;
 	single_quote = false;
-	while ((*str)[++i] != '\0')
+	while (*str != NULL && (*str)[++i] != '\0')
 	{
 		if (!double_quote && (*str)[i] == '\'')
 			ft_remove_quote(data, &single_quote, str, i--);
@@ -82,10 +78,11 @@ void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 				|| (*str)[i + 1] == '?'))
 		{
 			c = ft_insert_var(data, str, i-- + 1);
-			if (!double_quote && tab != NULL && arg_i != -1)
+			if (!double_quote && tab != NULL
+				&& arg_i != -1 && (*str)[i + 1] )
 			{
 				if (ft_cut_str (data, &str, tab, 
-					ft_initargsxp (data, i, c, arg_i)))
+					ft_initargsxp (data, i, c, &arg_i)))
 					i = -1;
 			}
 		}

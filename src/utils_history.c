@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:04:58 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:32:13 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:18:16 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_remove_last_history(t_data *data)
 {
 	int		i;
 	char	**nhistory;
-	
+
 	if (data->history == NULL || data->where_history == 0)
 		return ;
 	nhistory = NULL;

@@ -6,11 +6,30 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 21:58:38 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:13:19 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i)
+{
+	t_argsxp	*argsxp;
+
+	argsxp = (t_argsxp *) malloc (sizeof (t_argsxp));
+	if (argsxp == NULL)
+		ft_throw (data, ERR_FAIL, "malloc", true);
+	argsxp->data = data;
+	if (i < 0)
+		argsxp->i = 0;
+	else
+		argsxp->i = i;
+	argsxp->c = c;
+	argsxp->split = NULL;
+	argsxp->arg_i_const = *arg_i;
+	argsxp->arg_i = arg_i;
+	return (argsxp);
+}
 
 t_args4	*ft_initargs4(t_data *data)
 {

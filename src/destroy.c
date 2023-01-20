@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:53:21 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:00:56 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_destroy_execution(t_data *data)
 	data->cmds = NULL;
 	data->pipes = NULL;
 	data->cmdsc = 0;
+	data->heredoc_success = true;
 }
 
 /// @brief Destroy the minishell's data, 

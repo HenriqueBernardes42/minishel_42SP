@@ -6,21 +6,11 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 17:27:13 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:28:10 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_prepare_cmd_exec(t_data *data, pid_t *pid,
-	int *infd, int *outfd)
-{
-	*infd = STDIN_FILENO;
-	*outfd = STDOUT_FILENO;
-	*pid = fork();
-	if (*pid == -1)
-		ft_throw(data, ERR_FAIL, "fork", true);
-}
 
 static void	ft_exec_cmd(t_data *data, int i)
 {
@@ -57,6 +47,16 @@ static void	ft_pipe(t_data *data, int j, t_stream s)
 		ft_throw (data, ERR_FAIL, "dup2", true);
 }
 
+static void	ft_prepare_cmd_exec(t_data *data, pid_t *pid,
+	int *infd, int *outfd)
+{
+	*infd = STDIN_FILENO;
+	*outfd = STDOUT_FILENO;
+	*pid = fork();
+	if (*pid == -1)
+		ft_throw(data, ERR_FAIL, "fork", true);
+}
+
 static void	ft_exec_cmd_or_builtin1(t_data *data, int i, int j)
 {
 	pid_t	pid;
@@ -66,6 +66,7 @@ static void	ft_exec_cmd_or_builtin1(t_data *data, int i, int j)
 	ft_prepare_cmd_exec (data, &pid, &infd, &outfd);
 	if (pid == 0)
 	{
+		ft_signals (SIG_CHILD);
 		ft_pipe(data, j, STREAM_INPUT);
 		ft_pipe(data, j, STREAM_OUTPUT);
 		ft_redirect(data, i);

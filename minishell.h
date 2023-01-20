@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 19:21:25 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:13:45 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,23 @@
 # include <termios.h>
 # define BUFFER_SIZE 42
 # define STDERR_FD STDERR_FILENO
-# define EXIT_CMDNOTFOUND 127
-# define EXIT_SIGINT 1
-# define EXIT_UNEXPECTED_TOKEN 258
 
+bool	g_heredoc_success;
+typedef enum e_signals
+{
+	SIG_PARENT,
+	SIG_PARENT_EXECUTION,
+	SIG_HEREDOC,
+	SIG_CHILD,
+}	t_signals;
+typedef enum e_exit
+{
+	EXIT_CMDNOTFOUND = 127,
+	EXIT_SIGINT = 1,
+	EXIT_SIGINT_CHILD = 130,
+	EXIT_SIGQUIT_CHILD = 131,
+	EXIT_UNEXPECTED_TOKEN = 258
+}	t_exit;
 typedef enum e_stream
 {
 	STREAM_INPUT,
@@ -129,21 +142,20 @@ typedef struct s_cmd
 	int		lvl;
 	int		instr;
 }	t_cmd;
-typedef struct termios t_termios;
 typedef struct s_data
 {
-	char		**envp;
-	char		*line;
-	char		**tab;
-	t_cmd		*cmds;
-	int			cmdsc;
-	t_fd		*pipes;
-	int			cmdsc_pps;
-	int			status;
-	int			read_state;
-	char		**history;
-	int			where_history;
-	t_termios 	tty_attr;
+	char			**envp;
+	char			*line;
+	char			**tab;
+	t_cmd			*cmds;
+	int				cmdsc;
+	t_fd			*pipes;
+	int				cmdsc_pps;
+	int				status;
+	char			**history;
+	int				where_history;
+	bool			heredoc_success;
+	struct termios	tty_attr;
 }	t_data;
 typedef struct s_argsxp
 {
@@ -151,7 +163,7 @@ typedef struct s_argsxp
 	int		i;
 	int		c;
 	char	**split;
-	int		arg_i;
+	int		*arg_i;
 	int		arg_i_const;
 }	t_argsxp;
 void	ft_execute(t_data *data);
@@ -200,7 +212,6 @@ void	ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool 	ft_all_apostroph_closed(t_data *data);
 void	ft_update_line(t_data *data, char *linepl);
 bool	ft_all_parenth_closed(t_data *data);
-void	ft_init_signal_handler(t_data *data);
 void	ft_expand_tab(t_data *data, char ***tab);
 void	ft_shift(t_data *data, char ***tab, char *str);
 void	ft_explode_name(t_data *data, int i);
@@ -214,9 +225,13 @@ void	ft_redirect(t_data *data, int i);
 void	ft_close_all(t_data *data);
 void	ft_putinfo(char *str, char *info, char *str2);
 void	ft_insert_home_dir(t_data *data, char **tab, int index);
-t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int arg_i);
 void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
 char	**ft_subtab(t_data *data, char **tab, unsigned int start, int len);
 bool	ft_cut_str(t_data *data, char ***str, char ***tab,
 		t_argsxp *argsxp);
+void	ft_remove_quote(t_data *data, bool *quote, char **str,
+		int index);
+void	ft_toggle_echoctl(t_data *data, bool state);
+void	ft_signals(t_signals signals);
+t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i);
 #endif

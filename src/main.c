@@ -6,19 +6,11 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 14:52:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:31:53 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_readline(t_data *data)
-{
-	ft_assert_not_null (data, data);
-	data->read_state = true;
-	data->line = readline ("\001\033[32;1m\002minishell$ \001\033[0m\002");
-	data->read_state = false;
-}
 
 static void	ft_mainpl(t_data *data)
 {
@@ -29,7 +21,12 @@ static void	ft_mainpl(t_data *data)
 	{
 		ft_parse (data);
 		ft_heredocs (data);
-		ft_execute (data);
+		if (g_heredoc_success)
+		{
+			ft_toggle_echoctl (data, true);
+			ft_signals (SIG_PARENT_EXECUTION);
+			ft_execute (data);
+		}
 	}
 }
 
@@ -40,13 +37,14 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv == NULL || envp == NULL)
 		return (EXIT_FAILURE);
 	data = ft_initdata (envp);
-	ft_init_signal_handler(data);
+	g_heredoc_success = true;
 	while (true)
 	{
-		data->tty_attr.c_lflag &= ~ECHOCTL;
-    	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
-			ft_throw (data, ERR_FAIL, "main settattr fail", true);
-		ft_readline (data);
+		ft_signals (SIG_PARENT);
+		ft_toggle_echoctl (data, false);
+		data->line = readline ("\001\033[32;1m\002minishell$ \001\033[0m\002");
+		// data->line = ft_strdup ("echo str.$STR$STR.str");
+		g_heredoc_success = true;
 		if (data->line == NULL)
 			ft_exit(data, NULL);
 		else if (ft_strncmp (data->line, "", 1) != 0)

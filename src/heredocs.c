@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_heredocs.c                                      :+:      :+:    :+:   */
+/*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:41:10 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/07 20:39:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:23:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,34 @@
 
 static bool	ft_isheredoc_lim(char *heredoc_lim, char *buff)
 {
-	char	*heredoc_limendl;
 
 	if (heredoc_lim != NULL && buff != NULL)
-	{
-		heredoc_limendl = ft_strjoin (heredoc_lim, "\n");
-		if (heredoc_limendl != NULL)
-		{
-			if (ft_strncmp (heredoc_limendl, buff,
-					ft_strlen (heredoc_limendl) + 1) == 0)
-			{
-				free (heredoc_limendl);
-				return (true);
-			}
-			free (heredoc_limendl);
-		}
-	}
+		if (ft_strncmp(heredoc_lim, buff, ft_strlen(heredoc_lim) + 1) == 0)
+			return (true);
 	return (false);
 }
 
-static void	ft_read(int fd, char *heredoc_lim)
+static void	ft_read(t_data *data, int fd, char *heredoc_lim)
 {
-	char	buff[BUFFER_SIZE];
-	int		count;
-
+	char	*buff;
+	char	*line;
+	
+	ft_assert_not_null (data, data);
 	while (1)
 	{
-		ft_putstr_fd ("> ", STDERR_FILENO);
-		count = read (STDIN_FILENO, buff, BUFFER_SIZE - 1);
-		if (count <= 0)
-			break ;
+		buff = readline("> ");
+		if (buff != NULL && !ft_isheredoc_lim(heredoc_lim, buff))
+		{
+			line = ft_strjoin(buff, "\n");
+			if (line != NULL)
+				write(fd, line, ft_strlen(line));
+			free(line);
+			free(buff);
+		}
 		else
 		{
-			buff[count] = '\0';
-			if (!ft_isheredoc_lim (heredoc_lim, buff))
-				write (fd, buff, count);
-			else
-				break ;
+			free(buff);
+			break;
 		}
 	}
 }
@@ -64,7 +55,7 @@ static t_fd	ft_heredoc(t_data *data, char *heredoc_lim)
 	fd = open ("temp.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		ft_throw (data, ERR_FAIL, "file write", true);
-	ft_read(fd, heredoc_lim);
+	ft_read(data, fd, heredoc_lim);
 	close (fd);
 	fd = open ("temp.tmp", O_RDONLY, 0644);
 	unlink ("temp.tmp");
@@ -75,6 +66,8 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 {
 	int		j;
 	char	*fd;
+	int		x;
+	int		infd_cp;
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds[i].redirs);
@@ -84,11 +77,21 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 	{
 		if (data->cmds[i].redirs[j] == REDIR_HEREDOC)
 		{
+			infd_cp = dup (STDIN_FILENO);
+			ft_signals (SIG_HEREDOC);
+			x = -1;
+			while (data->cmds[i].args_redir[j][++x] != '\0')
+			if (data->cmds[i].args_redir[j][x] == '\"'
+				|| data->cmds[i].args_redir[j][x] == '\'')
+				ft_remove_quote(data, NULL, data->cmds[i].args_redir + j, x--);
 			fd = ft_itoa (ft_heredoc (data,
 						data->cmds[i].args_redir[j]));
 			ft_assert_not_null (data, fd);
+			dup2 (infd_cp, STDIN_FILENO);
+			close (infd_cp);
 			free (data->cmds[i].args_redir[j]);
 			data->cmds[i].args_redir[j] = fd;
+			ft_signals (SIG_PARENT);
 		}
 	}
 }
