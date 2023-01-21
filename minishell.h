@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 14:39:57 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:52:26 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ typedef enum e_signals
 	SIG_HEREDOC,
 	SIG_CHILD,
 }	t_signals;
+typedef enum e_expand_str_type
+{
+	T_ENV,
+	T_HOME
+}	t_expand_str_type;
 typedef enum e_exit
 {
 	EXIT_EXECUTABLE_PERM_DENIED = 126,
@@ -159,6 +164,7 @@ typedef struct s_argsxp
 	char	**split;
 	int		*arg_i;
 	int		arg_i_const;
+	char	***ntab;
 }	t_argsxp;
 void		ft_execute(t_data *data);
 t_cmd		*ft_initcmds(t_data *data, int cmdsc);
@@ -195,7 +201,6 @@ bool		ft_isvalid(t_data *data);
 void		ft_close(t_data *data, int infd, int outfd);
 void		ft_child(t_data *data, int i, int j);
 int			ft_anticipate_cmdsc(t_data *data, int i);
-bool		ft_loop(t_data *data, int lvl, int *i);
 char		**ft_get_env_var(char **envp, char *var);
 bool		ft_valid_env_name(char *str);
 void		ft_parse(t_data *data);
@@ -203,9 +208,7 @@ char		*ft_memdup(char const *s, size_t a, size_t b);
 bool		ft_matches_pattern(char *pattern, char *filename);
 void		ft_close_curr_lvl(t_data *data, int temp_i);
 void		ft_push_special(t_data *data, t_args3 *args3, char *str);
-bool		ft_all_apostroph_closed(t_data *data);
 void		ft_update_line(t_data *data, char *linepl);
-bool		ft_all_parenth_closed(t_data *data);
 void		ft_shift(t_data *data, char ***tab, char *str);
 void		ft_explode_name(t_data *data, int i);
 void		ft_addhistory(t_data *data, char *line);
@@ -213,19 +216,24 @@ void		ft_remove_last_history(t_data *data);
 void		ft_assert_not_null(t_data *data, void *ptr);
 bool		ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 bool		ft_assert_valid_permissions(t_data *data, char *pathname,
- 				int permss, bool exitp);
+				int permss, bool exitp);
 void		ft_redirect(t_data *data, int i);
 void		ft_close_all(t_data *data);
 void		ft_putinfo(char *str, char *info, char *str2);
 void		ft_insert_home_dir(t_data *data, char **tab, int index);
 void		ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
 void		ft_expand_tab(t_data *data, char ***tab);
-bool		ft_cut_str(t_data *data, char ***str, char ***tab,
-				t_argsxp *argsxp);
 void		ft_remove_quote(t_data *data, bool *quote, char **str,
- 				int index);
+				int index);
 void		ft_signals(t_signals signals);
 t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i);
 int			ft_push_substr_wildcard(t_data *data, char *pattern);
 void		ft_str_remove_quotes(t_data *data, char **str);
+bool		ft_isfinished(t_data *data);
+bool		ft_is_permission_denied(t_args *args, int permss, int i);
+void		ft_destroy_args(t_args *args);
+bool		ft_explode_env(t_data *data, char ***str, char ***tab,
+				t_argsxp *argsxp);
+int			ft_insert_var(t_data *data, char **tab, int index);
+void		ft_loop(t_data *data, int lvl, int *i);
 #endif

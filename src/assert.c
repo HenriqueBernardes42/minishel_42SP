@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 14:40:03 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:56:08 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@ bool	ft_assert_finished(t_data *data)
 {
 	char	*linepl;
 
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, data->line);
-	ft_assert_not_null (data, data->tab);
-	while (ft_istype (data->tab[ft_tablen (data->tab) - 1], T_OP, true)
-		|| ft_istype (data->tab[ft_tablen (data->tab) - 1], T_PIPE, true)
-		|| !ft_all_parenth_closed (data)
-		|| !ft_all_apostroph_closed (data))
+	if (data == NULL || data->line == NULL || data->tab == NULL)
+		ft_throw (data, ERR_NULL_PTR, NULL, true);
+	while (!ft_isfinished (data))
 	{
 		linepl = readline ("> ");
 		if (linepl == NULL)
@@ -113,10 +109,7 @@ bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
 	while (++i < args->count)
 	{
 		ft_mkpath (args, pathname, i);
-		if (((permss == R_OK || permss == X_OK)
-				|| (permss == W_OK && i < args->count - 1))
-			&& (access (args->path, F_OK) != 0
-				|| access (args->path, permss) != 0))
+		if (ft_is_permission_denied (args, permss, i))
 		{
 			if (access (args->path, F_OK) != 0)
 				args->err = ERR_ENOENT;
@@ -126,10 +119,6 @@ bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
 			return (false);
 		}
 	}
-	if (args->path != NULL)
-		free (args->path);
-	if (args->tab != NULL)
-		ft_destroy_tab (args->tab);
-	free (args);
+	ft_destroy_args (args);
 	return (true);
 }

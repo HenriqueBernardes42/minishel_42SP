@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:24:35 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 19:13:19 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 15:03:13 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i)
 	argsxp->split = NULL;
 	argsxp->arg_i_const = *arg_i;
 	argsxp->arg_i = arg_i;
+	argsxp->ntab = NULL;
 	return (argsxp);
 }
 

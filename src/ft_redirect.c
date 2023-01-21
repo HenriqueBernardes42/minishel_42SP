@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 14:52:07 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 15:24:12 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,27 @@ static void	ft_assert_valid_files(t_data *data, int i)
 	}
 }
 
-static void	ft_prepare(t_data *data, t_args2 *args2)
+static void	ft_exec_redir(t_data *data, t_args2 *args2)
 {
-	ft_assert_not_null (data, data);
-	ft_assert_not_null (data, args2);
-	args2->nfd = -1;
+	int	res;
+
+	args2->redir = data->cmds[args2->i].redirs[args2->j];
 	args2->iofd = args2->infd;
 	if (args2->redir != REDIR_INFILE && args2->redir != REDIR_HEREDOC)
 		args2->iofd = args2->outfd;
+	args2->nfd = -1;
+	ft_setnfd (data, args2);
+	if (args2->nfd == -1)
+		ft_throw (data, ERR_ENOENT, NULL, true);
+	res = dup2 (args2->nfd, args2->iofd);
+	if (res != -1
+		&& (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC))
+		args2->infd = args2->nfd;
+	else if (res != -1
+		&& (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC))
+		args2->outfd = args2->nfd;
+	else
+		ft_throw (data, ERR_FAIL, "ft_redirect dup2", true);
 }
 
 void	ft_redirect(t_data *data, int i)
@@ -73,21 +86,6 @@ void	ft_redirect(t_data *data, int i)
 	ft_assert_valid_files (data, i);
 	args2 = ft_initargs2 (data, i);
 	while (--args2->j >= 0)
-	{
-		args2->redir = data->cmds[args2->i].redirs[args2->j];
-		ft_prepare (data, args2);
-		ft_setnfd (data, args2);
-		if (args2->nfd == -1)
-			ft_throw (data, ERR_ENOENT, NULL, true);
-		if (dup2 (args2->nfd, args2->iofd) != -1)
-		{
-			if (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC)
-				args2->infd = args2->nfd;
-			else
-				args2->outfd = args2->nfd;
-		}
-		else
-			ft_throw (data, ERR_FAIL, "ft_redirect dup2", true);
-	}
+		ft_exec_redir (data, args2);
 	free (args2);
 }

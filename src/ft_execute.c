@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:23:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 16:28:02 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:10:02 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,16 @@ static void	ft_currentlvl(t_data *data, int *i)
 		(*i)++;
 }
 
-bool	ft_loop(t_data *data, int lvl, int *i)
+void	ft_loop(t_data *data, int lvl, int *i)
 {
 	ft_assert_not_null (data, data);
-	while (data->cmds[*i].lvl >= lvl && *i < data->cmdsc)
+	while (*i < data->cmdsc && data->cmds[*i].lvl >= lvl)
 	{
 		if (data->cmds[*i].lvl > lvl)
 			ft_upperlvl (data, lvl, i);
 		else
 			ft_currentlvl (data, i);
 	}
-	return (true);
 }
 
 void	ft_execute(t_data *data)

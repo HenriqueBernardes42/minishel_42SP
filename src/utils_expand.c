@@ -3,14 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:22:29 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 15:45:46 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*ft_getstr(t_data *data, char **tab, int index, char *var)
+{
+	char	*str;
+
+	if ((*tab)[index] == '?')
+		str = ft_itoa(data->status);
+	else if (*ft_get_env_var(data->envp, var) != NULL)
+		str = ft_strdup (*ft_get_env_var(data->envp, var) + ft_strlen(var) + 1);
+	else
+		str = ft_strdup ("");
+	return (str);
+}
+
+int	ft_insert_var(t_data *data, char **tab, int index)
+{
+	char	*str;
+	char	*var;
+	int		i;
+	int		c;
+
+	i = (ft_isdigit((*tab)[index]) || tab[0][index] == '?');
+	if (i == 0)
+		while ((ft_isalnum((*tab)[index + i]) || (*tab)[index + i] == '_'))
+			i++;
+	var = ft_substr(*tab, index, i);
+	str = ft_getstr (data, tab, index, var);
+	free(var);
+	var = (char *)malloc(ft_strlen(*tab) + ft_strlen(str) + 1);
+	ft_strlcpy(var, *tab, index);
+	ft_strlcat(var, str, ft_strlen(*tab) + ft_strlen(str) + 1);
+	ft_strlcat(var, *tab + index + i, ft_strlen(*tab) + ft_strlen(str) + 1);
+	c = ft_strlen (str);
+	free(str);
+	free(*tab);
+	*tab = var;
+	return (c);
+}
 
 void	ft_insert_home_dir(t_data *data, char **tab, int index)
 {
@@ -27,74 +65,4 @@ void	ft_insert_home_dir(t_data *data, char **tab, int index)
 	ft_strlcat(var, *tab + index, ft_strlen(*tab) + ft_strlen(str) + 1);
 	free(*tab);
 	*tab = var;
-}
-
-bool	ft_split_add_tab(t_data *data, char ***str, char ***tab,
-	t_argsxp *argsxp)
-{
-	int		i;
-	char	**ntab;
-	char	*substr2;
-	char	*temp;
-
-	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
-		return (false);
-	ntab = NULL;
-	i = -1;
-	while (++i < *argsxp->arg_i)
-		ft_push (data, &ntab, (*tab)[i]);
-	substr2 = ft_substr (**str, 0, argsxp->i);
-	temp = ft_strjoin (substr2, argsxp->split[0]);
-	ft_push (data, &ntab, temp);
-	free (substr2);
-	free (temp);
-	if (ft_tablen (argsxp->split) > 2)
-	{
-		i = 0;
-		while (++i < (int) ft_tablen (argsxp->split) - 1)
-		{
-			ft_push (data, &ntab, argsxp->split[i]);
-			(*argsxp->arg_i)++;
-		}
-	}
-	substr2 = ft_substr (**str, argsxp->i + argsxp->c, ft_strlen (**str));
-	temp = ft_strjoin (argsxp->split[ft_tablen (argsxp->split) - 1],
-			substr2);
-	ft_push (data, &ntab, temp);
-	(*argsxp->arg_i)++;
-	free (substr2);
-	free (temp);
-	i = argsxp->arg_i_const;
-	while ((*tab)[++i] != NULL)
-		ft_push (data, &ntab, (*tab)[i]);
-	free (*tab);
-	*tab = ntab;
-	free (**str);
-	*str = &(*tab)[*argsxp->arg_i];
-	return (true);
-}
-
-bool	ft_cut_str(t_data *data, char ***str, char ***tab,
-	t_argsxp *argsxp)
-{
-	char	**split;
-	char	*substr;
-
-	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
-		return (false);
-	substr = ft_substr (**str, argsxp->i, argsxp->c);
-	if (substr == NULL)
-		return (false);
-	split = ft_split (substr, ' ');
-	if (split == NULL)
-		return (false);
-	if (ft_tablen (split) > 1)
-	{
-		argsxp->split = split;
-		return (ft_split_add_tab (data, str, tab, argsxp));
-	}
-	free (substr);
-	ft_destroy_tab (split);
-	free (argsxp);
-	return (false);
 }

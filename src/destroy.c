@@ -6,11 +6,20 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 13:00:56 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:05:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_destroy_args(t_args *args)
+{
+	if (args->path != NULL)
+		free (args->path);
+	if (args->tab != NULL)
+		ft_destroy_tab (args->tab);
+	free (args);
+}
 
 /// @brief Destroy, ie free an array of strings. 
 /// @param tab The array of strings.
@@ -84,5 +93,6 @@ void	ft_destroy_data(t_data *data)
 		ft_destroy_tab(data->envp);
 	if (data->history != NULL)
 		ft_destroy_tab(data->history);
+	clear_history ();
 	free (data);
 }
