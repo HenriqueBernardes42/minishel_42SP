@@ -6,26 +6,11 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/21 14:26:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:40:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_toggle_echoctl(t_data *data, bool state)
-{
-	if (state)
-		data->tty_attr.c_cflag |= ECHOCTL;
-	else
-		data->tty_attr.c_cflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
-	{
-		if (state)
-			ft_throw (data, ERR_FAIL, strerror (errno), true);
-		else
-			ft_throw (data, ERR_FAIL, strerror (errno), true);
-	}
-}
 
 static void	ft_signal_handler_child(int sig)
 {
@@ -57,7 +42,7 @@ static void	ft_signal_handler_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_heredoc_success = false;	
+		g_heredoc_success = false;
 		close (STDIN_FILENO);
 	}
 }

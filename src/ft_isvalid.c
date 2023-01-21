@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isvalid.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 12:02:19 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 21:23:43 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:15:57 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ bool	ft_isvalid(t_data *data)
 	while (data->tab[++i] != NULL)
 	{
 		if (!ft_isvalidpl (data, i) || !ft_isvalidpl2
-				(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened))
+			(data, i, &opened) || !ft_isvalidpl3 (data, i, &opened))
 		{
 			data->status = EXIT_UNEXPECTED_TOKEN;
 			return (false);

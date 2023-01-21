@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:46:58 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 23:49:16 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:22:03 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_explode_name(t_data *data, int i)
 {
 	char	**tab;
 	int		j;
-	
+
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->cmds);
 	if (data->cmds[i].name == NULL)

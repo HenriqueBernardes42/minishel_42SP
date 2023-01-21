@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 19:13:44 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:12:34 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_push_substr_wildcard(t_data *data, char *pattern)
-{
-	DIR				*dir;
-	struct dirent	*ent;
-	int				c;
-
-	c = 0;
-	dir = opendir (".");
-	if (dir != NULL)
-	{
-		ent = readdir (dir);
-		while (ent != NULL)
-		{
-			if ((ft_strncmp ("*", pattern, 2) == 0
-					|| ft_matches_pattern (pattern, ent->d_name))
-				&& (ent->d_name[0] != '.'))
-			{
-				ft_push (data, &data->tab, ent->d_name);
-				c++;
-			}
-			ent = readdir (dir);
-		}
-		closedir (dir);
-	}
-	return (c);
-}
 
 static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 {
@@ -47,7 +20,7 @@ static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 	isredir = false;
 	if (ft_tablen (data->tab) > 0)
 		isredir = ft_istype (data->tab[ft_tablen (data->tab) - 1],
-			T_REDIR, true) != 0;
+				T_REDIR, true) != 0;
 	c = ft_push_substr_wildcard (data, substr);
 	if (c <= 0)
 		ft_push (data, &data->tab, substr);
@@ -70,7 +43,7 @@ static bool	ft_push_substr(t_data *data, t_args3 *args3, char *str)
 	wcard_ptr = ft_strchr (substr, '*');
 	expand_wildc = true;
 	if (ft_tablen (data->tab) > 0)
-		expand_wildc = ft_istype (data->tab[ft_tablen (data->tab) -1],
+		expand_wildc = ft_istype (data->tab[ft_tablen (data->tab) - 1],
 				REDIR_HEREDOC, true) == 0;
 	if (wcard_ptr != NULL && expand_wildc)
 	{
@@ -110,7 +83,7 @@ static bool	ft_handle_type(t_data *data, t_args3 *args3, char *str)
 	if (ft_istype (&str[args3->i], T_SPECIAL, false) && args3->status == 0)
 		ft_push_special (data, args3, str);
 	else if (args3->status == 1 && (str[args3->i] == ' '
-		|| ft_istype (&str[args3->i], T_SPECIAL, false))
+			|| ft_istype (&str[args3->i], T_SPECIAL, false))
 		&& !args3->opened)
 	{
 		if (!ft_push_substr (data, args3, str))

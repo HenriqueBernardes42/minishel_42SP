@@ -6,11 +6,26 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 14:09:08 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:40:21 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_toggle_echoctl(t_data *data, bool state)
+{
+	if (state)
+		data->tty_attr.c_lflag |= ECHOCTL;
+	else
+		data->tty_attr.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
+	{
+		if (state)
+			ft_throw (data, ERR_FAIL, strerror (errno), true);
+		else
+			ft_throw (data, ERR_FAIL, strerror (errno), true);
+	}
+}
 
 static void	ft_mainpl(t_data *data)
 {

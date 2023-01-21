@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 16:24:31 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:18:17 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ t_data	*ft_initdata(char **envp)
 	data->where_history = 0;
 	data->heredoc_success = true;
 	if (tcgetattr(STDIN_FILENO, &data->tty_attr) != 0)
-			ft_throw (data, ERR_FAIL, "init gettattr fail", true);
+		ft_throw (data, ERR_FAIL, "init gettattr fail", true);
 	return (data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 20:24:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:14:31 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_export(t_data *data, char **args)
 			ft_ar_env_var(data, args[i]);
 }
 
-static void ft_update_pwd(t_data *data)
+static void	ft_update_pwd(t_data *data)
 {
 	char	*cwd;
 	char	*temp;

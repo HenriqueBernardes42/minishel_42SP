@@ -57,7 +57,7 @@ static int	ft_insert_var(t_data *data, char **tab, int index)
 	return (c);
 }
 
-void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
+void	ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 {
 	int		i;
 	bool	double_quote;
@@ -79,10 +79,10 @@ void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i)
 		{
 			c = ft_insert_var(data, str, i-- + 1);
 			if (!double_quote && tab != NULL
-				&& arg_i != -1 && (*str)[i + 1] )
+				&& arg_i != -1 && (*str)[i + 1])
 			{
-				if (ft_cut_str (data, &str, tab, 
-					ft_initargsxp (data, i + 1, c, &arg_i)))
+				if (ft_cut_str (data, &str, tab,
+						ft_initargsxp (data, i + 1, c, &arg_i)))
 					i = -1;
 			}
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:46:13 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 00:14:03 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:22:29 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	ft_split_add_tab(t_data *data, char ***str, char ***tab,
 	}
 	substr2 = ft_substr (**str, argsxp->i + argsxp->c, ft_strlen (**str));
 	temp = ft_strjoin (argsxp->split[ft_tablen (argsxp->split) - 1],
-		substr2);
+			substr2);
 	ft_push (data, &ntab, temp);
 	(*argsxp->arg_i)++;
 	free (substr2);
@@ -79,7 +79,7 @@ bool	ft_cut_str(t_data *data, char ***str, char ***tab,
 {
 	char	**split;
 	char	*substr;
-	
+
 	if (data == NULL || str == NULL || tab == NULL || argsxp == NULL)
 		return (false);
 	substr = ft_substr (**str, argsxp->i, argsxp->c);
