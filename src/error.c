@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:59:43 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 14:44:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:14:51 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_putinfo(char *str, char *info, char *str2)
 bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp)
 {
 	int	status;
-	
+
 	ft_putstr_fd ("minishell: ", STDERR_FD);
 	if (info != NULL && (err == ERR_CMD_NOT_FOUND || err == ERR_EACCES
 			|| err == ERR_ENOENT || err == ERR_AMBIGUOUS_REDIRECT))

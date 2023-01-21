@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 23:26:49 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:13:22 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,71 +166,71 @@ typedef struct s_argsxp
 	int		*arg_i;
 	int		arg_i_const;
 }	t_argsxp;
-void	ft_execute(t_data *data);
-t_cmd	*ft_initcmds(t_data *data, int cmdsc);
-t_data	*ft_initdata(char **envp);
-t_args	*ft_initargs(t_data *data, char *pathname);
-t_args2	*ft_initargs2(t_data *data, int i);
-bool	ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
-char	*ft_pathname(t_data *data, char *name);
-void	ft_push(t_data *data, char ***tab, char *str);
-t_type	ft_getredir(char *str);
-void	ft_destroy_execution(t_data *data);
-void	ft_destroy_data(t_data *data);
-void	ft_destroy_tab(char **tab);
-void	ft_addint(t_data *data, int **arr, int len, int i);
-void	ft_heredocs(t_data *data);
-void	ft_remove(t_data *data, char ***tab, char *str);
-int		ft_isbuiltin(char *str);
-void	ft_exec_builtin(t_data *data, int i, char *builtin);
-void	ft_echo(t_data *data, char **args);
-void	ft_cd(t_data *data, char *path);
-void	ft_pwd(t_data *data);
-void	ft_unset(t_data *data, char **args);
-void	ft_exit(t_data *data, char **args);
-void	ft_export(t_data *data, char **args);
-void	ft_env(t_data *data);
-bool	ft_minishell_split(t_data *data, char *str);
-int		ft_istype(char *str, t_type type, bool strict);
-int		*ft_initpipes(t_data *data, int cmdsc);
-size_t	ft_tablen(char **tab);
-bool	ft_assert_finished(t_data *data);
-bool	ft_isvalid(t_data *data);
-void	ft_close(t_data *data, int infd, int outfd);
-void	ft_child(t_data *data, int i, int j);
-int		ft_anticipate_cmdsc(t_data *data, int i);
-bool	ft_loop(t_data *data, int lvl, int *i);
-char	**ft_get_env_var(char **envp, char *var);
-bool	ft_valid_env_name(char *str);
-void	ft_parse(t_data *data);
-t_args3	*ft_initargs3(t_data *data);
-t_args4	*ft_initargs4(t_data *data);
-char	*ft_memdup(char const *s, size_t a, size_t b);
-bool	ft_matches_pattern(char *pattern, char *filename);
-void	ft_close_curr_lvl(t_data *data, int temp_i);
-void	ft_push_special(t_data *data, t_args3 *args3, char *str);
-bool 	ft_all_apostroph_closed(t_data *data);
-void	ft_update_line(t_data *data, char *linepl);
-bool	ft_all_parenth_closed(t_data *data);
-void	ft_expand_tab(t_data *data, char ***tab);
-void	ft_shift(t_data *data, char ***tab, char *str);
-void	ft_explode_name(t_data *data, int i);
-void	ft_addhistory(t_data *data, char *line);
-void	ft_remove_last_history(t_data *data);
-void	ft_assert_not_null(t_data *data, void *ptr);
-bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
-bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
-		bool exitp);
-void	ft_redirect(t_data *data, int i);
-void	ft_close_all(t_data *data);
-void	ft_putinfo(char *str, char *info, char *str2);
-void	ft_insert_home_dir(t_data *data, char **tab, int index);
-void ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
-bool	ft_cut_str(t_data *data, char ***str, char ***tab,
-		t_argsxp *argsxp);
-void	ft_remove_quote(t_data *data, bool *quote, char **str,
-		int index);
-void	ft_toggle_echoctl(t_data *data, bool state);
-void	ft_signals(t_signals signals);
+void		ft_execute(t_data *data);
+t_cmd		*ft_initcmds(t_data *data, int cmdsc);
+t_data		*ft_initdata(char **envp);
+t_args		*ft_initargs(t_data *data, char *pathname);
+t_args2		*ft_initargs2(t_data *data, int i);
+bool		ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
+char		*ft_pathname(t_data *data, char *name);
+void		ft_push(t_data *data, char ***tab, char *str);
+t_type		ft_getredir(char *str);
+void		ft_destroy_execution(t_data *data);
+void		ft_destroy_data(t_data *data);
+void		ft_destroy_tab(char **tab);
+void		ft_addint(t_data *data, int **arr, int len, int i);
+void		ft_heredocs(t_data *data);
+void		ft_remove(t_data *data, char ***tab, char *str);
+int			ft_isbuiltin(char *str);
+void		ft_exec_builtin(t_data *data, int i, char *builtin);
+void		ft_echo(t_data *data, char **args);
+void		ft_cd(t_data *data, char *path);
+void		ft_pwd(t_data *data);
+void		ft_unset(t_data *data, char **args);
+void		ft_exit(t_data *data, char **args);
+void		ft_export(t_data *data, char **args);
+void		ft_env(t_data *data);
+bool		ft_minishell_split(t_data *data, char *str);
+int			ft_istype(char *str, t_type type, bool strict);
+int			*ft_initpipes(t_data *data, int cmdsc);
+size_t		ft_tablen(char **tab);
+bool		ft_assert_finished(t_data *data);
+bool		ft_isvalid(t_data *data);
+void		ft_close(t_data *data, int infd, int outfd);
+void		ft_child(t_data *data, int i, int j);
+int			ft_anticipate_cmdsc(t_data *data, int i);
+bool		ft_loop(t_data *data, int lvl, int *i);
+char		**ft_get_env_var(char **envp, char *var);
+bool		ft_valid_env_name(char *str);
+void		ft_parse(t_data *data);
+t_args3		*ft_initargs3(t_data *data);
+t_args4		*ft_initargs4(t_data *data);
+char		*ft_memdup(char const *s, size_t a, size_t b);
+bool		ft_matches_pattern(char *pattern, char *filename);
+void		ft_close_curr_lvl(t_data *data, int temp_i);
+void		ft_push_special(t_data *data, t_args3 *args3, char *str);
+bool		ft_all_apostroph_closed(t_data *data);
+void		ft_update_line(t_data *data, char *linepl);
+bool		ft_all_parenth_closed(t_data *data);
+void		ft_expand_tab(t_data *data, char ***tab);
+void		ft_shift(t_data *data, char ***tab, char *str);
+void		ft_explode_name(t_data *data, int i);
+void		ft_addhistory(t_data *data, char *line);
+void		ft_remove_last_history(t_data *data);
+void		ft_assert_not_null(t_data *data, void *ptr);
+bool		ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
+bool		ft_assert_valid_permissions(t_data *data, char *pathname,
+				int permss, bool exitp);
+void		ft_redirect(t_data *data, int i);
+void		ft_close_all(t_data *data);
+void		ft_putinfo(char *str, char *info, char *str2);
+void		ft_insert_home_dir(t_data *data, char **tab, int index);
+void		ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
+bool		ft_cut_str(t_data *data, char ***str, char ***tab,
+				t_argsxp *argsxp);
+void		ft_remove_quote(t_data *data, bool *quote, char **str,
+				int index);
+void		ft_toggle_echoctl(t_data *data, bool state);
+void		ft_signals(t_signals signals);
 t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i);
 #endif

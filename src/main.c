@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 19:31:53 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:20:35 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_signals (SIG_PARENT);
 		ft_toggle_echoctl (data, false);
 		data->line = readline ("\001\033[32;1m\002minishell$ \001\033[0m\002");
-		// data->line = ft_strdup ("echo str.$STR$STR.str");
 		g_heredoc_success = true;
 		if (data->line == NULL)
 			ft_exit(data, NULL);

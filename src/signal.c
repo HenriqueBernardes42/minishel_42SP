@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/20 18:27:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:21:00 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	ft_signal_handler_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_heredoc_success = false;	
+		g_heredoc_success = false;
 		close (STDIN_FILENO);
 	}
 }

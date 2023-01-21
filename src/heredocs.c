@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:41:10 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 18:23:47 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:19:19 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static bool	ft_isheredoc_lim(char *heredoc_lim, char *buff)
 {
-
 	if (heredoc_lim != NULL && buff != NULL)
 		if (ft_strncmp(heredoc_lim, buff, ft_strlen(heredoc_lim) + 1) == 0)
 			return (true);
@@ -25,7 +24,7 @@ static void	ft_read(t_data *data, int fd, char *heredoc_lim)
 {
 	char	*buff;
 	char	*line;
-	
+
 	ft_assert_not_null (data, data);
 	while (1)
 	{
@@ -41,7 +40,7 @@ static void	ft_read(t_data *data, int fd, char *heredoc_lim)
 		else
 		{
 			free(buff);
-			break;
+			break ;
 		}
 	}
 }
@@ -81,9 +80,9 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 			ft_signals (SIG_HEREDOC);
 			x = -1;
 			while (data->cmds[i].args_redir[j][++x] != '\0')
-			if (data->cmds[i].args_redir[j][x] == '\"'
-				|| data->cmds[i].args_redir[j][x] == '\'')
-				ft_remove_quote(data, NULL, data->cmds[i].args_redir + j, x--);
+				if (data->cmds[i].args_redir[j][x] == '\"'
+					|| data->cmds[i].args_redir[j][x] == '\'')
+					ft_remove_quote(data, NULL, data->cmds[i].args_redir + j, x--);
 			fd = ft_itoa (ft_heredoc (data,
 						data->cmds[i].args_redir[j]));
 			ft_assert_not_null (data, fd);

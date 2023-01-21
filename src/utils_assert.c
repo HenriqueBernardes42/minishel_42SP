@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_assert.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 13:01:11 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:25:45 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 12:21:54 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 bool	ft_all_parenth_closed(t_data *data)
 {
-	int c;
+	int	c;
 	int	i;
-	
+
 	ft_assert_not_null(data, data);
 	c = 0;
 	i = -1;
@@ -33,7 +33,7 @@ bool	ft_all_parenth_closed(t_data *data)
 void	ft_update_line(t_data *data, char *linepl)
 {
 	char	*temp;
-	
+
 	temp = ft_strjoin (data->line, " ");
 	free (data->line);
 	data->line = ft_strjoin (temp, linepl);
@@ -52,13 +52,13 @@ static void	ft_notify_f_found(int *c, char *f, char chr)
 	}
 }
 
-bool ft_all_apostroph_closed(t_data *data)
+bool	ft_all_apostroph_closed(t_data *data)
 {
-	int	c;
-	int	i;
-	int	j;
-	char f;
-	
+	int		c;
+	int		i;
+	int		j;
+	char	f;
+
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, data->tab);
 	i = -1;
