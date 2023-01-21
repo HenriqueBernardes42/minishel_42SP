@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 13:47:00 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:57:19 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	ft_toggle_echoctl(t_data *data, bool state)
 {
 	if (state)
-		data->tty_attr.c_cflag |= ECHOCTL;
+		data->tty_attr.c_lflag |= ECHOCTL;
 	else
-		data->tty_attr.c_cflag &= ~ECHOCTL;
+		data->tty_attr.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &data->tty_attr) != 0)
 	{
 		if (state)
