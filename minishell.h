@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 23:26:49 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:35:58 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_signals
 }	t_signals;
 typedef enum e_exit
 {
+	EXIT_EXECUTABLE_PERM_DENIED = 126,
 	EXIT_CMDNOTFOUND = 127,
 	EXIT_SIGINT = 1,
 	EXIT_SIGINT_CHILD = 130,

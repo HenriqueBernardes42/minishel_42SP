@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/20 17:04:41 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:30:28 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	ft_close_curr_lvl(t_data *data, int temp_i)
 				data->status = WEXITSTATUS (data->status);
 			temp_i++;
 		}
+		else
+			data->status += 128;
 	}
 	if (data->pipes != NULL)
 	{

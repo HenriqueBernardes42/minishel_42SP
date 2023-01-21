@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/19 14:41:40 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:37:11 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 	if (S_ISDIR (file_stat.st_mode))
 	{
 		if (data->status == 0)
-			data->status = EXIT_FAILURE;
+			data->status = EXIT_EXECUTABLE_PERM_DENIED;
 		ft_throw (data, ERR_EISDIR, NULL, exitp);
 		return (false);
 	}
@@ -121,7 +121,7 @@ bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
 			if (access (args->path, F_OK) != 0)
 				args->err = ERR_ENOENT;
 			if (data->status == 0)
-				data->status = EXIT_FAILURE;
+				data->status = EXIT_EXECUTABLE_PERM_DENIED;
 			ft_throw (data, args->err, pathname, exitp);
 			return (false);
 		}

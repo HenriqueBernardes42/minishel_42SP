@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/20 18:27:50 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 14:26:47 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	ft_toggle_echoctl(t_data *data, bool state)
 static void	ft_signal_handler_child(int sig)
 {
 	if (sig == SIGINT)
-		exit (2);
+		exit (EXIT_SIGINT_CHILD);
 	else if (sig == SIGQUIT)
-		exit (3);
+		exit (EXIT_SIGQUIT_CHILD);
 }
 
 static void	ft_signal_handler_parent(int sig)
