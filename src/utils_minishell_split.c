@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_minishell_split.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:29:52 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/18 13:36:13 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:12:47 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,33 @@ static int	ft_strchri(const char *s, int c)
 		if (s[i] == (const char) c)
 			return (i);
 	return (-1);
+}
+
+int	ft_push_substr_wildcard(t_data *data, char *pattern)
+{
+	DIR				*dir;
+	struct dirent	*ent;
+	int				c;
+
+	c = 0;
+	dir = opendir (".");
+	if (dir != NULL)
+	{
+		ent = readdir (dir);
+		while (ent != NULL)
+		{
+			if ((ft_strncmp ("*", pattern, 2) == 0
+					|| ft_matches_pattern (pattern, ent->d_name))
+				&& (ent->d_name[0] != '.'))
+			{
+				ft_push (data, &data->tab, ent->d_name);
+				c++;
+			}
+			ent = readdir (dir);
+		}
+		closedir (dir);
+	}
+	return (c);
 }
 
 bool	ft_matches_pattern(char *pattern, char *filename)

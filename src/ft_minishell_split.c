@@ -6,38 +6,11 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:17:54 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:12:34 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_push_substr_wildcard(t_data *data, char *pattern)
-{
-	DIR				*dir;
-	struct dirent	*ent;
-	int				c;
-
-	c = 0;
-	dir = opendir (".");
-	if (dir != NULL)
-	{
-		ent = readdir (dir);
-		while (ent != NULL)
-		{
-			if ((ft_strncmp ("*", pattern, 2) == 0
-					|| ft_matches_pattern (pattern, ent->d_name))
-				&& (ent->d_name[0] != '.'))
-			{
-				ft_push (data, &data->tab, ent->d_name);
-				c++;
-			}
-			ent = readdir (dir);
-		}
-		closedir (dir);
-	}
-	return (c);
-}
 
 static bool	ft_exec_push_substr_wildcard(t_data *data, char *substr)
 {

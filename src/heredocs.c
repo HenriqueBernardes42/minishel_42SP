@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:41:10 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:19:19 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:22:37 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 {
 	int		j;
 	char	*fd;
-	int		x;
 	int		infd_cp;
 
 	ft_assert_not_null (data, data);
@@ -78,11 +77,7 @@ static void	ft_handlecmd_heredocs(t_data *data, int i)
 		{
 			infd_cp = dup (STDIN_FILENO);
 			ft_signals (SIG_HEREDOC);
-			x = -1;
-			while (data->cmds[i].args_redir[j][++x] != '\0')
-				if (data->cmds[i].args_redir[j][x] == '\"'
-					|| data->cmds[i].args_redir[j][x] == '\'')
-					ft_remove_quote(data, NULL, data->cmds[i].args_redir + j, x--);
+			ft_str_remove_quotes(data, data->cmds[i].args_redir + j);
 			fd = ft_itoa (ft_heredoc (data,
 						data->cmds[i].args_redir[j]));
 			ft_assert_not_null (data, fd);

@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:13:22 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:22:13 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define BUFFER_SIZE 42
 # define STDERR_FD STDERR_FILENO
 
-bool	g_heredoc_success;
+bool		g_heredoc_success;
 typedef enum e_signals
 {
 	SIG_PARENT,
@@ -233,4 +233,6 @@ void		ft_remove_quote(t_data *data, bool *quote, char **str,
 void		ft_toggle_echoctl(t_data *data, bool state);
 void		ft_signals(t_signals signals);
 t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i);
+int			ft_push_substr_wildcard(t_data *data, char *pattern);
+void		ft_str_remove_quotes(t_data *data, char **str);
 #endif

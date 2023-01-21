@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 12:19:49 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/16 17:19:58 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:23:41 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,6 @@ t_type	ft_getredir(char *str)
 	return (REDIR_UNDEF);
 }
 
-static bool	ft_isexecutable(char *pathname)
-{
-	struct stat	file_stat;
-
-	stat (pathname, &file_stat);
-	if (!S_ISREG (file_stat.st_mode))
-		return (false);
-	return (true);
-}
-
 char	*ft_pathname(t_data *data, char *name)
 {
 	int		i;
@@ -89,8 +79,6 @@ char	*ft_pathname(t_data *data, char *name)
 
 	ft_assert_not_null (data, data);
 	ft_assert_not_null (data, name);
-	if (access (name, X_OK) != -1 && ft_isexecutable (name))
-		return (ft_strdup (name));
 	i = -1;
 	if (*ft_get_env_var(data->envp, "PATH") != NULL)
 		path = ft_split(*ft_get_env_var(data->envp, "PATH") + 5, ':');
@@ -107,4 +95,14 @@ char	*ft_pathname(t_data *data, char *name)
 	}
 	ft_destroy_tab(path);
 	return (NULL);
+}
+
+void	ft_str_remove_quotes(t_data *data, char **str)
+{
+	int	i;
+
+	i = -1;
+	while (str != NULL && (*str)[++i] != '\0')
+		if ((*str)[i] == '\"' || (*str)[i] == '\'')
+			ft_remove_quote(data, NULL, str, i--);
 }
