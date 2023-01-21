@@ -6,32 +6,25 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 13:22:13 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:47:05 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define BUFFER_SIZE 42
 # include <stdio.h>
-# include <string.h>
 # include <signal.h>
 # include <errno.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
-# include <sys/types.h>
 # include <dirent.h>
 # include <termios.h>
-# define BUFFER_SIZE 42
 # define STDERR_FD STDERR_FILENO
 
 bool		g_heredoc_success;
@@ -171,6 +164,8 @@ t_cmd		*ft_initcmds(t_data *data, int cmdsc);
 t_data		*ft_initdata(char **envp);
 t_args		*ft_initargs(t_data *data, char *pathname);
 t_args2		*ft_initargs2(t_data *data, int i);
+t_args3		*ft_initargs3(t_data *data);
+t_args4		*ft_initargs4(t_data *data);
 bool		ft_throw(t_data *data, enum e_errno err, char *info, bool exitp);
 char		*ft_pathname(t_data *data, char *name);
 void		ft_push(t_data *data, char ***tab, char *str);
@@ -203,8 +198,6 @@ bool		ft_loop(t_data *data, int lvl, int *i);
 char		**ft_get_env_var(char **envp, char *var);
 bool		ft_valid_env_name(char *str);
 void		ft_parse(t_data *data);
-t_args3		*ft_initargs3(t_data *data);
-t_args4		*ft_initargs4(t_data *data);
 char		*ft_memdup(char const *s, size_t a, size_t b);
 bool		ft_matches_pattern(char *pattern, char *filename);
 void		ft_close_curr_lvl(t_data *data, int temp_i);
@@ -212,7 +205,6 @@ void		ft_push_special(t_data *data, t_args3 *args3, char *str);
 bool		ft_all_apostroph_closed(t_data *data);
 void		ft_update_line(t_data *data, char *linepl);
 bool		ft_all_parenth_closed(t_data *data);
-void		ft_expand_tab(t_data *data, char ***tab);
 void		ft_shift(t_data *data, char ***tab, char *str);
 void		ft_explode_name(t_data *data, int i);
 void		ft_addhistory(t_data *data, char *line);
@@ -220,17 +212,17 @@ void		ft_remove_last_history(t_data *data);
 void		ft_assert_not_null(t_data *data, void *ptr);
 bool		ft_assert_not_dir(t_data *data, char *pathname, bool exitp);
 bool		ft_assert_valid_permissions(t_data *data, char *pathname,
-				int permss, bool exitp);
+ 				int permss, bool exitp);
 void		ft_redirect(t_data *data, int i);
 void		ft_close_all(t_data *data);
 void		ft_putinfo(char *str, char *info, char *str2);
 void		ft_insert_home_dir(t_data *data, char **tab, int index);
 void		ft_expand_str(t_data *data, char **str, char ***tab, int arg_i);
+void		ft_expand_tab(t_data *data, char ***tab);
 bool		ft_cut_str(t_data *data, char ***str, char ***tab,
 				t_argsxp *argsxp);
 void		ft_remove_quote(t_data *data, bool *quote, char **str,
-				int index);
-void		ft_toggle_echoctl(t_data *data, bool state);
+ 				int index);
 void		ft_signals(t_signals signals);
 t_argsxp	*ft_initargsxp(t_data *data, int i, int c, int *arg_i);
 int			ft_push_substr_wildcard(t_data *data, char *pattern);

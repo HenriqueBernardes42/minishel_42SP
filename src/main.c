@@ -6,13 +6,13 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:49:20 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:47:00 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_toggle_echoctl(t_data *data, bool state)
+static void	ft_toggle_echoctl(t_data *data, bool state)
 {
 	if (state)
 		data->tty_attr.c_cflag |= ECHOCTL;
