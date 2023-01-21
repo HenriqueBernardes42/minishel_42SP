@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:39:27 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 15:24:12 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:00:06 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ static void	ft_exec_redir(t_data *data, t_args2 *args2)
 		&& (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC))
 		args2->infd = args2->nfd;
 	else if (res != -1
-		&& (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC))
+		&& (args2->redir == REDIR_OUTFILE_APP
+			|| args2->redir == REDIR_OUTFILE_TRC))
 		args2->outfd = args2->nfd;
 	else
 		ft_throw (data, ERR_FAIL, "ft_redirect dup2", true);
