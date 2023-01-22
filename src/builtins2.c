@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 12:14:31 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:20:11 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_export(t_data *data, char **args)
 			ft_ar_env_var(data, args[i]);
 }
 
-static void	ft_update_pwd(t_data *data)
+static char	*ft_get_pwd(t_data *data, char *var)
 {
 	char	*cwd;
 	char	*temp;
@@ -84,16 +84,19 @@ static void	ft_update_pwd(t_data *data)
 	cwd = (char *)malloc(MAXPATHLEN + 1);
 	ft_assert_not_null(data, cwd);
 	if (getcwd(cwd, MAXPATHLEN + 1) == NULL)
+	{
+		free(cwd);
 		ft_throw(data, ERR_FAIL, "cd getcwd null check", true);
-	temp = ft_strjoin("PWD=", cwd);
-	ft_ar_env_var(data, temp);
-	free(temp);
-	free(cwd);
+	}
+	temp = ft_strjoin(var, cwd);
+	ft_assert_not_null(data, temp);
+	return (free(cwd), temp);
 }
 
 void	ft_cd(t_data *data, char *path)
 {
 	struct stat	file_stat;
+	char		*pwd;
 
 	if (path == NULL)
 	{
@@ -103,10 +106,16 @@ void	ft_cd(t_data *data, char *path)
 		else
 			ft_putstr_fd ("minishell: cd: HOME not set\n", STDERR_FD);
 	}
+	pwd = ft_get_pwd(data, "OLDPWD=");
 	stat (path, &file_stat);
 	if (path != NULL && !S_ISDIR (file_stat.st_mode))
 		ft_putinfo ("minishell: cd: ", path, ": Not a directory\n");
 	else if (path != NULL && chdir(path))
 		ft_putinfo ("minishell: cd: ", path, ": No such file or directory\n");
-	ft_update_pwd(data);
+	else
+		ft_ar_env_var(data, pwd);
+	free(pwd);
+	pwd = ft_get_pwd(data, "PWD=");
+	ft_ar_env_var(data, pwd);
+	free(pwd);
 }
