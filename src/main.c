@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/22 16:55:20 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:56:49 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	ft_str_isspace(char *str)
 
 	i = -1;
 	if (ft_strlen(str) > 0)
-		while (str[++i] != 0)
+		while (str[++i] != '\0')
 			if (str[i] != ' ' && (str[i] > 13  || str[i] < 9))
 				return (false);
 	return (true);
