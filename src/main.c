@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 16:07:13 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:55:20 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ static void	ft_toggle_echoctl(t_data *data, bool state)
 		else
 			ft_throw (data, ERR_FAIL, strerror (errno), true);
 	}
+}
+
+static bool	ft_str_isspace(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (ft_strlen(str) > 0)
+		while (str[++i] != 0)
+			if (str[i] != ' ' && (str[i] > 13  || str[i] < 9))
+				return (false);
+	return (true);
 }
 
 static void	ft_mainpl(t_data *data)
@@ -61,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 		g_heredoc_success = true;
 		if (data->line == NULL)
 			ft_exit(data, NULL);
-		else if (ft_strncmp (data->line, "", 1) != 0)
+		else if (ft_str_isspace(data->line) == false)
 			ft_mainpl (data);
 		ft_destroy_execution (data);
 	}
