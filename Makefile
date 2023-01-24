@@ -15,7 +15,7 @@ SRC				=	main init destroy ft_execute assert \
 					utils_minishell_split \
 					utils_tab utils utils_assert expand \
 					utils_child utils_expand utils_history \
-					ft_isfinished ft_explode_env
+					ft_isfinished ft_explode_env utils2
 					
 
 OBJ				=	$(patsubst %.c, src/%.o, $(SRC:=.c))

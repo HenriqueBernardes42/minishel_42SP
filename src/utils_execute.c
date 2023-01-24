@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 14:30:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:06:27 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,15 @@ void	ft_close_curr_lvl(t_data *data, int temp_i)
 	while (++j < data->cmdsc_pps)
 	{
 		wait (&data->status);
-		if (WIFEXITED (data->status))
+		if (!ft_isbuiltin (data->cmds[temp_i].name)
+			&& data->cmds[temp_i].pathname == NULL)
+			data->status = EXIT_CMDNOTFOUND;
+		else if (WIFEXITED (data->status))
 		{
-			if (!ft_isbuiltin (data->cmds[temp_i].name)
-				&& data->cmds[temp_i].pathname == NULL)
-				data->status = EXIT_CMDNOTFOUND;
-			else
-				data->status = WEXITSTATUS (data->status);
+			data->status = WEXITSTATUS (data->status);
 			temp_i++;
 		}
-		else
+		else if (ft_isbuiltin (data->cmds[temp_i].name) != 2)
 			data->status += 128;
 	}
 	if (data->pipes != NULL)

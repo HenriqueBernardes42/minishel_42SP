@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 20:53:32 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 13:12:34 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:05:15 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ static bool	ft_handle_type(t_data *data, t_args3 *args3, char *str)
 	ft_assert_not_null (data, args3);
 	if (ft_istype (&str[args3->i], T_SPECIAL, false) && args3->status == 0)
 		ft_push_special (data, args3, str);
-	else if (args3->status == 1 && (str[args3->i] == ' '
+	else if (args3->status == 1 && (ft_iswhitespace (str[args3->i])
 			|| ft_istype (&str[args3->i], T_SPECIAL, false))
 		&& !args3->opened)
 	{
 		if (!ft_push_substr (data, args3, str))
 			return (false);
 	}
-	else if (str[args3->i] != ' ')
+	else if (!ft_iswhitespace (str[args3->i]))
 	{
 		ft_handle_quotes (data, args3, str);
 		if (args3->status == 0)
