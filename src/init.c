@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 17:09:33 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:40:24 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_data	*ft_initdata(char **envp)
 
 	data = (t_data *) malloc (sizeof (t_data));
 	ft_assert_not_null (data, data);
-	ft_initdata_envp (data, envp);
 	if (envp != NULL)
+		ft_initdata_envp (data, envp);
 	data->line = NULL;
 	data->tab = NULL;
 	data->cmds = NULL;
@@ -108,7 +108,6 @@ t_data	*ft_initdata(char **envp)
 	data->status = 0;
 	data->history = NULL;
 	data->where_history = 0;
-	data->heredoc_success = true;
 	if (tcgetattr(STDIN_FILENO, &data->tty_attr) != 0)
 		ft_throw (data, ERR_FAIL, "init gettattr fail", true);
 	return (data);

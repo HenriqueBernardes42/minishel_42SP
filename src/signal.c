@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/21 14:40:28 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:33:00 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ static void	ft_signal_handler_parent(int sig)
 	}
 }
 
-static void	ft_signal_handler_parent_execution(int sig)
-{
-	if (sig == SIGINT || sig == SIGQUIT)
-		ft_putstr_fd ("\n", 2);
-}
-
 static void	ft_signal_handler_heredoc(int sig)
 {
 	if (sig == SIGINT)
@@ -56,8 +50,8 @@ void	ft_signals(t_signals signals)
 	}
 	else if (signals == SIG_PARENT_EXECUTION)
 	{
-		signal (SIGINT, ft_signal_handler_parent_execution);
-		signal (SIGQUIT, ft_signal_handler_parent_execution);
+		signal (SIGINT, SIG_IGN);
+		signal (SIGQUIT, SIG_IGN);
 	}
 	else if (signals == SIG_HEREDOC)
 	{

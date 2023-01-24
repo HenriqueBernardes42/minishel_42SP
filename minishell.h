@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:00:12 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:27:35 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ typedef struct s_data
 	int				status;
 	char			**history;
 	int				where_history;
-	bool			heredoc_success;
 	struct termios	tty_attr;
 }	t_data;
 typedef struct s_argsxp

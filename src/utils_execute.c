@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:06:27 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:31:29 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void	ft_close_curr_lvl(t_data *data, int temp_i)
 			temp_i++;
 		}
 		else if (ft_isbuiltin (data->cmds[temp_i].name) != 2)
+		{
+			ft_putchar_fd ('\n', STDERR_FD);
 			data->status += 128;
+		}
 	}
 	if (data->pipes != NULL)
 	{
