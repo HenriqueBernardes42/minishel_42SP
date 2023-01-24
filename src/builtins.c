@@ -18,7 +18,7 @@ void	ft_echo(t_data *data, char **args)
 
 	i = 0;
 	(void)data;
-	if (args != NULL && !ft_strncmp ("-n", *args, 3))
+	while (args != NULL && args[i] && !ft_strncmp ("-n", args[i], 3))
 		i++;
 	while (args != NULL && args[i] != NULL)
 	{
