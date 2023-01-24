@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:27:35 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:17:17 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,4 +236,6 @@ bool		ft_explode_env(t_data *data, char ***str, char ***tab,
 int			ft_insert_var(t_data *data, char **tab, int index);
 void		ft_loop(t_data *data, int lvl, int *i);
 bool		ft_iswhitespace(char c);
+void		ft_ar_env_var(t_data *data, char *args);
+void		ft_update_shlvl(t_data *data);
 #endif

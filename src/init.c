@@ -6,7 +6,7 @@
 /*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:40:24 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:17:25 by katchogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	ft_initdata_envp(t_data *data, char **envp)
 	data->envp[i] = NULL;
 	while (--i >= 0)
 		data->envp[i] = ft_strdup (envp[i]);
+	ft_update_shlvl(data);
 }
 
 t_data	*ft_initdata(char **envp)
