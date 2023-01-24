@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/22 17:20:11 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:59:31 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_export(t_data *data, char **args)
 	int		i;
 
 	i = -1;
+	data->status = EXIT_SUCCESS;
 	if (args == NULL)
 	{
 		ft_assert_not_null (data, data->envp);
@@ -95,7 +96,7 @@ static char	*ft_get_pwd(t_data *data, char *var)
 
 void	ft_cd(t_data *data, char *path)
 {
-	struct stat	file_stat;
+	struct stat	fs;
 	char		*pwd;
 
 	if (path == NULL)
@@ -107,13 +108,14 @@ void	ft_cd(t_data *data, char *path)
 			ft_putstr_fd ("minishell: cd: HOME not set\n", STDERR_FD);
 	}
 	pwd = ft_get_pwd(data, "OLDPWD=");
-	stat (path, &file_stat);
-	if (path != NULL && !S_ISDIR (file_stat.st_mode))
+	stat (path, &fs);
+	if (path != NULL && !S_ISDIR (fs.st_mode))
 		ft_putinfo ("minishell: cd: ", path, ": Not a directory\n");
 	else if (path != NULL && chdir(path))
 		ft_putinfo ("minishell: cd: ", path, ": No such file or directory\n");
-	else
+	else if (path != NULL)
 		ft_ar_env_var(data, pwd);
+	data->status = (path == NULL || !S_ISDIR (fs.st_mode) || chdir(path));
 	free(pwd);
 	pwd = ft_get_pwd(data, "PWD=");
 	ft_ar_env_var(data, pwd);
