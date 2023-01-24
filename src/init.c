@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:37:57 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 17:09:33 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:02:50 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	ft_initdata_envp(t_data *data, char **envp)
 	data->envp[i] = NULL;
 	while (--i >= 0)
 		data->envp[i] = ft_strdup (envp[i]);
+	ft_update_shlvl(data);
 }
 
 t_data	*ft_initdata(char **envp)

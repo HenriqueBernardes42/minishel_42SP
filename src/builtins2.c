@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 16:59:31 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:41:29 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_unset(t_data *data, char **args)
  * @param[in] data Minishell data
  * @param[in] args The variables
  */
-static void	ft_ar_env_var(t_data *data, char *args)
+void	ft_ar_env_var(t_data *data, char *args)
 {
 	char	**var;
 	char	**env_var;

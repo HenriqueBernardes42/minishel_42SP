@@ -6,7 +6,7 @@
 /*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:43:21 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/22 17:22:11 by rburgsta         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:14:05 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,35 @@ static bool	ft_str_isspace(char *str)
 			if (str[i] != ' ' && (str[i] > 13 || str[i] < 9))
 				return (false);
 	return (true);
+}
+
+void	ft_update_shlvl(t_data *data)
+{
+	int		i;
+	char	*shlvl;
+	char	*val;
+
+	i = 0;
+	shlvl = getenv("SHLVL");
+	if (shlvl == NULL)
+		shlvl = "SHLVL=1";
+	else
+	{
+		while (shlvl[i] != '\0')
+			if (!ft_isdigit(shlvl[i++]))
+				break ;
+		if (i == 0 || shlvl[i] != '\0')
+			shlvl = "SHLVL=1";
+		else
+		{
+			val = ft_itoa(ft_atoi(shlvl) + 1);
+			shlvl = ft_strjoin("SHLVL=", val);
+			free(val);
+		}
+	}
+	ft_ar_env_var(data, shlvl);
+	if (getenv("SHLVL") != NULL && shlvl[i + 6] == '\0')
+		free(shlvl);
 }
 
 static void	ft_mainpl(t_data *data)

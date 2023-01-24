@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 16:52:26 by katchogl         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:06:09 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,4 +236,6 @@ bool		ft_explode_env(t_data *data, char ***str, char ***tab,
 				t_argsxp *argsxp);
 int			ft_insert_var(t_data *data, char **tab, int index);
 void		ft_loop(t_data *data, int lvl, int *i);
+void		ft_ar_env_var(t_data *data, char *args);
+void		ft_update_shlvl(t_data *data);
 #endif
