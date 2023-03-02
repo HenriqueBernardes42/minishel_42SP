@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:45 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/26 18:01:41 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/03 00:54:16 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	signal_quit(int signum);
 /* ************************************************************************** */
 
 void handle_quit();
+char	*only_space_handle(char *line);
 
 
 #endif
