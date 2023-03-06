@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:22 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/03/03 00:55:48 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/06 04:55:17 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*only_space_handle(char *line) {
 
 	count_space = -1;
 	
-	while (line[++count_space] != '\0')
+	while (line[++count_space] != '\0' && line[count_space] == ' ')
 	{
 		if (line[count_space] == ' ')
 		{
