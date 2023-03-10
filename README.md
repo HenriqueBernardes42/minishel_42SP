@@ -1,3 +1,5 @@
+![Screenshot](https://user-images.githubusercontent.com/92089944/224224408-73ddca30-0aa3-4ebf-8451-39f7d6d52949.png)
+
 This project involves creating a minishell with the knowledge acquired from previous projects Minitalk and mostly Pipex.
 
 Features:
