@@ -57,7 +57,10 @@ static void	execute_line(char *line)
 		{
 			if (tmp->next == NULL)
 				g_msh.last_cmd = 1;
-			execute((char **)tmp->content);
+			if(g_msh.fdout != -1)
+				execute((char **)tmp->content);
+			else
+				g_msh.fdout = 0;
 			tmp = tmp->next;
 		}
 	}
