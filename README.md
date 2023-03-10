@@ -5,8 +5,9 @@
 This project involves creating a minishell with the knowledge acquired from previous projects Minitalk and mostly Pipex.
 
 Features:
-- (Multi) Pipes && Redirections
-- Shell level
+- [Multi] Pipes && Redirections
+- Shell level: start a minishell inside of another
+- Bonus parts: wildcards, logical operators and parentheses
 
 # Crucial docs
 ### Get started with the readline library
