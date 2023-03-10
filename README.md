@@ -9,7 +9,7 @@ Features:
 - Shell level: start a minishell inside of another
 - Bonus parts: wildcards, logical operators and parentheses
 
-# Crucial docs
+# Of course, the manual. Some crucial docs ...
 ### Get started with the readline library
 https://web.mit.edu/gnu/doc/html/rlman_2.html
 
