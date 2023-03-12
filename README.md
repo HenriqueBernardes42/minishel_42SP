@@ -7,10 +7,14 @@ This project involves creating a clone of Bash with the knowledge acquired from 
 Features:
 - Running an executable in the system's $PATH or by providing an absolute or relative path 
 - Bash built-ins: echo, cd, pwd, export, unset, env and exit;
+
 - Multi- Pipes && Redirections;
+
 - Shell level: launch a new minishell inside another and increment $SHLVL;
 > One minishell is not enough, you have to go deeper!
+
 - Command Working history (see readline library; only a few functions from readline's history library are allowed, so have fun with them and figure out a way to achieve your required behaviour)
+
 - Bonus parts: wildcards, logical operators and parentheses.
 
 # Of course, the manual. Some crucial docs ...
