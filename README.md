@@ -6,7 +6,8 @@ This project involves creating a clone of Bash with the knowledge acquired from 
 
 Features:
 - [Multi] Pipes && Redirections
-- Shell level: start a minishell inside of another
+- Shell level: launch a new minishell inside another and increment $SHLVL
+> one minishell is not enough, you have to go deeper!
 - Bonus parts: wildcards, logical operators and parentheses
 
 # Of course, the manual. Some crucial docs ...
