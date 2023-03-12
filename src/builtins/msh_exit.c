@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:36:24 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/17 14:36:25 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/06 04:22:56 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 static	int	ft_str_isdigit(char *str)
 {
 	int	i;
+	int rvalue;
 
-	i = -1;
-	if (str[0] != '-' || str[0] != '+')
+	i = 0;
+	if (str[i] != '-' || str[i] != '+')
 		++i;
-	while (str[i++])
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (0);
-	return (1);
+	while (str[i] != '\0')
+	{
+		if ((str[i] >= '0' && str[i] <= '9') || str[i] == ' ')
+{		rvalue = 1;
+		i++;}
+		else
+{		rvalue = 0;
+		i++;}
+	}
+	return(rvalue);
 }
 
 void	msh_exit(char **cmd)

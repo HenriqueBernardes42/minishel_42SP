@@ -78,8 +78,13 @@ void	open_file_output(void)
 	else
 	{
 		if (access(g_msh.file_name, F_OK) == -1)
-			g_msh.fdout = open(g_msh.file_name, O_CREAT | O_WRONLY);
+			g_msh.fdout = open(g_msh.file_name, O_CREAT | O_WRONLY );
+		else if (access(g_msh.file_name, W_OK) == -1)
+		{
+			printf("bash: %s\n", strerror(EACCES));
+			g_msh.fdout = -1;
+		}
 		else
-			g_msh.fdout = open(g_msh.file_name, O_WRONLY | O_TRUNC);
+			g_msh.fdout = open(g_msh.file_name, O_WRONLY | O_TRUNC );
 	}
 }

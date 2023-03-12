@@ -36,7 +36,7 @@ char	*refresh_prompt(void)
 
 	if (g_msh.prompt)
 		free(g_msh.prompt);
-	prompt = ft_strjoin2(ft_getenv("USER"), " at minisell in ", 0, 0);
+	prompt = ft_strjoin2(ft_getenv("USER"), " at minishell in ", 0, 0);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		prompt = ft_strjoin2(prompt, get_dir(cwd), 1, 1);
 	g_msh.prompt = ft_strjoin2(prompt, "> ", 1, 0);
