@@ -5,10 +5,10 @@
 This project involves creating a clone of Bash with the knowledge acquired from previous projects Minitalk and mostly Pipex.
 
 Features:
-- [Multi] Pipes && Redirections
-- Shell level: launch a new minishell inside another and increment $SHLVL
-> one minishell is not enough, you have to go deeper!
-- Bonus parts: wildcards, logical operators and parentheses
+- [Multi] Pipes && Redirections;
+- Shell level: launch a new minishell inside another and increment $SHLVL;
+> One minishell is not enough, you have to go deeper!
+- Bonus parts: wildcards, logical operators and parentheses.
 
 # Of course, the manual. Some crucial docs ...
 ### Get started with the readline library
