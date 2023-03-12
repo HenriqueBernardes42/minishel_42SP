@@ -4,7 +4,7 @@
 
 This project involves creating a clone of Bash with the knowledge acquired from previous projects Minitalk and mostly Pipex.
 
-Features:
+### Features:
 - Running an executable in the system's $PATH or by providing an absolute or relative path 
 - Bash built-ins: echo, cd, pwd, export, unset, env and exit;
 
