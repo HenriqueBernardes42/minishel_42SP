@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 14:25:36 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/17 18:05:56 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:06:42 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-in		ft_dlstsize(t_dlist *lst);
+int		ft_dlstsize(t_dlist *lst);
 t_dlist	*ft_dlstnew(void *content);
 t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist	*ft_dlstfirst(t_dlist *lst);
