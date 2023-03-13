@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:33:45 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/17 14:33:46 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:40:47 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ static void	parent_command(void)
 	if (g_msh.last_cmd == 0)
 		dup2(g_msh.fd[0], STDIN_FILENO);
 	waitpid(g_msh.pid, &status, 0);
-	g_msh.exit_code = WEXITSTATUS(status);
+	if (g_msh.exit_quit == 0 || g_msh.exit_quit == 127)
+		g_msh.exit_code = WEXITSTATUS(status);
+	else
+	{
+		g_msh.exit_code = g_msh.exit_quit;
+		g_msh.exit_quit = WEXITSTATUS(status);
+	}
 	close(g_msh.fd[1]);
 	close(g_msh.fd[0]);
 }
@@ -37,9 +43,7 @@ void	execute(char **cmd)
 		close(g_msh.fdout);
 	}
 	if (is_builtin(*cmd))
-	{
 		exec_builtin(cmd);
-	}
 	else
 	{
 		g_msh.pid = fork();

@@ -71,8 +71,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
-char		*ft_strjoin2(char const *s1, char const *s2, int free_s1,
-				int free_s2);
+char	*ft_strjoin2(char const *s1, char const *s2, int free_s1, int free_s2);
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -86,25 +85,25 @@ int		ft_tolower(int c);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 
-int			ft_atoi(const char *str);
-long int	ft_atol(const char *str);
+int		ft_atoi(const char *str);
+long	int	ft_atol(const char *str);
 
-int			ft_printf(const char *str, ...);
-int			ft_resolve_chr(char c, t_flags flags);
-int			ft_resolve_str(char *str, t_flags flags);
-int			ft_resolve_dec(int n, t_flags flags);
-int			ft_resolve_hex(unsigned long long n, int is_upper, t_flags flags);
-int			ft_resolve_ptr(unsigned long long ptr, t_flags flags);
-int			ft_resolve_uns(unsigned int n, t_flags flags);
-int			ft_put_space(int spaces, int str_len);
-int			ft_num_len(unsigned int n, int base);
-int			ft_num_len_int(int n);
-void		ft_putnbr_hex(unsigned long long n, int is_upper, int n_zeros);
-void		ft_putuns_zero(unsigned int n, int n_zeros);
-void		ft_putnbr_zero(int n, int n_zeros, int len);
-void		ft_handle_zero_dot(unsigned int n, int *num_len, t_flags *flags);
-char		*ft_flg_get(t_flags *flags, char *src);
-t_flags		ft_flg_init(void);
+int		ft_printf(const char *str, ...);
+int		ft_resolve_chr(char c, t_flags flags);
+int		ft_resolve_str(char *str, t_flags flags);
+int		ft_resolve_dec(int n, t_flags flags);
+int		ft_resolve_hex(unsigned long long n, int is_upper, t_flags flags);
+int		ft_resolve_ptr(unsigned long long ptr, t_flags flags);
+int		ft_resolve_uns(unsigned int n, t_flags flags);
+int		ft_put_space(int spaces, int str_len);
+int		ft_num_len(unsigned int n, int base);
+int		ft_num_len_int(int n);
+void	ft_putnbr_hex(unsigned long long n, int is_upper, int n_zeros);
+void	ft_putuns_zero(unsigned int n, int n_zeros);
+void	ft_putnbr_zero(int n, int n_zeros, int len);
+void	ft_handle_zero_dot(unsigned int n, int *num_len, t_flags *flags);
+char	*ft_flg_get(t_flags *flags, char *src);
+t_flags	ft_flg_init(void);
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
@@ -116,15 +115,15 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-int			ft_dlstsize(t_dlist *lst);
-t_dlist		*ft_dlstnew(void *content);
-t_dlist		*ft_dlstlast(t_dlist *lst);
-t_dlist		*ft_dlstfirst(t_dlist *lst);
-t_dlist		*ft_dlstmap(t_dlist *lst, void *(*f)(void *), void (*del)(void *));
-void		ft_dlstadd_front(t_dlist **lst, t_dlist *new);
-void		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
-void		ft_dlstdelone(t_dlist *lst, void (*del)(void*));
-void		ft_dlstclear(t_dlist **lst, void (*del)(void*));
-void		ft_dlstiter(t_dlist *lst, void (*f)(void *));
+in		ft_dlstsize(t_dlist *lst);
+t_dlist	*ft_dlstnew(void *content);
+t_dlist	*ft_dlstlast(t_dlist *lst);
+t_dlist	*ft_dlstfirst(t_dlist *lst);
+t_dlist	*ft_dlstmap(t_dlist *lst, void *(*f)(void *), void (*del)(void *));
+void	ft_dlstadd_front(t_dlist **lst, t_dlist *new);
+void	ft_dlstadd_back(t_dlist **lst, t_dlist *new);
+void	ft_dlstdelone(t_dlist *lst, void (*del)(void*));
+void	ft_dlstclear(t_dlist **lst, void (*del)(void*));
+void	ft_dlstiter(t_dlist *lst, void (*f)(void *));
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:45 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/03/03 00:54:16 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:29:10 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_msh
 	int		save_stdout;
 	pid_t	pid;
 	int		last_cmd;
+	int		exit_quit;
 	t_dlist	*cmds_lst;
 }	t_msh;
 
@@ -86,16 +87,18 @@ void	open_file_output(void);
 void	parse_cmds(char *parsed_line);
 void	parse_line(char *line);
 void	parse_quotes(char *line, int *i, char quote);
-void	parse_redirect(char *line, int *i, char operator);
+void	parse_redirect(char *line, int *i, char operator, int pos_heredoc);
 void	parse_variables(char *line, int *i);
 char	*refresh_prompt(void);
 void	signal_exit(int signum);
 void	signal_handler(int signum);
 void	signal_quit(int signum);
+
 /* ************************************************************************** */
 
-void handle_quit();
+void	handle_quit(void);
 char	*only_space_handle(char *line);
-
+int		handle_heredoc(char *line);
+void	open_delimiter(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:39 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/26 20:09:05 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:43:13 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void	execute_line(char *line)
 		{
 			if (tmp->next == NULL)
 				g_msh.last_cmd = 1;
-			if(g_msh.fdout != -1)
-				execute((char **)tmp->content);
+			if (g_msh.fdout != -1)
+				execute ((char **)tmp->content);
 			else
 				g_msh.fdout = 0;
 			tmp = tmp->next;
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			write(1, "exit\n", 5);
 			free_all();
-			exit(0);
+			exit(131);
 		}
 		free(line);
 		end_loop();

@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:10 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/03/10 16:41:52 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:41:57 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,16 @@ void	parse_quotes(char *line, int *i, char quote)
 	g_msh.exit_code = 1;
 }
 
-void	parse_redirect(char *line, int *i, char redirect)
+void	parse_redirect(char *line, int *i, char redirect, int pos_heredoc)
 {
 	if (g_msh.file_name)
 		free(g_msh.file_name);
 	g_msh.file_name = NULL;
 	g_msh.redirect = redirect;
 	if (line[++*i] == redirect)
-	{
-		g_msh.doble_redirect = 1;
 		*i = *i + 1;
-	}
+	if (g_msh.here_doc == 1)
+		*i = pos_heredoc;
 	while (line[*i] == ' ')
 		*i = *i + 1;
 	if (check_syntax_error(line[*i]))
@@ -90,5 +89,28 @@ void	parse_redirect(char *line, int *i, char redirect)
 	else if (redirect == '<')
 		open_file_input();
 	if (line[*i] == '>' || line[*i] == '<')
-		parse_redirect(line, i, line[*i]);
+		parse_redirect(line, i, line[*i], pos_heredoc);
+}
+
+int	handle_heredoc(char *line)
+{
+	int	i;
+	int	get_pos;
+
+	i = 0;
+	get_pos = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '<')
+		{
+			if (line[++i] == '<')
+			{
+				g_msh.here_doc = 1;
+				g_msh.doble_redirect = 1;
+				get_pos = ++i;
+			}
+		}
+		i++;
+	}
+	return (get_pos);
 }

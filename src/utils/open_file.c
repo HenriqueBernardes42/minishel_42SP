@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:04 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/17 14:34:05 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/12 05:05:14 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	open_file_input(void)
 		g_msh.here_doc = 1;
 		open_delimiter();
 		g_msh.here_doc = 0;
+		g_msh.doble_redirect = 0;
 	}
 	else
 	{
@@ -78,13 +79,13 @@ void	open_file_output(void)
 	else
 	{
 		if (access(g_msh.file_name, F_OK) == -1)
-			g_msh.fdout = open(g_msh.file_name, O_CREAT | O_WRONLY );
+			g_msh.fdout = open(g_msh.file_name, O_CREAT | O_WRONLY);
 		else if (access(g_msh.file_name, W_OK) == -1)
 		{
 			printf("bash: %s\n", strerror(EACCES));
 			g_msh.fdout = -1;
 		}
 		else
-			g_msh.fdout = open(g_msh.file_name, O_WRONLY | O_TRUNC );
+			g_msh.fdout = open(g_msh.file_name, O_WRONLY | O_TRUNC);
 	}
 }
