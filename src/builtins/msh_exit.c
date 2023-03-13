@@ -15,7 +15,7 @@
 static	int	ft_str_isdigit(char *str)
 {
 	int	i;
-	int rvalue;
+	int	rvalue;
 
 	i = 0;
 	if (str[i] != '-' || str[i] != '+')
@@ -23,13 +23,17 @@ static	int	ft_str_isdigit(char *str)
 	while (str[i] != '\0')
 	{
 		if ((str[i] >= '0' && str[i] <= '9') || str[i] == ' ')
-{		rvalue = 1;
-		i++;}
+		{
+			rvalue = 1;
+			i++;
+		}
 		else
-{		rvalue = 0;
-		i++;}
+		{
+			rvalue = 0;
+			i++;
+		}
 	}
-	return(rvalue);
+	return (rvalue);
 }
 
 void	msh_exit(char **cmd)

@@ -6,38 +6,33 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:22 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/03/06 04:55:17 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/12 05:43:10 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-
-char	*only_space_handle(char *line) {
-
-	int count_space;
+char	*only_space_handle(char *line)
+{
+	int	count_space;
 
 	count_space = -1;
-	
 	while (line[++count_space] != '\0' && line[count_space] == ' ')
 	{
 		if (line[count_space] == ' ')
 		{
 			if (line[++count_space] == '\0')
 			{
-			 *line = '\0';
-			} 	 
-			else {
-		     count_space--;
+				*line = '\0';
+			}
+			else
+			{
+				count_space--;
 			}
 		}
 	}
-
 	return (line);
-
 }
-
-
 
 char	*ft_strcjoin(char *s1, char s2)
 {
@@ -70,18 +65,15 @@ char	*ft_strcjoin(char *s1, char s2)
 void	parse_line(char *line)
 {
 	int	i;
-
+	int	pos_heredoc;
 
 	if (g_msh.parsed_line)
 		free(g_msh.parsed_line);
 	g_msh.parsed_line = NULL;
-
 	*line = *only_space_handle(line);
-	
+	pos_heredoc = handle_heredoc(line);
 	i = -1;
-
 	g_msh.error = 0;
-	
 	while (line[++i] != '\0')
 	{
 		if (line[i] == '\"' || line[i] == '\'')
@@ -89,7 +81,7 @@ void	parse_line(char *line)
 		else if (line[i] == '$')
 			parse_variables(line, &i);
 		else if (line[i] == '<' || line[i] == '>')
-			parse_redirect(line, &i, line[i]);
+			parse_redirect(line, &i, line[i], pos_heredoc);
 		else if (line[i] != '\0')
 			g_msh.parsed_line = ft_strcjoin(g_msh.parsed_line, line[i]);
 		if (g_msh.error == 1 || line[i] == '\0')

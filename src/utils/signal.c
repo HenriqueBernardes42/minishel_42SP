@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:34:33 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/02/26 20:04:41 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:44:33 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	signal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	g_msh.exit_code = 130;
+	g_msh.exit_quit = 130;
 }
 
 void	signal_exit(int signum)
@@ -43,10 +43,9 @@ void	signal_exit(int signum)
 	exit(signum);
 }
 
-void handle_quit()
+void	handle_quit(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	printf("Quit (core dumped)\n");
+	g_msh.exit_quit = 131;
 }
-
-
