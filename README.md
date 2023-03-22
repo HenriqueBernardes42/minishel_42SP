@@ -17,7 +17,7 @@ This project involves creating a clone of Bash with the knowledge acquired from 
 
 - Bonus parts: wildcards, logical operators and parentheses.
 
-### How to start
+### How to start:
 
 ```
 make m
