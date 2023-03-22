@@ -5,23 +5,29 @@
 This project involves creating a clone of Bash with the knowledge acquired from previous projects Minitalk and mostly Pipex.
 
 ### Features:
-- Running an executable in the system's $PATH or by providing an absolute or relative path 
+- Run an executable in the system's $PATH or from an absolute or relative path 
+
 - Bash built-ins: echo, cd, pwd, export, unset, env and exit;
 
 - Multi- Pipes && Redirections;
 
-- Shell level: launch a new minishell inside another and increment $SHLVL;
-> One minishell is not enough, you have to go deeper!
+- Shell level: launch a new minishell from another. Don't forget to increment $SHLVL;
 
-- Command Working history (see readline library; only a few functions from readline's history library are allowed, so have fun with them and figure out a way to achieve your required behaviour)
+- Working history
 
 - Bonus parts: wildcards, logical operators and parentheses.
+
+### How to start
+
+```
+make m
+```
 
 # Of course, the manual. Some crucial docs ...
 ### Get started with the readline library
 https://web.mit.edu/gnu/doc/html/rlman_2.html
 
-### Learn how redirections work on Bash
+### Learn how redirections work in Bash
 https://www.gnu.org/software/bash/manual/html_node/Redirections.html
 
 ### Learn how to manage command history
