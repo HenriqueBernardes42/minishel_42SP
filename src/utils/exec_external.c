@@ -12,26 +12,19 @@
 
 #include "../mini_shell.h"
 
-int	exec_external(char **cmd)
+int	exec_external()
 {
-	char	*path;
+	// char	*path;
+	// char *const comando[] = {"cat", NULL};
+	// dprintf(2,"cmd == %s\n", cmd);
 
-	path = NULL;
-	close(g_msh.fd[0]);
-	if (g_msh.file_name == NULL && g_msh.last_cmd == 0)
-		dup2(g_msh.fd[1], STDOUT_FILENO);
-	close(g_msh.fd[1]);
-	close(g_msh.save_stdin);
-	close(g_msh.save_stdout);
-	path = find_cmd_path(*cmd);
-	if (*cmd == NULL)
-		;
-	else if (path == NULL)
-		printf("Error: can not exec: %s\n", *cmd);
-	else
-		execve(path, cmd, g_msh.envp);
-	free(path);
-	free_all();
-	exit(127);
-	return (0);
+    // Child process 1
+    close(g_msh.fd[0]); // Close unused read end
+
+    dup2(g_msh.fd[1], STDOUT_FILENO); // Redirect stdout to write end of pipe
+
+    char *const command[] = {"cat", NULL};
+    execvp("cat", command);
+    perror("execvp"); // execvp only returns on error
+    exit(EXIT_FAILURE);
 }

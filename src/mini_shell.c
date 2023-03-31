@@ -27,7 +27,7 @@ static void	init_vars(int argc, char **argv, char **envp)
 
 static void	init_loop(void)
 {
-	g_msh.pid = 0;
+	// g_msh.pid = 0;
 	g_msh.last_cmd = 0;
 	g_msh.doble_redirect = 0;
 	g_msh.redirect = 0;
@@ -53,16 +53,7 @@ static void	execute_line(char *line)
 	{
 		parse_cmds(g_msh.parsed_line);
 		tmp = g_msh.cmds_lst;
-		while (tmp != NULL)
-		{
-			if (tmp->next == NULL)
-				g_msh.last_cmd = 1;
-			if(g_msh.fdout != -1)
-				execute((char **)tmp->content);
-			else
-				g_msh.fdout = 0;
-			tmp = tmp->next;
-		}
+		execute(tmp);
 	}
 }
 
@@ -87,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 			free_all();
 			exit(0);
 		}
+		printf("ola\n");
 		free(line);
 		end_loop();
 	}

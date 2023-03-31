@@ -21,11 +21,6 @@ void	signal_handler(int signum)
 		g_msh.error = 1;
 		write (1, "\n", 1);
 	}
-	else if (g_msh.pid != 0)
-	{
-		kill(g_msh.pid, SIGKILL);
-		write (1, "\n", 1);
-	}
 	else
 	{
 		write (1, "\n", 1);
