@@ -17,6 +17,7 @@ static void	parent_command(pid_t pid1, pid_t pid2)
 	int status;
 	pid2 = fork();
 
+	dprintf(2,"dasd\n");
     if (pid2 == -1)
 	{
         perror("fork");
@@ -26,13 +27,20 @@ static void	parent_command(pid_t pid1, pid_t pid2)
     if (pid2 == 0)
 	{
         // Child process 2
-        close(g_msh.fd[1]); // Close unused write end
+		char **cmds;
 
-        dup2(g_msh.fd[0], STDIN_FILENO); // Redirect stdin to read end of pipe
+    	cmds = (char**) g_msh.cmds_lst->next->content; 
+		dprintf(2,"child2 = %s\n", *cmds);
+        close(g_msh.fd[1]);
 
-        char *const cmd[] = {"ls", NULL};
-        execvp("ls", cmd);
-        perror("execvp"); // execvp only returns on error
+        dup2(g_msh.fd[0], STDIN_FILENO); 
+
+        char *const cmd[] = {*cmds, NULL};
+		if(is_builtin(*cmds))
+			exec_builtin(cmds);
+        else
+			execvp(*cmds, cmd);
+        perror("execvp");
         exit(EXIT_FAILURE);
     } 
 	else 
@@ -41,63 +49,70 @@ static void	parent_command(pid_t pid1, pid_t pid2)
     close(g_msh.fd[0]); // Close unused read end
     close(g_msh.fd[1]); // Close unused write end
 
-    waitpid(pid1, &status, 0); // Wait for child process 1 to exit
-    if (WIFEXITED(status)) {
-        printf("Child process 1 exited with status %d\n", WEXITSTATUS(status));
-    } else if (WIFSIGNALED(status)) {
-        printf("Child process 1 terminated by signal %d\n", WTERMSIG(status));
-    } else if (WIFSTOPPED(status)) {
-        printf("Child process 1 stopped by signal %d\n", WSTOPSIG(status));
-    }
+	if(pid1 != 100)
+    	waitpid(pid1, &status, 0); // Wait for child process 1 to exit
+    // if (WIFEXITED(status)) {
+    //     printf("Child process 1 exited with status %d\n", WEXITSTATUS(status));
+    // } else if (WIFSIGNALED(status)) {
+    //     printf("Child process 1 terminated by signal %d\n", WTERMSIG(status));
+    // } else if (WIFSTOPPED(status)) {
+    //     printf("Child process 1 stopped by signal %d\n", WSTOPSIG(status));
+    // }
 
     waitpid(pid2, &status, 0); // Wait for child process 2 to exit
-    if (WIFEXITED(status))
-	{
-    	    printf("Child process 2 exited with status %d\n", WEXITSTATUS(status));
-    	} else if (WIFSIGNALED(status)) {
-    	    printf("Child process 2 terminated by signal %d\n", WTERMSIG(status));
-    	} else if (WIFSTOPPED(status)) {
-    	    printf("Child process 2 stopped by signal %d\n", WSTOPSIG(status));
-    }
+    // if (WIFEXITED(status))
+	// {
+    // 	    printf("Child process 2 exited with status %d\n", WEXITSTATUS(status));
+    // 	} else if (WIFSIGNALED(status)) {
+    // 	    printf("Child process 2 terminated by signal %d\n", WTERMSIG(status));
+    // 	} else if (WIFSTOPPED(status)) {
+    // 	    printf("Child process 2 stopped by signal %d\n", WSTOPSIG(status));
+    // }
             
     // exit(EXIT_SUCCESS);
     }
 }
 
-void	execute(char **cmd)
+void just_one()
+{
+	char **cmds;
+
+    cmds = (char**) g_msh.cmds_lst->content; 
+    char *const command[] = {*cmds, NULL};
+    if(is_builtin(*cmds))
+		exec_builtin(cmds);
+    else
+        execve(*cmds, command);
+    perror("execvp");
+    exit(EXIT_FAILURE);
+}
+
+void	execute()
 {
     pid_t pid1, pid2;
+	// char **cmds;
+	// cmds = (char**) g_msh.cmds_lst->content; 
 
 	pid1 = 0;
 	pid2 = 0;
 
-	dprintf(2,"cmds = %s\n", (char*) cmd);
+	// dprintf(2,"built_in = %d\n", is_builtin(*cmds));
+	// dprintf(2,"n_commands = %d\n", g_msh.nmbr_of_commands);
+
 	signal(SIGQUIT, handle_quit);
 	if (pipe(g_msh.fd) == -1)
 		exit (-1);
-	// if (g_msh.last_cmd == 0)
-	// 	dup2(g_msh.fd[1], STDOUT_FILENO);
-	// else if (g_msh.file_name && g_msh.last_cmd == 1 && g_msh.redirect == '>')
-	// {
-	// 	dup2(g_msh.fdout, STDOUT_FILENO);
-	// 	close(g_msh.fdout);
-	// }
-	// if (is_builtin(*cmd)) <<<<<----- remanejar
-	// 	exec_builtin(cmd);
 	else
 	{
-		pid1 = fork();
-		if (pid1 == 0)
-		{
-			// dprintf(2,"child == %s\n", (char*) g_msh.cmds_lst->content);
-			exec_external();
-		}
+		if(g_msh.nmbr_of_commands == 1)
+			just_one(pid1);
 		else
 		{
-			// int status;
-			//  waitpid(g_msh.pid, &status, 0);
-			// dprintf(2,"parent cmd == %d\n", *cmd[1]);
-			parent_command(pid1, pid2);
+			pid1 = fork();
+			if (pid1 == 0)
+				exec_external();
+			else
+				parent_command(pid1, pid2);
 		}
 	}
 	dup2(g_msh.fd[0], STDIN_FILENO);

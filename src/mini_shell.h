@@ -43,7 +43,7 @@ typedef struct s_msh
 	int		save_stdin;
 	int		save_stdout;
 	pid_t	pid[2];
-	int		last_cmd;
+	int		nmbr_of_commands;
 	t_dlist	*cmds_lst;
 }	t_msh;
 
@@ -72,7 +72,7 @@ void	check_directory_error(char *file);
 t_dlist	*create_list(char **strs);
 int		exec_builtin(char **cmd);
 int		exec_external();
-void	execute(char **cmd);
+void	execute();
 char	*find_cmd_path(char *cmd);
 void	free_all(void);
 void	free_cmds(char ***cmds);

@@ -14,6 +14,7 @@
 
 int	is_builtin(char *cmd)
 {
+	// dprintf(2,"bluilt_in = %s\n", cmd);
 	if (cmd == NULL)
 		return (0);
 	if (!ft_strncmp(cmd, "echo", 5)

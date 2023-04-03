@@ -14,17 +14,16 @@
 
 int	exec_external()
 {
-	// char	*path;
-	// char *const comando[] = {"cat", NULL};
-	// dprintf(2,"cmd == %s\n", cmd);
+    char **cmds;
 
-    // Child process 1
-    close(g_msh.fd[0]); // Close unused read end
-
-    dup2(g_msh.fd[1], STDOUT_FILENO); // Redirect stdout to write end of pipe
-
-    char *const command[] = {"cat", NULL};
-    execvp("cat", command);
-    perror("execvp"); // execvp only returns on error
+    cmds = (char**) g_msh.cmds_lst->content; 
+    close(g_msh.fd[0]); 
+    dup2(g_msh.fd[1], STDOUT_FILENO);
+    char *const command[] = {*cmds, NULL};
+    if(is_builtin(*cmds))
+		exec_builtin(cmds);
+    else
+        execvp(*cmds, command);
+    perror("execvp");
     exit(EXIT_FAILURE);
 }
