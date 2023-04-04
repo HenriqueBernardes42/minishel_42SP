@@ -76,15 +76,14 @@ static void	parent_command(pid_t pid1, pid_t pid2)
 void just_one()
 {
 	char **cmds;
+	char *path;
 
-    cmds = (char**) g_msh.cmds_lst->content; 
-    char *const command[] = {*cmds, NULL};
+    cmds = (char**) g_msh.cmds_lst->content;
+	path = find_cmd_path(*cmds);
     if(is_builtin(*cmds))
 		exec_builtin(cmds);
     else
-        execve(*cmds, command);
-    perror("execvp");
-    exit(EXIT_FAILURE);
+        execve(path, cmds, g_msh.envp);
 }
 
 void	execute()
@@ -104,7 +103,8 @@ void	execute()
 		exit (-1);
 	else
 	{
-		if(g_msh.nmbr_of_commands == 1)
+		// dprintf(2,"nmbr = %d\n", g_msh.nmbr_of_pipes);
+		if(g_msh.nmbr_of_pipes < 2)
 			just_one(pid1);
 		else
 		{

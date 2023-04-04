@@ -59,11 +59,11 @@ static int	parse_pipe(char *parsed_line, int start_cmd, int i)
 {
 	char	*sub_cmd;
 
+	++g_msh.nmbr_of_pipes;
 	if (parsed_line[i + 1] == '\0')
 		i++;
 	sub_cmd = ft_substr(parsed_line, start_cmd, i - start_cmd);
 	ft_dlstadd_back(&g_msh.cmds_lst, ft_dlstnew(split_space(sub_cmd)));
-	++g_msh.nmbr_of_commands;
 	free(sub_cmd);
 	return (i + 1);
 }

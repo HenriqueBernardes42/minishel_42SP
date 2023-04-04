@@ -43,7 +43,7 @@ typedef struct s_msh
 	int		save_stdin;
 	int		save_stdout;
 	pid_t	pid[2];
-	int		nmbr_of_commands;
+	int		nmbr_of_pipes;
 	t_dlist	*cmds_lst;
 }	t_msh;
 

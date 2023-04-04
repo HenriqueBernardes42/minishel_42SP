@@ -28,7 +28,7 @@ static void	init_vars(int argc, char **argv, char **envp)
 static void	init_loop(void)
 {
 	// g_msh.pid = 0;
-	g_msh.nmbr_of_commands = 0;
+	g_msh.nmbr_of_pipes = 0;
 	g_msh.doble_redirect = 0;
 	g_msh.redirect = 0;
 }
