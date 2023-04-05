@@ -71,7 +71,7 @@ int		check_syntax_error(char c);
 void	check_directory_error(char *file);
 t_dlist	*create_list(char **strs);
 int		exec_builtin(char **cmd);
-int		exec_external();
+void		exec_external();
 void	execute();
 char	*find_cmd_path(char *cmd);
 void	free_all(void);

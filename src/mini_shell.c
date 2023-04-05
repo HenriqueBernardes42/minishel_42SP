@@ -45,25 +45,15 @@ static void	end_loop(void)
 
 static void	execute_line(char *line)
 {
-	t_dlist	*tmp;
-	// char	**cmds;
-
 	add_history(line);
 	parse_line(line);
 	if (g_msh.error == 0 && g_msh.parsed_line)
 	{
 		parse_cmds(g_msh.parsed_line);
-		tmp = g_msh.cmds_lst;
-		while (tmp != NULL)
-		{
-			// if (tmp->next == NULL)
-			// 	g_msh.last_cmd = 1;
-			if(g_msh.fdout != -1)
-				execute();
-			else
-				g_msh.fdout = 0;
-			tmp = tmp->next;
-		}
+		if(g_msh.fdout != -1)
+			execute();
+		else
+			g_msh.fdout = 0;
 	}
 }
 
@@ -80,15 +70,18 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		line = NULL;
 		line = readline(refresh_prompt());
+		// dprintf(2,"line = %s\n", line);
 		if (line != NULL)
+		{
+			// dprintf(2,"ola\n");
 			execute_line(line);
+		}
 		else
 		{
 			write(1, "exit\n", 5);
 			free_all();
 			exit(0);
 		}
-		// printf("ola\n");
 		free(line);
 		end_loop();
 	}
