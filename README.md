@@ -2,7 +2,15 @@
 
 ![Screenshot-terminal](https://user-images.githubusercontent.com/92089944/224225348-60435cf6-90f9-4683-8043-36d0cb7dcd7f.jpeg)
 
-This project involves creating a clone of Bash with the knowledge acquired from previous projects Minitalk and mostly Pipex.
+This project is about creating a clone of Bash with the knowledge acquired from previous projects Minitalk and mostly Pipex.
+
+
+### How to start:
+
+```
+make m
+```
+
 
 ### Features:
 - Run an executable in the system's $PATH or from an absolute or relative path 
@@ -17,11 +25,7 @@ This project involves creating a clone of Bash with the knowledge acquired from 
 
 - Bonus parts: wildcards, logical operators and parentheses.
 
-### How to start:
 
-```
-make m
-```
 
 # Of course, the manual. Some crucial docs ...
 ### Get started with the readline library
