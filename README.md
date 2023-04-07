@@ -28,7 +28,7 @@ make m
 
 
 
-# Of course, the manual. Some crucial docs ...
+# Scrucial docs ...
 ### Get started with the readline library
 https://web.mit.edu/gnu/doc/html/rlman_2.html
 
