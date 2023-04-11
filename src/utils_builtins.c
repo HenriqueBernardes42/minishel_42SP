@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 13:25:56 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 21:30:17 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:42:22 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:42:29 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,6 @@ bool	ft_valid_env_name(char *str)
 	return (true);
 }
 
-/** 
- * Searches an array for a variable
- * @param[in] envp The array to be searched
- * @param[in] var The name of the variable that will be searched for
- * @return Pointer to the variable if found otherwise pointer to 
- * the end of the array
- */
 char	**ft_get_env_var(char **envp, char *var)
 {
 	int	i;

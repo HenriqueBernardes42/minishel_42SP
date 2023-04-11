@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_explode_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/21 15:13:44 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 15:35:40 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:39:39 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:39:42 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

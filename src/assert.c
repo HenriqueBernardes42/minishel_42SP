@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assert.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 13:03:48 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 14:56:08 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/10 04:49:25 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:40:39 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,12 @@ bool	ft_assert_finished(t_data *data)
 	return (true);
 }
 
-/// @brief Assert that a pointer is not null.
-/// @param data The minishell's data;
-/// @param ptr The pointer.
 void	ft_assert_not_null(t_data *data, void *ptr)
 {
 	if (ptr == NULL)
 		ft_throw (data, ERR_NULL_PTR, NULL, true);
 }
 
-/// @brief Assert that a file is not a directory.
-/// @param data The minishell's data;
-/// @param pathname The pathname.
 bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 {
 	struct stat	file_stat;
@@ -66,12 +60,6 @@ bool	ft_assert_not_dir(t_data *data, char *pathname, bool exitp)
 	return (true);
 }
 
-/// @brief Join the pathnane by far with the additional one.
-/// @param args The struct of argumentsof type
-/// s_args2 dedicated to the function;
-/// @param pathname The additional pathname;
-/// @param i The index of the filename in the split of
-/// the additonal pathname.
 static void	ft_mkpath(t_args *args, char *pathname, int i)
 {
 	if (args->path == NULL)
@@ -92,11 +80,6 @@ static void	ft_mkpath(t_args *args, char *pathname, int i)
 	}
 }
 
-/// @brief Assert that the user has the correct permissions
-/// to access a file and also that the file exists.
-/// @param data The minishell's data;
-/// @param pathname The pathname;
-/// @param permss The permission to check: either R_OK or W_OK from unistd.h.
 bool	ft_assert_valid_permissions(t_data *data, char *pathname, int permss,
 	bool exitp)
 {

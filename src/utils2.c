@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 16:56:25 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 18:20:36 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:45:08 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:45:10 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

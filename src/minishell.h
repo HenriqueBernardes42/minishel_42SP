@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/23 05:44:06 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 18:17:17 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:42:00 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:42:02 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <fcntl.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/param.h>
 # include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 # include <dirent.h>
 # include <termios.h>
 # define STDERR_FD STDERR_FILENO
 
-bool		g_heredoc_success;
+extern bool g_heredoc_success;
+
 typedef enum e_signals
 {
 	SIG_PARENT,

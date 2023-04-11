@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 10:34:46 by rburgsta          #+#    #+#             */
-/*   Updated: 2023/01/24 17:33:00 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:42:07 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:42:08 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	ft_signal_handler_parent(int sig)
 
 static void	ft_signal_handler_heredoc(int sig)
 {
+		
 	if (sig == SIGINT)
 	{
 		g_heredoc_success = false;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_minishell_split.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburgsta <rburgsta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 13:29:52 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 13:12:47 by rburgsta         ###   ########.fr       */
+/*   Created: 2023/04/11 02:43:15 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:43:17 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

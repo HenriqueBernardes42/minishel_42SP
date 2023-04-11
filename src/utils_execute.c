@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 13:31:26 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:31:29 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:42:44 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:42:46 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	ft_close_curr_lvl(t_data *data, int temp_i)
 		}
 		else if (ft_isbuiltin (data->cmds[temp_i].name) != 2)
 		{
-			ft_putchar_fd ('\n', STDERR_FD);
 			data->status += 128;
 		}
 	}

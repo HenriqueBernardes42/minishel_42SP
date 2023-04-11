@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 21:40:47 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 17:27:40 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:40:23 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:40:25 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	ft_destroy_args(t_args *args)
 	free (args);
 }
 
-/// @brief Destroy, ie free an array of strings. 
-/// @param tab The array of strings.
 void	ft_destroy_tab(char **tab)
 {
 	int	i;
@@ -35,8 +33,6 @@ void	ft_destroy_tab(char **tab)
 	free (tab);
 }
 
-/// @brief Destroy, ie free the array of comands.
-/// @param tab The array of structs s_cmd.
 static void	ft_destroy_cmds(t_data *data)
 {
 	int	i;
@@ -60,9 +56,6 @@ static void	ft_destroy_cmds(t_data *data)
 	free (data->cmds);
 }
 
-/// @brief Destroy, ie free the memory allocated to execute the
-/// minishell command and prepare for the execution of the next one.
-/// @param data The minishell's data.
 void	ft_destroy_execution(t_data *data)
 {
 	if (data->line != NULL)
@@ -80,9 +73,6 @@ void	ft_destroy_execution(t_data *data)
 	data->cmdsc = 0;
 }
 
-/// @brief Destroy the minishell's data, 
-/// ie every byte of heap memory allocated.
-/// @param data The minishell's data.
 void	ft_destroy_data(t_data *data)
 {
 	if (data == NULL)

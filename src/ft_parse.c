@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 12:08:41 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/17 16:50:40 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:40:46 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:40:49 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

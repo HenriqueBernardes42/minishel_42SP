@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 20:17:45 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/24 18:17:20 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/10 04:51:32 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:38:27 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/** 
- * Removes variables from array
- * @param[in] data Minishell data
- * @param[in] args The variables to be removed
- */
 void	ft_unset(t_data *data, char **args)
 {
 	while (args != NULL && *args != NULL)
@@ -24,11 +19,6 @@ void	ft_unset(t_data *data, char **args)
 	data->status = EXIT_SUCCESS;
 }
 
-/** 
- * Adds a new or replaces an existing env variable
- * @param[in] data Minishell data
- * @param[in] args The variables
- */
 void	ft_ar_env_var(t_data *data, char *args)
 {
 	char	**var;

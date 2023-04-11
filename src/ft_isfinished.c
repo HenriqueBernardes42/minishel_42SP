@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isfinished.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katchogl <katchogl@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/21 15:15:02 by katchogl          #+#    #+#             */
-/*   Updated: 2023/01/21 15:15:58 by katchogl         ###   ########.fr       */
+/*   Created: 2023/04/11 02:39:33 by hhenriqu          #+#    #+#             */
+/*   Updated: 2023/04/11 02:41:06 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
