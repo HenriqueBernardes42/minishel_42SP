@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:42:44 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:42:46 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:42:04 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	ft_close_curr_lvl(t_data *data, int temp_i)
 		}
 		else if (ft_isbuiltin (data->cmds[temp_i].name) != 2)
 		{
-			data->status += 128;
+			if (data->status != 131)
+				data->status += 128;
 		}
 	}
 	if (data->pipes != NULL)

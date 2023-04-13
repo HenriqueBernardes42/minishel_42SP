@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:39:48 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:39:50 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:43:20 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	ft_execute(t_data *data)
 {
 	int	i;
 
+	signal (SIGQUIT, handle_quit);
+	signal (SIGINT, handle_int);
 	ft_assert_not_null (data, data);
 	if (data->cmds == NULL)
 		ft_throw (data, ERR_NULL_PTR, "ft_execute data->cmds", true);

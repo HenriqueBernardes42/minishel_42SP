@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:42:07 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:42:08 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:21:06 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	ft_signal_handler_parent(int sig)
 
 static void	ft_signal_handler_heredoc(int sig)
 {
-		
 	if (sig == SIGINT)
 	{
 		g_heredoc_success = false;

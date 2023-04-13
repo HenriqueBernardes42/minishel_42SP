@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 14:25:36 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/10 03:05:07 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:18:43 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdarg.h>
 # include <limits.h>
 # include <stddef.h>
-
 
 typedef struct s_list
 {

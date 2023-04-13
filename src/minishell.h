@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:42:00 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:42:02 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:40:59 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@
 # include <readline/history.h>
 # include <sys/param.h>
 # include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <dirent.h>
 # include <termios.h>
+
 # define STDERR_FD STDERR_FILENO
 
-extern bool g_heredoc_success;
+extern bool	g_heredoc_success;
 
 typedef enum e_signals
 {
@@ -95,7 +96,8 @@ typedef enum e_errno {
 	ERR_EACCES,
 	ERR_EISDIR,
 	ERR_AMBIGUOUS_REDIRECT,
-	ERR_UNEXPECTED_EOF
+	ERR_UNEXPECTED_EOF,
+	ERR_QUOTES
 }	t_errno;
 typedef int	t_fd;
 typedef int	t_lvl;
@@ -241,4 +243,8 @@ void		ft_loop(t_data *data, int lvl, int *i);
 bool		ft_iswhitespace(char c);
 void		ft_ar_env_var(t_data *data, char *args);
 void		ft_update_shlvl(t_data *data);
+void		handle_quit(int sig);
+void		handle_int(int sig);
+int			ft_single_quotes(char *line, char quote);
+void		ft_puterror_two(t_errno err);
 #endif

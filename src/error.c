@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:40:15 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:40:18 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:37:15 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@ static void	ft_puterror(t_errno err)
 		ft_putstr_fd ("invalid count of commands", STDERR_FD);
 	else if (err == ERR_CMD_NOT_FOUND)
 		ft_putstr_fd ("command not found", STDERR_FD);
-	else if (err == ERR_ENOENT)
+	else
+		ft_puterror_two(err);
+}
+
+void	ft_puterror_two(t_errno err)
+{
+	if (err == ERR_ENOENT)
 		ft_putstr_fd (strerror (ENOENT), STDERR_FD);
 	else if (err == ERR_EACCES)
 		ft_putstr_fd (strerror (EACCES), STDERR_FD);
@@ -36,6 +42,8 @@ static void	ft_puterror(t_errno err)
 		ft_putstr_fd ("ambiguous redirect", STDERR_FD);
 	else if (err == ERR_UNEXPECTED_EOF)
 		ft_putstr_fd ("unexpected end of input", STDERR_FD);
+	else if (err == ERR_QUOTES)
+		ft_putstr_fd ("Quotes Missing!", STDERR_FD);
 	else if (err != 0)
 		ft_putstr_fd ("an unexpected error occurred", STDERR_FD);
 }

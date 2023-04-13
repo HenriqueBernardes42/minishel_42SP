@@ -8,7 +8,7 @@ SUPP_FILES	=	readline.supp add_history.supp
 SUPP_PRFX	=	--suppressions=./supps
 SUPP_SRC	=	$(addprefix $(SUPP_PRFX)/, $(SUPP_FILES))
 VALGRIND	=	valgrind --track-origins=yes --leak-check=full \
-				--show-leak-kinds=all --track-fds=yes
+				--show-leak-kinds=all
 VALGRIND	+=	$(SUPP_SRC)
 
 LIBFT		=	libft/libft.a
@@ -27,7 +27,8 @@ SRC_FILES	+=      main.c init.c destroy.c ft_execute.c assert.c \
 					utils_minishell_split.c \
 					utils_tab.c utils.c utils_assert.c expand.c \
 					utils_child.c utils_expand.c utils_history.c \
-					ft_isfinished.c ft_explode_env.c utils2.c
+					ft_isfinished.c ft_explode_env.c utils2.c \
+					signal2.c quotes.c
 
 
 SRC			=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
@@ -61,7 +62,6 @@ clean:
 fclean: clean
 	@printf "\n$(RED_BACk) cleaning lib ... $(RE)\n"
 	@find -name '$(NAME)' -delete
-	@find -name '$(NAME_BONUS)' -delete
 
 re:
 	@make fclean && make all
