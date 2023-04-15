@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:41:20 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:41:21 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:45:12 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	ft_exec_redir(t_data *data, t_args2 *args2)
 	args2->nfd = -1;
 	ft_setnfd (data, args2);
 	if (args2->nfd == -1)
-		ft_throw (data, ERR_ENOENT, NULL, true);
+		ft_throw (data, ERR_EACCES, NULL, true);
 	res = dup2 (args2->nfd, args2->iofd);
 	if (res != -1
 		&& (args2->redir == REDIR_INFILE || args2->redir == REDIR_HEREDOC))

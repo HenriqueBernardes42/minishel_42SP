@@ -1,6 +1,6 @@
 .PHONY: all clean fclean re cleanb fcleanb reb
 
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-g -Wall -Wextra -Werror -fPIE
 RL_FLAG		=	-lreadline
 
