@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 04:51:32 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/11 02:38:27 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:29:04 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_cd(t_data *data, char *path)
 		ft_putinfo ("minishell: cd: ", path, ": No such file or directory\n");
 	else if (path != NULL)
 		ft_ar_env_var(data, pwd);
-	data->status = (path == NULL || !S_ISDIR (fs.st_mode) || chdir(path));
+	data->status = (path == NULL || !S_ISDIR (fs.st_mode));
 	free(pwd);
 	pwd = ft_get_pwd(data, "PWD=");
 	ft_ar_env_var(data, pwd);

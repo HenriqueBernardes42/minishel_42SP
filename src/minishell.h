@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:42:00 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/13 02:40:59 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:13:31 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,6 @@ void		ft_ar_env_var(t_data *data, char *args);
 void		ft_update_shlvl(t_data *data);
 void		handle_quit(int sig);
 void		handle_int(int sig);
-int			ft_single_quotes(char *line, char quote);
+int			ft_single_quotes(char *line);
 void		ft_puterror_two(t_errno err);
 #endif

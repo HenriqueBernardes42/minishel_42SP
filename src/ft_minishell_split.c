@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:40:54 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/13 02:44:44 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:23:20 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,9 @@ bool	ft_minishell_split(t_data *data, char *str)
 {
 	t_args3	*args3;
 	int		unclosed_d_quotes;
-	int		unclosed_s_quotes;
 
-	unclosed_d_quotes = ft_single_quotes(data->line, '\"');
-	unclosed_s_quotes = ft_single_quotes(data->line, '\'');
-	if (unclosed_d_quotes == 1 || unclosed_s_quotes == 1)
+	unclosed_d_quotes = ft_single_quotes(data->line);
+	if (unclosed_d_quotes != 0)
 	{
 		ft_throw (data, ERR_QUOTES, NULL, false);
 		data->status = 2;

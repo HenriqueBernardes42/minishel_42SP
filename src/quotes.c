@@ -6,31 +6,36 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 02:06:42 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/13 02:20:19 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:32:49 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_single_quotes(char *line, char quote)
+int	ft_single_quotes(char *line)
 
 {
-	int	i;
-	int	quotes;
+	int		i;
+	char	quote;
+	int		open;
 
 	i = 0;
-	quotes = 0;
+	open = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == quote)
+		if ((line[i] == '\"' || line[i] == '\'') && open == 0 )
 		{
-			quotes++;
+			quote = line[i];
+			open++;
 			i++;
 		}
-		i++;
+		else if (line[i] == quote && open == 1)
+			{
+			open = 0;
+			i++;
+			}
+		else
+			i++;
 	}
-	if (quotes % 2 == 0)
-		return (0);
-	else
-		return (1);
+	return (open);
 }
