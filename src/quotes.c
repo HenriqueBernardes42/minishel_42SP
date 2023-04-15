@@ -21,6 +21,7 @@ int	ft_single_quotes(char *line)
 
 	i = 0;
 	open = 0;
+	quote = '\0';
 	while (line[i] != '\0')
 	{
 		if ((line[i] == '\"' || line[i] == '\'') && open == 0)

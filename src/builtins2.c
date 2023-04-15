@@ -89,6 +89,7 @@ void	ft_cd(t_data *data, char *path)
 	struct stat	fs;
 	char		*pwd;
 
+	pwd = NULL;
 	if (path == NULL)
 	{
 		path = *ft_get_env_var(data->envp, "HOME");
