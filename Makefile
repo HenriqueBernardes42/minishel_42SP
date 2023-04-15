@@ -7,7 +7,7 @@ RL_FLAG		=	-lreadline
 SUPP_FILES	=	readline.supp add_history.supp
 SUPP_PRFX	=	--suppressions=./supps
 SUPP_SRC	=	$(addprefix $(SUPP_PRFX)/, $(SUPP_FILES))
-VALGRIND	=	valgrind --track-origins=yes --leak-check=full \
+VALGRIND	=	valgrind --leak-check=full \
 				--show-leak-kinds=all
 VALGRIND	+=	$(SUPP_SRC)
 

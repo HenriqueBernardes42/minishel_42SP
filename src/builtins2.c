@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 04:51:32 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/15 15:29:04 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:04:51 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	ft_cd(t_data *data, char *path)
 	struct stat	fs;
 	char		*pwd;
 
-	pwd = NULL;
 	if (path == NULL)
 	{
 		path = *ft_get_env_var(data->envp, "HOME");

@@ -6,7 +6,7 @@
 /*   By: hhenriqu <hhenriqu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 02:42:07 by hhenriqu          #+#    #+#             */
-/*   Updated: 2023/04/13 02:21:06 by hhenriqu         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:26:07 by hhenriqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ static void	ft_signal_handler_parent(int sig)
 {
 	if (sig == SIGINT)
 	{
-		if (g_heredoc_success)
-			write (1, "\n", 1);
 		rl_on_new_line ();
 		rl_replace_line ("", 0);
+		printf("^C\n");
 		rl_redisplay ();
 	}
 }
@@ -37,6 +36,7 @@ static void	ft_signal_handler_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		g_heredoc_success = false;
+		printf("^C\n");
 		close (STDIN_FILENO);
 	}
 }
